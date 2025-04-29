@@ -24,6 +24,9 @@ export class Dog {
     @Column({ nullable: true })
     color?: string;
 
+    @Column('decimal', { precision: 12, scale: 2 })
+    price: number;
+
     @Column({ default: false })
     vaccinated: boolean;
 
