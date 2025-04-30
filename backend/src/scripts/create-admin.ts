@@ -8,8 +8,10 @@ async function bootstrap() {
 
     try {
         const adminUser = await usersService.create({
-            email: 'admin@petshop.com',
-            password: 'admin123',
+            email: 'admin@monito.com',
+            confirmEmail: 'admin@monito.com',
+            password: 'Admin123',
+            confirmPassword: 'Admin123',
             role: 'admin',
         });
 
