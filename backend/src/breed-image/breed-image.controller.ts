@@ -5,7 +5,7 @@ import { UpdateBreedImageDto } from './dto/update-breed-image.dto';
 
 @Controller('breed-image')
 export class BreedImageController {
-  constructor(private readonly breedImageService: BreedImageService) {}
+  constructor(private readonly breedImageService: BreedImageService) { }
 
   @Post()
   create(@Body() createBreedImageDto: CreateBreedImageDto) {
@@ -19,16 +19,16 @@ export class BreedImageController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.breedImageService.findOne(+id);
+    return this.breedImageService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBreedImageDto: UpdateBreedImageDto) {
-    return this.breedImageService.update(+id, updateBreedImageDto);
+    return this.breedImageService.update(id, updateBreedImageDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.breedImageService.remove(+id);
+    return this.breedImageService.remove(id);
   }
 }

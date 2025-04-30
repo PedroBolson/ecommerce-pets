@@ -5,7 +5,7 @@ import { UpdateDogDto } from './dto/update-dog.dto';
 
 @Controller('dog')
 export class DogController {
-  constructor(private readonly dogService: DogService) {}
+  constructor(private readonly dogService: DogService) { }
 
   @Post()
   create(@Body() createDogDto: CreateDogDto) {
@@ -19,16 +19,16 @@ export class DogController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.dogService.findOne(+id);
+    return this.dogService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
-    return this.dogService.update(+id, updateDogDto);
+    return this.dogService.update(id, updateDogDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.dogService.remove(+id);
+    return this.dogService.remove(id);
   }
 }

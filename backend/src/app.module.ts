@@ -48,7 +48,7 @@ import { AuthModule } from './auth/auth.module';
         secret: configService.get<string>('JWT_SECRET') || 'your_jwt_secret',
         signOptions: { expiresIn: '1h' },
       }),
-      global: true, // Importante: torna o JwtService disponível globalmente
+      global: true,
     }),
 
     // 3) Seus módulos de domínio
