@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { StoreItemImageService } from './store-item-image.service';
 import { CreateStoreItemImageDto } from './dto/create-store-item-image.dto';
 import { UpdateStoreItemImageDto } from './dto/update-store-item-image.dto';
 
 @Controller('store-item-image')
 export class StoreItemImageController {
-  constructor(private readonly storeItemImageService: StoreItemImageService) {}
+  constructor(private readonly storeItemImageService: StoreItemImageService) { }
 
   @Post()
   create(@Body() createStoreItemImageDto: CreateStoreItemImageDto) {
@@ -17,18 +17,23 @@ export class StoreItemImageController {
     return this.storeItemImageService.findAll();
   }
 
+  @Get('by-item/:itemId')
+  findByItem(@Param('itemId', ParseUUIDPipe) itemId: string) {
+    return this.storeItemImageService.findByItem(itemId);
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.storeItemImageService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.storeItemImageService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStoreItemImageDto: UpdateStoreItemImageDto) {
-    return this.storeItemImageService.update(+id, updateStoreItemImageDto);
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStoreItemImageDto: UpdateStoreItemImageDto) {
+    return this.storeItemImageService.update(id, updateStoreItemImageDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.storeItemImageService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.storeItemImageService.remove(id);
   }
 }
