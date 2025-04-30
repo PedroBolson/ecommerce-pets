@@ -18,7 +18,7 @@ export class DogService {
   // Create a new dog listing
   async create(createDogDto: CreateDogDto): Promise<Dog> {
     // Check if breed exists
-    const breed = await this.breedRepository.findOneBy({ id: createDogDto.breedId });
+    const breed = await this.breedRepository.findOne({ where: { id: createDogDto.breedId } });
     if (!breed) {
       throw new NotFoundException(`Breed with ID ${createDogDto.breedId} not found`);
     }
@@ -95,15 +95,15 @@ export class DogService {
 
   // Get a specific dog by ID
   async findOne(id: string): Promise<Dog> {
-    const dog = await this.dogRepository.findOne({
-      where: { id },
-      relations: ['breed'],
-    });
+    const qb = this.dogRepository
+      .createQueryBuilder('dog')
+      .leftJoinAndSelect('dog.breed', 'breed')
+      .where('dog.id = :id', { id });
 
+    const dog = await qb.getOne();
     if (!dog) {
       throw new NotFoundException(`Dog with ID ${id} not found`);
     }
-
     return dog;
   }
 

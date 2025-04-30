@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Breed } from '../../breed/entities/breed.entity';
 
 @Entity({ name: 'adoption_photo' })
 export class AdoptionPhoto {
@@ -13,4 +14,8 @@ export class AdoptionPhoto {
 
     @Column({ default: 0 })
     displayOrder: number;
+
+    @ManyToOne(() => Breed, { eager: true })
+    @JoinColumn({ name: 'breed_id' })
+    breed: Breed;
 }

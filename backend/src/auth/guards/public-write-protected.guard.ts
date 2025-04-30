@@ -6,6 +6,8 @@ import { Request } from 'express';
 @Injectable()
 export class PublicWriteProtectedGuard implements CanActivate {
     private readonly logger = new Logger(PublicWriteProtectedGuard.name);
+    private readonly isTest = process.env.NODE_ENV === 'test';
+
 
     constructor(
         private jwtService: JwtService,
@@ -38,7 +40,7 @@ export class PublicWriteProtectedGuard implements CanActivate {
 
             const secret = this.configService.get<string>('JWT_SECRET');
             if (!secret) {
-                this.logger.error('JWT_SECRET is not defined in environment variables');
+                if (!this.isTest) this.logger.error('JWT_SECRET is not defined in environment variables');
                 return false;
             }
 
@@ -51,11 +53,11 @@ export class PublicWriteProtectedGuard implements CanActivate {
 
                 return true;
             } catch (tokenError) {
-                this.logger.error(`Token validation failed: ${tokenError.message}`);
+                if (!this.isTest) this.logger.error(`Token validation failed: ${tokenError.message}`);
                 return false;
             }
         } catch (error) {
-            this.logger.error(`Authentication error: ${error.message}`);
+            if (!this.isTest) this.logger.error(`Authentication error: ${error.message}`);
             return false;
         }
     }

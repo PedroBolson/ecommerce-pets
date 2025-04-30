@@ -21,10 +21,9 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    // 1) Carrega o .env (na pasta backend/) e torna ConfigService global
+    // Load environment variables from .env file
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
 
-    // 2) Configura o TypeORM via useFactory, lendo cada variável
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -40,7 +39,7 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
 
-    // Adicionar JwtModule global para o guard
+    // Add JwtModule globally to guard
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -51,7 +50,7 @@ import { AuthModule } from './auth/auth.module';
       global: true,
     }),
 
-    // 3) Seus módulos de domínio
+
     BreedModule,
     BreedImageModule,
     DogModule,
@@ -65,7 +64,7 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController],
   providers: [
     AppService,
-    // Registra o guard globalmente
+    // Register guard globally
     {
       provide: APP_GUARD,
       useClass: PublicWriteProtectedGuard,

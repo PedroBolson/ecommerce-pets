@@ -13,7 +13,7 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) { }
 
-  async create(createUserDto: CreateUserDto): Promise<Omit<User, 'password' | 'hashPassword'>> {
+  async create(createUserDto: CreateUserDto): Promise<Omit<User, 'password'>> {
     // Validate confirmation fields
     if (createUserDto.email !== createUserDto.confirmEmail) {
       throw new BadRequestException('Email confirmation does not match');
@@ -29,10 +29,13 @@ export class UsersService {
       throw new BadRequestException('Email already in use');
     }
 
-    // Create user with validated fields only
+    // Hash password before creating user
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+
+    // Create user with validated fields and hashed password
     const user = this.userRepository.create({
       email: createUserDto.email,
-      password: createUserDto.password,
+      password: hashedPassword,
       role: createUserDto.role || 'user'
     });
 
@@ -50,11 +53,11 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return this.userRepository.findOneBy({ id });
+    return this.userRepository.findOne({ where: { id } });
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    return this.userRepository.findOneBy({ email });
+    return this.userRepository.findOne({ where: { email } });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
