@@ -7,9 +7,10 @@ import * as bcrypt from 'bcrypt';
 describe('AuthService', () => {
   let service: AuthService;
   let usersService: UsersService;
+  let module: TestingModule;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       providers: [
         AuthService,
         {
@@ -53,7 +54,6 @@ describe('AuthService', () => {
       expect(usersService.findByEmail).toHaveBeenCalledWith('test@example.com');
       expect(bcrypt.compare).toHaveBeenCalledWith('password', 'hashedPassword');
 
-      // Modifique o expect para usar objectContaining ou atualize o retorno do serviço
       expect(result).toEqual(expect.objectContaining({
         id: 'user-id',
         email: 'test@example.com',
@@ -86,6 +86,54 @@ describe('AuthService', () => {
       expect(usersService.findByEmail).toHaveBeenCalledWith('test@example.com');
       expect(bcrypt.compare).toHaveBeenCalledWith('wrongpassword', 'hashedPassword');
       expect(result).toBeNull();
+    });
+  });
+
+  describe('login', () => {
+    let jwtService: JwtService;
+
+    beforeEach(() => {
+      jwtService = module.get<JwtService>(JwtService);
+    });
+
+    it('should return access token and user data when credentials are valid', async () => {
+      const mockUser = {
+        id: 'user-id',
+        email: 'test@example.com',
+        role: 'user'
+      };
+
+      jest.spyOn(service, 'validateUser').mockResolvedValue(mockUser);
+
+      const mockToken = 'jwt-token';
+      jest.spyOn(jwtService, 'sign').mockReturnValue(mockToken);
+
+      const result = await service.login({ email: 'test@example.com', password: 'password' });
+
+      expect(service.validateUser).toHaveBeenCalledWith('test@example.com', 'password');
+      expect(jwtService.sign).toHaveBeenCalledWith({
+        email: mockUser.email,
+        sub: mockUser.id,
+        role: mockUser.role
+      });
+      expect(result).toEqual({
+        access_token: mockToken,
+        user: {
+          id: mockUser.id,
+          email: mockUser.email,
+          role: mockUser.role
+        }
+      });
+    });
+
+    it('should throw UnauthorizedException when credentials are invalid', async () => {
+      jest.spyOn(service, 'validateUser').mockResolvedValue(null);
+
+      await expect(
+        service.login({ email: 'test@example.com', password: 'wrong-password' })
+      ).rejects.toThrow('Invalid credentials');
+
+      expect(service.validateUser).toHaveBeenCalledWith('test@example.com', 'wrong-password');
     });
   });
 });

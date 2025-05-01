@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-async function bootstrap() {
+export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // em dev apontamos pro Vite, em prod troca para a URL real da Vercel/AWS
@@ -15,4 +15,8 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`🚀 Backend running in http://localhost:${port}`);
 }
-bootstrap();
+
+// Execute bootstrap only when running directly (not when imported in tests)
+if (require.main === module) {
+  bootstrap();
+}
