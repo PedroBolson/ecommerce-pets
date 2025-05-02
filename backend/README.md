@@ -36,7 +36,7 @@ This backend serves as the API for a purebred pet e-commerce platform with the f
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ecommerce-pets.git
+   https://github.com/PedroBolson/ecommerce-pets.git
    cd ecommerce-pets/backend
    ```
 
