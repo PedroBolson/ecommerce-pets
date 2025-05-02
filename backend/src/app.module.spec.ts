@@ -23,26 +23,26 @@ describe('AppModule', () => {
     });
 });
 
-// Testes adicionais para melhorar a cobertura de branches
+// Additional tests to improve branch coverage
 describe('AppModule Configuration', () => {
-    // Mock da ConfigService para testar diferentes branches
+    // Mock of ConfigService to test different branches
     let configServiceMock: ConfigService;
 
-    // Vamos extrair as factory functions do AppModule
+    // Let's extract the factory functions from AppModule
     let jwtOptionsFactory;
     let typeOrmOptionsFactory;
 
     beforeAll(() => {
-        // Examinamos o AppModule para extrair as funções de configuração
+        // We examine the AppModule to extract the configuration functions
         const appModuleMetadata = Reflect.getMetadata('imports', AppModule) || [];
 
-        // Encontrar e inspecionar os módulos dinamicamente
+        // Find and inspect the modules dynamically
         for (const moduleImport of appModuleMetadata) {
-            // Verificar se é um módulo dinâmico
+            // Check if it's a dynamic module
             if (moduleImport && typeof moduleImport === 'object') {
-                // Procurar JwtModule
+                // Look for JwtModule
                 if (moduleImport.module === JwtModule) {
-                    // Verificar primeiro nos providers do módulo principal
+                    // Check first in the providers of the main module
                     if (moduleImport.providers) {
                         const provider = moduleImport.providers.find(
                             p => p.provide === 'JWT_MODULE_OPTIONS'
@@ -53,9 +53,9 @@ describe('AppModule Configuration', () => {
                     }
                 }
 
-                // Procurar TypeOrmModule
+                // Look for TypeOrmModule
                 if (moduleImport.module === TypeOrmModule) {
-                    // TypeORM geralmente tem a factory function dentro dos imports[0].providers
+                    // TypeORM usually has the factory function inside imports[0].providers
                     if (moduleImport.imports && moduleImport.imports[0] && moduleImport.imports[0].providers) {
                         const provider = moduleImport.imports[0].providers.find(
                             p => p.provide === 'TypeOrmModuleOptions'
@@ -71,10 +71,10 @@ describe('AppModule Configuration', () => {
     });
 
     beforeEach(() => {
-        // Criar mock padrão do ConfigService
+        // Create default mock of ConfigService
         configServiceMock = {
             get: jest.fn((key) => {
-                // Valores padrão para testes
+                // Default values for tests
                 const defaults = {
                     POSTGRES_HOST: 'localhost',
                     POSTGRES_PORT: '5432',
@@ -89,59 +89,59 @@ describe('AppModule Configuration', () => {
     });
 
     it('should use default JWT secret when JWT_SECRET environment variable is not set', async () => {
-        // Pular se não conseguimos extrair a factory function
+        // Skip if we couldn't extract the factory function
         if (!jwtOptionsFactory) {
-            console.warn('JWT factory não encontrada, pulando teste');
+            console.warn('JWT factory not found, skipping test');
             return;
         }
 
-        // Configurar mock para não ter JWT_SECRET
+        // Configure mock to not have JWT_SECRET
         configServiceMock.get = jest.fn().mockImplementation((key) => {
             return key === 'JWT_SECRET' ? undefined : 'other-value';
         });
 
-        // Chamar a factory function diretamente
+        // Call the factory function directly
         const jwtOptions = jwtOptionsFactory(configServiceMock);
 
-        // Verificar se usou o segredo padrão
+        // Verify if it used the default secret
         expect(jwtOptions).toBeDefined();
         expect(jwtOptions.secret).toBe('your_jwt_secret');
     });
 
     it('should use environment JWT secret when JWT_SECRET is set', async () => {
-        // Pular se não conseguimos extrair a factory function
+        // Skip if we couldn't extract the factory function
         if (!jwtOptionsFactory) {
-            console.warn('JWT factory não encontrada, pulando teste');
+            console.warn('JWT factory not found, skipping test');
             return;
         }
 
-        // Configurar mock para ter JWT_SECRET
+        // Configure mock to have JWT_SECRET
         configServiceMock.get = jest.fn().mockImplementation((key) => {
             return key === 'JWT_SECRET' ? 'test-secret-key' : 'other-value';
         });
 
-        // Chamar a factory function diretamente
+        // Call the factory function directly
         const jwtOptions = jwtOptionsFactory(configServiceMock);
 
-        // Verificar se usou o segredo do ambiente
+        // Verify if the environment secret was used
         expect(jwtOptions).toBeDefined();
         expect(jwtOptions.secret).toBe('test-secret-key');
     });
 
     it('should configure TypeORM with correct database options', async () => {
-        // Pular se não conseguimos extrair a factory function
+        // Skip if we couldn't extract the factory function
         if (!typeOrmOptionsFactory) {
-            console.warn('TypeORM factory não encontrada, pulando teste');
+            console.warn('TypeORM factory not found, skipping test');
             return;
         }
 
-        // Configurar mock com valores específicos para as chaves exatas usadas no app.module.ts
+        // Configure mock with specific values for the exact keys used in app.module.ts
         configServiceMock.get = jest.fn().mockImplementation((key) => {
-            // Mapear as chaves exatas usadas na configuração do TypeORM
+            // Map the exact keys used in TypeORM configuration
             const valueMap = {
                 'DB_HOST': 'test-host',
                 'DB_PORT': '1234',
-                'DB_USERNAME': 'test-user',  // Chave correta usada no app.module.ts
+                'DB_USERNAME': 'test-user',  // Correct key used in app.module.ts
                 'DB_PASSWORD': 'test-password',
                 'DB_NAME': 'test-db',
                 'JWT_SECRET': 'test-secret'
@@ -149,10 +149,10 @@ describe('AppModule Configuration', () => {
             return valueMap[key];
         });
 
-        // Chamar a factory function diretamente
+        // Call the factory function directly
         const typeOrmOptions = typeOrmOptionsFactory(configServiceMock);
 
-        // Verificar configurações do DB exatamente com os valores que esperamos
+        // Verify DB configurations exactly with the values we expect
         expect(typeOrmOptions).toBeDefined();
         expect(typeOrmOptions).toEqual({
             type: 'postgres',

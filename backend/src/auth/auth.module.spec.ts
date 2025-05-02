@@ -24,18 +24,18 @@ describe('AuthModule', () => {
     beforeAll(async () => {
         module = await Test.createTestingModule({
             imports: [
-                // necessário para tornar ConfigService disponível ao JwtStrategy
+                // needed to make ConfigService available to JwtStrategy
                 ConfigModule.forRoot({ isGlobal: true }),
                 AuthModule,
             ],
         })
-            // força o uso do mock em todo lugar que pedir ConfigService
+            // forces the use of mock wherever ConfigService is requested
             .overrideProvider(ConfigService)
             .useValue(mockConfigService)
-            // mock do repositório de usuário
+            // mock of the user repository
             .overrideProvider(getRepositoryToken(UserEntity))
             .useValue(userRepoMock)
-            // mock do DataSource, usado internamente pelo TypeORM
+            // mock of DataSource, used internally by TypeORM
             .overrideProvider(DataSource)
             .useValue({})
             .compile();

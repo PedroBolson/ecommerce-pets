@@ -151,56 +151,65 @@ describe('UsersService', () => {
 
         it('should throw if newPassword without currentPassword', async () => {
             await expect(
-                service.update('u4', { newPassword: 'New1', confirmNewPassword: 'New1' } as UpdateUserDto),
+                service.update('u4', { password: 'New1', confirmPassword: 'New1' } as UpdateUserDto),
             ).rejects.toThrow(BadRequestException);
         });
 
         it('should throw if currentPassword invalid', async () => {
             (bcrypt.compare as jest.Mock).mockResolvedValue(false);
             await expect(
-                service.update('u4', { currentPassword: 'wrong', newPassword: 'New1', confirmNewPassword: 'New1' } as UpdateUserDto),
+                service.update('u4', { currentPassword: 'wrong', password: 'New1', confirmPassword: 'New1' } as UpdateUserDto),
             ).rejects.toThrow(UnauthorizedException);
         });
 
         it('should throw if newPassword confirmation mismatch', async () => {
             (bcrypt.compare as jest.Mock).mockResolvedValue(true);
             await expect(
-                service.update('u4', { currentPassword: 'old', newPassword: 'New1', confirmNewPassword: 'Other' } as UpdateUserDto),
+                service.update('u4', { currentPassword: 'old', password: 'New1', confirmPassword: 'Other' } as UpdateUserDto),
             ).rejects.toThrow(BadRequestException);
         });
 
         it('should update password if valid', async () => {
-            // Arrange
+            // Setup
             (bcrypt.compare as jest.Mock).mockResolvedValue(true);
             (bcrypt.hash as jest.Mock).mockResolvedValue('newhash');
 
-            // Prepare the user without password that should be returned
+            const userWithPassword = {
+                id: 'u4',
+                email: 'old@e.com',
+                password: 'newhash',
+                role: 'user'
+            };
             const userWithoutPassword = {
                 id: 'u4',
                 email: 'old@e.com',
                 role: 'user'
             };
 
-            // Mock actual implementation to properly simulate the password update flow
-            (repo.save as jest.Mock).mockResolvedValue({ ...baseUser, password: 'newhash' });
-            (repo.update as jest.Mock).mockResolvedValue(undefined);
+            // Mock save to return user with password
+            (repo.save as jest.Mock).mockResolvedValue(userWithPassword);
 
-            // This is the key change - mock findOne to be called AFTER the password update
-            const findOneMock = jest.spyOn(service, 'findOne');
-            findOneMock.mockResolvedValueOnce(baseUser); // First call - finds existing user
-            findOneMock.mockResolvedValueOnce(userWithoutPassword as User); // Second call - returns updated user
+            // First mock call is for initial user fetch
+            // Second mock call is for fetching updated user after changes
+            (service.findOne as jest.Mock)
+                .mockImplementationOnce(() => Promise.resolve(baseUser))
+                .mockImplementationOnce(() => {
+                    return Promise.resolve(userWithPassword);
+                });
 
             // Act
             const updated = await service.update('u4', {
                 currentPassword: 'old',
-                newPassword: 'New1',
-                confirmNewPassword: 'New1',
+                password: 'New1',
+                confirmPassword: 'New1'
             } as UpdateUserDto);
 
             // Assert
             expect(bcrypt.compare).toHaveBeenCalledWith('old', 'oldhash');
             expect(bcrypt.hash).toHaveBeenCalledWith('New1', 10);
             expect(repo.save).toHaveBeenCalled();
+
+            // Test that the service correctly removed the password property
             expect(updated).toEqual(userWithoutPassword);
             expect(updated).not.toHaveProperty('password');
         });

@@ -71,7 +71,7 @@ export class UsersService {
       throw new BadRequestException('Email confirmation does not match');
     }
 
-    if (updateUserDto.newPassword) {
+    if (updateUserDto.password) {
       // Verify current password
       if (!updateUserDto.currentPassword) {
         throw new BadRequestException('Current password is required to change password');
@@ -82,23 +82,38 @@ export class UsersService {
         throw new UnauthorizedException('Current password is incorrect');
       }
 
-      if (updateUserDto.newPassword !== updateUserDto.confirmNewPassword) {
+      if (updateUserDto.password !== updateUserDto.confirmPassword) {
         throw new BadRequestException('Password confirmation does not match');
       }
 
       // Update only the password
-      user.password = await bcrypt.hash(updateUserDto.newPassword, 10);
+      user.password = await bcrypt.hash(updateUserDto.password, 10);
       await this.userRepository.save(user);
     }
 
     // Filter validation fields and update only valid fields
     const updateData = {
       email: updateUserDto.email
-      // Other entity fields that can be updated
     };
 
-    await this.userRepository.update(id, updateData);
-    return this.findOne(id);
+    // Remove undefined properties
+    Object.keys(updateData).forEach(key =>
+      updateData[key] === undefined && delete updateData[key]
+    );
+
+    if (Object.keys(updateData).length > 0) {
+      await this.userRepository.update(id, updateData);
+    }
+
+    // Return user WITHOUT password
+    const updatedUser = await this.findOne(id);
+    // Check if user exists before destructuring
+    if (!updatedUser) {
+      throw new NotFoundException('User not found after update');
+    }
+    // Return a new object without the password property
+    const { password, ...userWithoutPassword } = updatedUser;
+    return userWithoutPassword;
   }
 
   async remove(id: string) {

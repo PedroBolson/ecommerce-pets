@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // em dev apontamos pro Vite, em prod troca para a URL real da Vercel/AWS
+  // in dev we point to Vite, in prod it changes to the real AWS URL
   const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:5173';
   app.enableCors({
     origin: frontendUrl,
