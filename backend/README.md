@@ -126,13 +126,12 @@ backend/
 
 ### Authentication
 - `POST /auth/login` - User authentication
-- `POST /auth/register` - Register new user
-- `POST /auth/refresh` - Refresh JWT token
 
 ### User Management
-- `GET /users/profile` - Get current user profile
-- `PATCH /users/profile` - Update user profile
-- `GET /users` - List all users (admin only)
+- `GET /users` - List all users
+- `GET /users/:id` - Get user from id
+- `POST /users` - Register new user (admin only)
+- `PATCH /users/:id` - Update user (admin only)
 
 ### Breed Catalog
 - `GET /breed` - List all breeds
@@ -142,7 +141,7 @@ backend/
 - `DELETE /breed/:id` - Delete breed (admin only)
 
 ### Dog Listings
-- `GET /dog` - List available dogs (with filters)
+- `GET /dog` - List available dogs (with optional filters)
 - `GET /dog/:id` - Get dog details
 - `POST /dog` - Create new dog listing (admin only)
 - `PATCH /dog/:id` - Update dog listing (admin only)
@@ -150,15 +149,19 @@ backend/
 
 ### Store Items
 - `GET /store-category` - List all store categories
-- `GET /store-item` - List all store items (with filters)
+- `GET /store-item` - List all store items (with optional filters)
 - `GET /store-item/:id` - Get store item details
 - `POST /store-item` - Create new store item (admin only)
+- `POST /store-category` - Create new category item (admin only)
 - `PATCH /store-item/:id` - Update store item (admin only)
+- `PATCH /store-category/:id` - Update category item (admin only)
+- `DELTE /store-category/:id` - Delete category item (admin only)
 - `DELETE /store-item/:id` - Delete store item (admin only)
 
 ### Adoption Photos
 - `GET /adoption-photo` - List all adoption photos
 - `POST /adoption-photo` - Upload new adoption photo (admin only)
+- `PATCH /adoption-photo` - Update adoption photo (admin only)
 - `DELETE /adoption-photo/:id` - Delete adoption photo (admin only)
 
 ### System
