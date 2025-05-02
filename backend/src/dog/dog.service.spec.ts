@@ -14,7 +14,7 @@ describe('DogService', () => {
     let queryBuilder: any;
 
     beforeEach(async () => {
-        // Shared QueryBuilder mock
+        // Shared QueryBuilder mock - add getCount for pagination
         queryBuilder = {
             leftJoinAndSelect: jest.fn().mockReturnThis(),
             where: jest.fn().mockReturnThis(),
@@ -24,6 +24,7 @@ describe('DogService', () => {
             skip: jest.fn().mockReturnThis(),
             take: jest.fn().mockReturnThis(),
             orderBy: jest.fn().mockReturnThis(),
+            getCount: jest.fn().mockResolvedValue(0), // Add getCount for pagination
         };
 
         const module: TestingModule = await Test.createTestingModule({
@@ -38,7 +39,7 @@ describe('DogService', () => {
                         find: jest.fn(),
                         update: jest.fn(),
                         delete: jest.fn(),
-                        remove: jest.fn(), // Adicionando método remove
+                        remove: jest.fn(),
                         createQueryBuilder: jest.fn().mockReturnValue(queryBuilder),
                     },
                 },
@@ -46,7 +47,7 @@ describe('DogService', () => {
                     provide: getRepositoryToken(Breed),
                     useValue: {
                         findOne: jest.fn(),
-                        findOneBy: jest.fn(), // Adicionando método findOneBy
+                        findOneBy: jest.fn(),
                     },
                 },
             ],
@@ -113,16 +114,72 @@ describe('DogService', () => {
     });
 
     describe('findAll', () => {
-        it('should return an array of dogs', async () => {
-            const dogs = [{ id: '1', name: 'Rex' }, { id: '2', name: 'Max' }];
+        // Setup mock data for pagination tests
+        const dogs = [
+            { id: '1', name: 'Rex' },
+            { id: '2', name: 'Max' }
+        ];
+
+        beforeEach(() => {
+            // Reset mocks for pagination tests
             jest.spyOn(queryBuilder, 'getMany').mockResolvedValue(dogs as unknown as Dog[]);
-
-            const result = await service.findAll({});
-
-            expect(result).toEqual(dogs);
-            expect(queryBuilder.leftJoinAndSelect).toHaveBeenCalled();
+            jest.spyOn(queryBuilder, 'getCount').mockResolvedValue(10); // Total of 10 dogs
         });
 
+        it('should return paginated dogs with default pagination', async () => {
+            const result = await service.findAll({});
+
+            // Check returned structure has data and pagination
+            expect(result).toHaveProperty('data');
+            expect(result).toHaveProperty('pagination');
+            expect(result.data).toEqual(dogs);
+            expect(result.pagination).toEqual({
+                total: 10,
+                page: 1,
+                limit: 10,
+                totalPages: 1,
+                hasNext: false,
+                hasPrevious: false
+            });
+
+            // Check pagination methods were called
+            expect(queryBuilder.skip).toHaveBeenCalledWith(0);
+            expect(queryBuilder.take).toHaveBeenCalledWith(10);
+        });
+
+        it('should use custom pagination parameters', async () => {
+            const result = await service.findAll({ page: 2, limit: 5 });
+
+            // Check pagination calculations
+            expect(queryBuilder.skip).toHaveBeenCalledWith(5); // (page-1) * limit
+            expect(queryBuilder.take).toHaveBeenCalledWith(5);
+            expect(result.pagination).toEqual({
+                total: 10,
+                page: 2,
+                limit: 5,
+                totalPages: 2,
+                hasNext: false,
+                hasPrevious: true
+            });
+        });
+
+        it('should calculate pagination metadata correctly', async () => {
+            // Mock a larger dataset (25 items)
+            jest.spyOn(queryBuilder, 'getCount').mockResolvedValue(25);
+
+            const result = await service.findAll({ page: 2, limit: 10 });
+
+            expect(result.pagination).toEqual({
+                total: 25,
+                page: 2,
+                limit: 10,
+                totalPages: 3,
+                hasNext: true,
+                hasPrevious: true
+            });
+        });
+
+        // Existing filter tests 
         it('should apply breedId filter when provided', async () => {
             await service.findAll({ breedId: '123' });
             expect(queryBuilder.andWhere).toHaveBeenCalledWith('breed.id = :breedId', { breedId: '123' });

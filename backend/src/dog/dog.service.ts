@@ -44,8 +44,10 @@ export class DogService {
     return this.dogRepository.save(dog);
   }
 
-  // Get all dogs with filtering options
-  async findAll(filters?: {
+  // Get all dogs with filtering options and pagination
+  async findAll(params: {
+    page?: number,
+    limit?: number,
     breedId?: string,
     gender?: 'Male' | 'Female',
     size?: string,
@@ -54,43 +56,66 @@ export class DogService {
     maxAge?: number,
     minPrice?: number,
     maxPrice?: number,
-  }): Promise<Dog[]> {
+  }): Promise<{ data: Dog[], pagination: any }> {
+    const { page = 1, limit = 10, ...filters } = params;
+
     const queryBuilder = this.dogRepository
       .createQueryBuilder('dog')
       .leftJoinAndSelect('dog.breed', 'breed');
 
     // Apply filters if provided
-    if (filters) {
-      if (filters.breedId) {
-        queryBuilder.andWhere('breed.id = :breedId', { breedId: filters.breedId });
-      }
-
-      if (filters.gender) {
-        queryBuilder.andWhere('dog.gender = :gender', { gender: filters.gender });
-      }
-
-      if (filters.size) {
-        queryBuilder.andWhere('dog.size = :size', { size: filters.size });
-      }
-
-      if (filters.minAge !== undefined) {
-        queryBuilder.andWhere('dog.ageInMonths >= :minAge', { minAge: filters.minAge });
-      }
-
-      if (filters.maxAge !== undefined) {
-        queryBuilder.andWhere('dog.ageInMonths <= :maxAge', { maxAge: filters.maxAge });
-      }
-
-      if (filters.minPrice !== undefined) {
-        queryBuilder.andWhere('dog.price >= :minPrice', { minPrice: filters.minPrice });
-      }
-
-      if (filters.maxPrice !== undefined) {
-        queryBuilder.andWhere('dog.price <= :maxPrice', { maxPrice: filters.maxPrice });
-      }
+    if (filters.breedId) {
+      queryBuilder.andWhere('breed.id = :breedId', { breedId: filters.breedId });
     }
 
-    return queryBuilder.getMany();
+    if (filters.gender) {
+      queryBuilder.andWhere('dog.gender = :gender', { gender: filters.gender });
+    }
+
+    if (filters.size) {
+      queryBuilder.andWhere('dog.size = :size', { size: filters.size });
+    }
+
+    if (filters.minAge !== undefined) {
+      queryBuilder.andWhere('dog.ageInMonths >= :minAge', { minAge: filters.minAge });
+    }
+
+    if (filters.maxAge !== undefined) {
+      queryBuilder.andWhere('dog.ageInMonths <= :maxAge', { maxAge: filters.maxAge });
+    }
+
+    if (filters.minPrice !== undefined) {
+      queryBuilder.andWhere('dog.price >= :minPrice', { minPrice: filters.minPrice });
+    }
+
+    if (filters.maxPrice !== undefined) {
+      queryBuilder.andWhere('dog.price <= :maxPrice', { maxPrice: filters.maxPrice });
+    }
+
+    // Get total count for pagination
+    const total = await queryBuilder.getCount();
+
+    // Apply pagination
+    const skip = (page - 1) * limit;
+    queryBuilder.skip(skip).take(limit);
+
+    // Get paginated results
+    const data = await queryBuilder.getMany();
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages,
+        hasNext: page < totalPages,
+        hasPrevious: page > 1
+      }
+    };
   }
 
   // Get a specific dog by ID

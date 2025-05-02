@@ -22,9 +22,21 @@ describe('DogController', () => {
         certification: 'AKC',
     };
 
+    const mockPaginatedResponse = {
+        data: [mockDog],
+        pagination: {
+            total: 1,
+            page: 1,
+            limit: 10,
+            totalPages: 1,
+            hasNext: false,
+            hasPrevious: false
+        }
+    };
+
     const mockDogService = {
         create: jest.fn().mockResolvedValue(mockDog),
-        findAll: jest.fn().mockResolvedValue([mockDog]),
+        findAll: jest.fn().mockResolvedValue(mockPaginatedResponse),
         findOne: jest.fn().mockResolvedValue(mockDog),
         update: jest.fn().mockResolvedValue(mockDog),
         remove: jest.fn().mockResolvedValue({ affected: 1 }),
@@ -43,6 +55,8 @@ describe('DogController', () => {
 
         controller = module.get<DogController>(DogController);
         service = module.get<DogService>(DogService);
+
+        jest.clearAllMocks();
     });
 
     it('should be defined', () => {
@@ -70,9 +84,44 @@ describe('DogController', () => {
     });
 
     describe('findAll', () => {
-        it('should return an array of dogs', async () => {
-            expect(await controller.findAll()).toEqual([mockDog]);
-            expect(service.findAll).toHaveBeenCalled();
+        it('should return paginated dogs with default pagination', async () => {
+            const result = await controller.findAll(undefined, undefined, {});
+
+            expect(result).toEqual(mockPaginatedResponse);
+            expect(service.findAll).toHaveBeenCalledWith({
+                page: 1,
+                limit: 10
+            });
+        });
+
+        it('should use provided pagination parameters', async () => {
+            const result = await controller.findAll(2, 20, {});
+
+            expect(result).toEqual(mockPaginatedResponse);
+            expect(service.findAll).toHaveBeenCalledWith({
+                page: 2,
+                limit: 20
+            });
+        });
+
+        it('should pass filters along with pagination parameters', async () => {
+            const filters = {
+                breedId: 'breed-id',
+                gender: 'Male',
+                minPrice: '100',
+                maxPrice: '500'
+            };
+
+            await controller.findAll(2, 20, filters);
+
+            expect(service.findAll).toHaveBeenCalledWith({
+                page: 2,
+                limit: 20,
+                breedId: 'breed-id',
+                gender: 'Male',
+                minPrice: '100',
+                maxPrice: '500'
+            });
         });
     });
 

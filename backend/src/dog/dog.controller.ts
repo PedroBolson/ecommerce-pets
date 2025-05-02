@@ -27,9 +27,19 @@ export class DogController {
   @ApiQuery({ name: 'maxAge', required: false, description: 'Maximum age in months' })
   @ApiQuery({ name: 'minPrice', required: false, description: 'Minimum price' })
   @ApiQuery({ name: 'maxPrice', required: false, description: 'Maximum price' })
-  @ApiResponse({ status: 200, description: 'List of dogs', type: [Dog] })
-  findAll() {
-    return this.dogService.findAll();
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (starting from 1)', type: Number })
+  @ApiQuery({ name: 'limit', required: false, description: 'Number of items per page', type: Number })
+  @ApiResponse({ status: 200, description: 'List of dogs with pagination data' })
+  findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query() filters: any
+  ) {
+    return this.dogService.findAll({
+      page: +page,
+      limit: +limit,
+      ...filters
+    });
   }
 
   @Get(':id')
