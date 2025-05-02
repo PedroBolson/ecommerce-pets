@@ -2,49 +2,95 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Pet E-commerce Backend
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A NestJS-based RESTful API backend for a pet e-commerce platform, featuring breed management, dog listings, store items, and user authentication.
 
-## Description
+## 📋 Project Overview
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This backend serves as the API for a purebred pet e-commerce platform with the following features:
 
-## Project setup
+- **Authentication** - Secure JWT-based authentication
+- **User Management** - User registration, profiles, and role-based access
+- **Breed Catalog** - Information about different dog breeds with images
+- **Dog Listings** - Available dogs for sale with filtering options
+- **Store Items** - Pet products and accessories with categories and photos
+- **Adoption Photos** - Images for pet adoption
 
+## 🔧 Technologies
+
+- NestJS 11
+- TypeScript
+- PostgreSQL
+- TypeORM
+- JWT Authentication
+- Swagger API Documentation
+
+## ⚙️ Prerequisites
+
+- Node.js 18+ and npm
+- PostgreSQL 14+
+- Git
+
+## 🚀 Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/ecommerce-pets.git
+   cd ecommerce-pets/backend
+   ```
+
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Configure environment variables:  
+    Create based on sample below on .env file in the backend folder
+    ```bash
+    # Server configuration
+    PORT=3000
+    FRONTEND_URL=http://localhost:5173
+
+    # PostgreSQL connection
+    DB_HOST=localhost
+    DB_PORT=5432
+    DB_USERNAME=postgres
+    DB_PASSWORD=your-password
+    DB_NAME=your-db-name
+
+    # JWT configuration
+    JWT_SECRET=your-secure-jwt-secret-key
+    ```
+
+## 🏃‍♂️ Running the Application
+    
+Development mode  
 ```bash
-$ npm install
+  npm run start:dev  
 ```
 
-## Compile and run the project
-
+Production build  
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+  npm run build
+  npm run start:prod
 ```
+    
+The API will be available at: http://localhost:3000
 
-## Run tests
+## 📊 API Documentation
+Once the application is running, you can access the Swagger API documentation at: http://localhost:3000/api  
+
+## 👤 Creating an Admin User  
+To create an admin user for managing the platform:  
+```bash
+  npm run create-admin
+```
+This will create an admin user with:  
+- Email: admin@monito.com  
+- Password: Admin123  
+
+## 🧪 Testing
 
 ```bash
 # unit tests
@@ -57,41 +103,88 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 📁 Project Structure
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+backend/
+├── src/
+│   ├── app.module.ts          # Main application module
+│   ├── main.ts                # Application entry point
+│   ├── auth/                  # Authentication module
+│   ├── users/                 # User management
+│   ├── breed/                 # Breed information
+│   ├── breed-image/           # Breed images
+│   ├── dog/                   # Dog listings
+│   ├── adoption-photo/        # Adoption photos
+│   ├── store-category/        # Store categories
+│   ├── store-item/            # Store items
+│   └── scripts/               # Utility scripts
+└── test/                      # E2E tests
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🛠️ Key Endpoints
 
-## Resources
+### Authentication
+- `POST /auth/login` - User authentication
+- `POST /auth/register` - Register new user
+- `POST /auth/refresh` - Refresh JWT token
 
-Check out a few resources that may come in handy when working with NestJS:
+### User Management
+- `GET /users/profile` - Get current user profile
+- `PATCH /users/profile` - Update user profile
+- `GET /users` - List all users (admin only)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Breed Catalog
+- `GET /breed` - List all breeds
+- `GET /breed/:id` - Get breed details
+- `POST /breed` - Create new breed (admin only)
+- `PATCH /breed/:id` - Update breed (admin only)
+- `DELETE /breed/:id` - Delete breed (admin only)
 
-## Support
+### Dog Listings
+- `GET /dog` - List available dogs (with filters)
+- `GET /dog/:id` - Get dog details
+- `POST /dog` - Create new dog listing (admin only)
+- `PATCH /dog/:id` - Update dog listing (admin only)
+- `DELETE /dog/:id` - Delete dog listing (admin only)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Store Items
+- `GET /store-category` - List all store categories
+- `GET /store-item` - List all store items (with filters)
+- `GET /store-item/:id` - Get store item details
+- `POST /store-item` - Create new store item (admin only)
+- `PATCH /store-item/:id` - Update store item (admin only)
+- `DELETE /store-item/:id` - Delete store item (admin only)
 
-## Stay in touch
+### Adoption Photos
+- `GET /adoption-photo` - List all adoption photos
+- `POST /adoption-photo` - Upload new adoption photo (admin only)
+- `DELETE /adoption-photo/:id` - Delete adoption photo (admin only)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### System
+- `GET /api/health` - API health check
+
+## 🔐 Security
+
+The API implements comprehensive security measures:
+
+### Authentication
+- JWT-based authentication for secure access
+- Token refresh mechanism to maintain sessions
+- Password hashing using bcrypt
+
+### Authorization
+- Role-based access control (RBAC)
+- Three primary roles: public, user, and admin
+- Public endpoints for browsing content
+- Protected endpoints for user-specific actions
+- Admin-only endpoints for content management
+
+### API Protection
+- Rate limiting to prevent abuse
+- CORS configuration for frontend access
+- Input validation on all endpoints
+- Environmental configuration for sensitive data
 
 ## License
 
