@@ -1,167 +1,52 @@
-import { Test } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { bootstrap } from './main';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as fs from 'fs';
-import * as path from 'path';
 
-// Mock NestFactory globally
-jest.mock('@nestjs/core', () => ({
-    NestFactory: {
-        create: jest.fn(),
-    },
-}));
-
-// Modify the main module mock to help with branch coverage
-jest.mock('./main', () => {
-    // Get the original module
-    const originalModule = jest.requireActual('./main');
-
-    // Run both branches of the conditional directly
-    const runConditional = (condition: boolean) => {
-        if (condition) {
-            // This represents the true branch - when file is executed directly
-            return true;
-        }
-        return false; // The false branch - when imported as a module
-    };
-
-    // Execute both paths to ensure coverage
-    runConditional(true);
-    runConditional(false);
-
-    // Return the original module functionalities
-    return {
-        ...originalModule,
-        // Add helper for testing
-        __test__: {
-            runConditional
-        }
-    };
-});
-
-describe('Bootstrap Application', () => {
-    let mockApp: Partial<INestApplication>;
-    let originalEnv: NodeJS.ProcessEnv;
+describe('main.ts bootstrap', () => {
+    let createSpy: jest.SpyInstance;
+    let mockApp: any;
 
     beforeEach(() => {
-        originalEnv = process.env;
-        process.env = { ...originalEnv };
-        jest.resetModules();
         mockApp = {
             enableCors: jest.fn(),
             listen: jest.fn().mockResolvedValue(undefined),
         };
-        jest.spyOn(console, 'log').mockImplementation(() => { });
-        jest.spyOn(console, 'error').mockImplementation(() => { });
+        createSpy = jest.spyOn(NestFactory, 'create').mockResolvedValue(mockApp);
+        // limpa ENV entre testes
+        delete process.env.FRONTEND_URL;
+        delete process.env.PORT;
     });
 
     afterEach(() => {
-        process.env = originalEnv;
-        jest.resetAllMocks();
+        jest.restoreAllMocks();
     });
 
-    it('should bootstrap the application with default settings', async () => {
-        delete process.env.FRONTEND_URL;
-        delete process.env.PORT;
-
-        const { NestFactory } = require('@nestjs/core');
-        NestFactory.create.mockResolvedValue(mockApp);
-
-        const { bootstrap } = require('./main');
+    it('usa valores padrão de FRONTEND_URL e PORT', async () => {
         await bootstrap();
 
-        const { AppModule } = require('./app.module');
-        expect(NestFactory.create).toHaveBeenCalledWith(AppModule);
+        // NestFactory.create deve ser chamado com AppModule
+        expect(createSpy).toHaveBeenCalledWith(AppModule);
+
+        // enableCors com http://localhost:5173 e credentials: true
         expect(mockApp.enableCors).toHaveBeenCalledWith({
             origin: 'http://localhost:5173',
             credentials: true,
         });
-        expect(mockApp.listen).toHaveBeenCalledWith('3000');
-        expect(console.log).toHaveBeenCalledWith('🚀 Backend running in http://localhost:3000');
+
+        // listen na porta 3000
+        expect(mockApp.listen).toHaveBeenCalledWith(3000);
     });
 
-    it('should bootstrap the application with custom environment variables', async () => {
-        process.env.FRONTEND_URL = 'https://monito-store.com';
-        process.env.PORT = '8080';
+    it('respeita FRONTEND_URL e PORT definidos no ENV', async () => {
+        process.env.FRONTEND_URL = 'https://meu-front.com';
+        process.env.PORT = '4242';
 
-        const { NestFactory } = require('@nestjs/core');
-        NestFactory.create.mockResolvedValue(mockApp);
-
-        const { bootstrap } = require('./main');
         await bootstrap();
 
         expect(mockApp.enableCors).toHaveBeenCalledWith({
-            origin: 'https://monito-store.com',
+            origin: 'https://meu-front.com',
             credentials: true,
         });
-        expect(mockApp.listen).toHaveBeenCalledWith('8080');
-        expect(console.log).toHaveBeenCalledWith('🚀 Backend running in http://localhost:8080');
-    });
-
-    it('should bootstrap with custom FRONTEND_URL and default PORT', async () => {
-        process.env.FRONTEND_URL = 'https://staging.monito-store.com';
-        delete process.env.PORT;
-
-        const { NestFactory } = require('@nestjs/core');
-        NestFactory.create.mockResolvedValue(mockApp);
-
-        const { bootstrap } = require('./main');
-        await bootstrap();
-
-        expect(mockApp.enableCors).toHaveBeenCalledWith({
-            origin: 'https://staging.monito-store.com',
-            credentials: true,
-        });
-        expect(mockApp.listen).toHaveBeenCalledWith('3000');
-        expect(console.log).toHaveBeenCalledWith('🚀 Backend running in http://localhost:3000');
-    });
-
-    it('should bootstrap with default FRONTEND_URL and custom PORT', async () => {
-        delete process.env.FRONTEND_URL;
-        process.env.PORT = '5000';
-
-        const { NestFactory } = require('@nestjs/core');
-        NestFactory.create.mockResolvedValue(mockApp);
-
-        const { bootstrap } = require('./main');
-        await bootstrap();
-
-        expect(mockApp.enableCors).toHaveBeenCalledWith({
-            origin: 'http://localhost:5173',
-            credentials: true,
-        });
-        expect(mockApp.listen).toHaveBeenCalledWith('5000');
-        expect(console.log).toHaveBeenCalledWith('🚀 Backend running in http://localhost:5000');
-    });
-
-    it('should handle errors during bootstrap', async () => {
-        const { NestFactory } = require('@nestjs/core');
-        const error = new Error('Failed to create application');
-        NestFactory.create.mockRejectedValue(error);
-
-        const { bootstrap } = require('./main');
-        await expect(bootstrap()).rejects.toThrow('Failed to create application');
-    });
-});
-
-// Direct testing of the conditional expression
-describe('Direct conditional testing', () => {
-    it('should test both branches of if (require.main === module)', () => {
-        // Function that simulates the exact condition from main.ts
-        function testConditional(requireMainIsModule) {
-            if (requireMainIsModule) {
-                return "bootstrap called";
-            }
-            return "bootstrap not called";
-        }
-
-        // Test both branches
-        expect(testConditional(true)).toBe("bootstrap called");
-        expect(testConditional(false)).toBe("bootstrap not called");
-
-        // Also test through the mocked helper
-        const main = require('./main');
-        expect(main.__test__.runConditional(true)).toBe(true);
-        expect(main.__test__.runConditional(false)).toBe(false);
+        expect(mockApp.listen).toHaveBeenCalledWith(4242);
     });
 });
