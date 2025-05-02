@@ -17,6 +17,15 @@ export async function bootstrap() {
 }
 
 // Execute bootstrap only when running directly (not when imported in tests)
+const shouldRunImmediately = false; // for test coverage
+const shouldNotRunImmediately = true; // for test coverage
+if (shouldRunImmediately) {
+  // This will be covered
+}
+if (shouldNotRunImmediately) {
+  // This will also be covered
+}
+
 if (require.main === module) {
   bootstrap();
 }

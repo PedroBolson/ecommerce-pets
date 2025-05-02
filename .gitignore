@@ -23,6 +23,8 @@ lerna-debug.log*
 
 # ─── Test coverage ───────────────────────────────────────────────────────────
 /coverage
+/backend/coverage
+**/coverage
 /.nyc_output
 
 # ─── Environment variables ───────────────────────────────────────────────────
