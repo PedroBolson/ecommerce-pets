@@ -43,9 +43,14 @@ describe('StoreItemController', () => {
             const items: StoreItem[] = [{ id: 'i2' } as StoreItem];
             service.findAll.mockResolvedValue(items);
 
-            const filters = { categoryId: 'c2', minPrice: 5.5, maxPrice: 20.0, inStock: true };
-            expect(await controller.findAll(filters.categoryId, filters.minPrice, filters.maxPrice, filters.inStock)).toEqual(items);
-            expect(service.findAll).toHaveBeenCalledWith(filters);
+            const filters = { categoryId: 'c2', minPrice: 5.5, maxPrice: 20.0 };
+            const inStockStr = 'true'; // Mudando de boolean para string
+
+            expect(await controller.findAll(filters.categoryId, filters.minPrice, filters.maxPrice, inStockStr)).toEqual(items);
+            expect(service.findAll).toHaveBeenCalledWith({
+                ...filters,
+                inStock: true // O serviço ainda espera um boolean após a conversão
+            });
         });
     });
 

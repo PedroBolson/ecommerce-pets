@@ -36,10 +36,14 @@ export class StoreItemController {
   })
   findAll(
     @Query('categoryId') categoryId?: string,
-    @Query('minPrice', ParseFloatPipe) minPrice?: number,
-    @Query('maxPrice', ParseFloatPipe) maxPrice?: number,
-    @Query('inStock', ParseBoolPipe) inStock?: boolean,
+    @Query('minPrice', new ParseFloatPipe({ optional: true })) minPrice?: number,
+    @Query('maxPrice', new ParseFloatPipe({ optional: true })) maxPrice?: number,
+    @Query('inStock') inStockStr?: string,
   ) {
+    // Conversão manual para booleano apenas quando o parâmetro existe
+    const inStock = inStockStr !== undefined ?
+      inStockStr === 'true' || inStockStr === '1' : undefined;
+
     return this.storeItemService.findAll({
       categoryId,
       minPrice,
