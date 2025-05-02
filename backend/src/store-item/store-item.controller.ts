@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe, ParseBoolPipe, ParseFloatPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe, ParseFloatPipe, ParseIntPipe } from '@nestjs/common';
 import { StoreItemService } from './store-item.service';
 import { CreateStoreItemDto } from './dto/create-store-item.dto';
 import { UpdateStoreItemDto } from './dto/update-store-item.dto';
@@ -24,27 +24,33 @@ export class StoreItemController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all store items with optional filtering' })
+  @ApiOperation({ summary: 'Get all store items with optional filtering and pagination' })
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (starting from 1)', type: Number })
+  @ApiQuery({ name: 'limit', required: false, description: 'Number of items per page', type: Number })
   @ApiQuery({ name: 'categoryId', required: false, description: 'Filter by category ID' })
   @ApiQuery({ name: 'minPrice', required: false, description: 'Minimum price filter' })
   @ApiQuery({ name: 'maxPrice', required: false, description: 'Maximum price filter' })
   @ApiQuery({ name: 'inStock', required: false, description: 'Filter by stock availability', type: Boolean })
   @ApiResponse({
     status: 200,
-    description: 'Retrieved all store items successfully',
-    type: [StoreItem]
+    description: 'Retrieved store items successfully with pagination',
+    type: Object
   })
   findAll(
+    @Query('page', new ParseIntPipe({ optional: true })) page?: number,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit?: number,
     @Query('categoryId') categoryId?: string,
     @Query('minPrice', new ParseFloatPipe({ optional: true })) minPrice?: number,
     @Query('maxPrice', new ParseFloatPipe({ optional: true })) maxPrice?: number,
     @Query('inStock') inStockStr?: string,
   ) {
-    // Conversão manual para booleano apenas quando o parâmetro existe
+    // Convert string to boolean only when the parameter exists
     const inStock = inStockStr !== undefined ?
       inStockStr === 'true' || inStockStr === '1' : undefined;
 
     return this.storeItemService.findAll({
+      page,
+      limit,
       categoryId,
       minPrice,
       maxPrice,

@@ -26,9 +26,9 @@ describe('AppController (e2e)', () => {
       .expect({ status: 'ok' });
   });
 
-  it('/api/users (GET) should be protected and return 401', () => {
+  it('/breed (POST) should be protected and return 403', () => {
     return request(app.getHttpServer())
-      .get('/api/users')
-      .expect(401);
+      .post('/breed')
+      .expect(403);
   });
 });

@@ -36,38 +36,40 @@ export class StoreItemService {
     return this.storeItemRepository.save(item);
   }
 
-  // Get all items with filtering options
-  async findAll(filters?: {
+  // Get all items with filtering options and pagination
+  async findAll(params: {
+    page?: number,
+    limit?: number,
     categoryId?: string,
     minPrice?: number,
     maxPrice?: number,
     inStock?: boolean,
-  }): Promise<StoreItem[]> {
+  }): Promise<{ data: StoreItem[], pagination: any }> {
+    const { page = 1, limit = 10, ...filters } = params;
+
     const queryBuilder = this.storeItemRepository
       .createQueryBuilder('item')
       .leftJoinAndSelect('item.category', 'category')
       .leftJoinAndSelect('item.images', 'images');
 
     // Apply filters if provided
-    if (filters) {
-      if (filters.categoryId) {
-        queryBuilder.andWhere('category.id = :categoryId', { categoryId: filters.categoryId });
-      }
+    if (filters.categoryId) {
+      queryBuilder.andWhere('category.id = :categoryId', { categoryId: filters.categoryId });
+    }
 
-      if (filters.minPrice !== undefined) {
-        queryBuilder.andWhere('item.price >= :minPrice', { minPrice: filters.minPrice });
-      }
+    if (filters.minPrice !== undefined) {
+      queryBuilder.andWhere('item.price >= :minPrice', { minPrice: filters.minPrice });
+    }
 
-      if (filters.maxPrice !== undefined) {
-        queryBuilder.andWhere('item.price <= :maxPrice', { maxPrice: filters.maxPrice });
-      }
+    if (filters.maxPrice !== undefined) {
+      queryBuilder.andWhere('item.price <= :maxPrice', { maxPrice: filters.maxPrice });
+    }
 
-      if (filters.inStock !== undefined) {
-        if (filters.inStock) {
-          queryBuilder.andWhere('item.stock > 0');
-        } else {
-          queryBuilder.andWhere('item.stock = 0');
-        }
+    if (filters.inStock !== undefined) {
+      if (filters.inStock) {
+        queryBuilder.andWhere('item.stock > 0');
+      } else {
+        queryBuilder.andWhere('item.stock = 0');
       }
     }
 
@@ -75,7 +77,30 @@ export class StoreItemService {
     queryBuilder.orderBy('category.name', 'ASC')
       .addOrderBy('item.name', 'ASC');
 
-    return queryBuilder.getMany();
+    // Get total count for pagination
+    const total = await queryBuilder.getCount();
+
+    // Apply pagination
+    const skip = (page - 1) * limit;
+    queryBuilder.skip(skip).take(limit);
+
+    // Get paginated results
+    const data = await queryBuilder.getMany();
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages,
+        hasNext: page < totalPages,
+        hasPrevious: page > 1
+      }
+    };
   }
 
   // Get a specific item by ID
