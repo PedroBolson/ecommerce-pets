@@ -10,6 +10,7 @@
     src: local('Gilroy Light'), url('./fonts/SVNGilroy Light.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -17,11 +18,22 @@
     src: local('Gilroy Bold'), url('./fonts/SVNGilroy Bold.otf') format('opentype');
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
 
 /* Apply the font family globally */
-* {
+body,
+button,
+input,
+textarea,
+select {
     font-family: 'Gilroy', sans-serif;
+}
+
+.MuiTypography-root,
+.MuiButton-root,
+.MuiInputBase-root {
+    font-family: 'Gilroy', sans-serif !important;
 }
 
 /* Set base styles for the body */

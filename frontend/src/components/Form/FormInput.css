@@ -1,17 +1,13 @@
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
 }
 
 .form-group label {
-    margin: 0% 2%;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    color: #333;
-}
-
-.form-group input {
-    padding: 0.75rem;
     font-size: 1rem;
+    color: #333;
+    margin-left: .5rem;
+    color: #103559;
 }

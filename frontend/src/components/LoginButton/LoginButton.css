@@ -5,8 +5,9 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
-    background-color: #2c7be5;
+    background-color: #103559;
     color: white;
+    font-weight: bold;
 }
 
 .button:hover {

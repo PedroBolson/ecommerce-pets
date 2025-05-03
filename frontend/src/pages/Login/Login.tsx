@@ -70,7 +70,10 @@ const Login: React.FC = () => {
     return (
         <div className="login-container">
             <div className="login-form-wrapper">
-                <h1>{isForgotPassword ? 'Reset Password' : 'Login to Monito Store'}</h1>
+                <h1 className='login-title'>
+                    {isForgotPassword ? 'Reset Password ' : 'Login to '}
+                    <img src="/Monito-logo.svg" alt="Logo" className="logo" />
+                </h1>
 
                 {error && <div className="error-message">{error}</div>}
 
