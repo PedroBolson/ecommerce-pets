@@ -51,6 +51,20 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
+  @Patch('reset-password')
+  @ApiOperation({ summary: 'Reset user password by email' })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Password has been successfully reset',
+    type: User
+  })
+  @ApiResponse({ status: 400, description: 'Bad request - validation error' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  resetPassword(@Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.resetPasswordByEmail(updateUserDto);
+  }
+
   @Patch(':id')
   @ApiOperation({ summary: 'Update a user' })
   @ApiParam({ name: 'id', description: 'User ID' })
@@ -65,20 +79,6 @@ export class UsersController {
   @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
-  }
-
-  @Patch('reset-password')
-  @ApiOperation({ summary: 'Reset user password by email' })
-  @ApiBody({ type: UpdateUserDto })
-  @ApiResponse({
-    status: 200,
-    description: 'Password has been successfully reset',
-    type: User
-  })
-  @ApiResponse({ status: 400, description: 'Bad request - validation error' })
-  @ApiResponse({ status: 404, description: 'User not found' })
-  resetPassword(@Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.resetPasswordByEmail(updateUserDto);
   }
 
   @Delete(':id')

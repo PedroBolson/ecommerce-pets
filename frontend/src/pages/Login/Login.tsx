@@ -10,6 +10,7 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [confirmEmail, setConfirmEmail] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isForgotPassword, setIsForgotPassword] = useState<boolean>(false);
@@ -36,11 +37,22 @@ const Login: React.FC = () => {
                     throw new Error('Passwords do not match');
                 }
 
-                await authService.resetPassword(email, newPassword, confirmPassword);
+                if (email !== confirmEmail) {
+                    throw new Error('Email confirmation does not match');
+                }
+
+                await authService.resetPassword(
+                    email,
+                    confirmEmail,
+                    newPassword,
+                    confirmPassword
+                );
+
                 alert('Password has been reset. Please login with your new password.');
                 setIsForgotPassword(false);
                 setPassword('');
                 setNewPassword('');
+                setConfirmEmail('');
                 setConfirmPassword('');
             }
         } catch (err: any) {
@@ -63,28 +75,28 @@ const Login: React.FC = () => {
                 {error && <div className="error-message">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="login-form">
-                    <FormInput
-                        id="email"
-                        label="Email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter your email"
-                        required
-                    />
-
-                    {!isForgotPassword ? (
-                        <FormInput
-                            id="password"
-                            label="Password"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter your password"
-                            required
-                        />
-                    ) : (
+                    {isForgotPassword ? (
+                        // Forgot Password Form
                         <>
+                            <h2>Reset Password</h2>
+                            <FormInput
+                                id="email"
+                                label="Email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                required
+                            />
+                            <FormInput
+                                id="confirmEmail"
+                                label="Confirm Email"
+                                type="email"
+                                value={confirmEmail}
+                                onChange={(e) => setConfirmEmail(e.target.value)}
+                                placeholder="Confirm your email"
+                                required
+                            />
                             <FormInput
                                 id="newPassword"
                                 label="New Password"
@@ -96,11 +108,34 @@ const Login: React.FC = () => {
                             />
                             <FormInput
                                 id="confirmPassword"
-                                label="Confirm Password"
+                                label="Confirm New Password"
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 placeholder="Confirm new password"
+                                required
+                            />
+                        </>
+                    ) : (
+                        // Regular Login Form
+                        <>
+                            <h2>Login</h2>
+                            <FormInput
+                                id="email"
+                                label="Email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Enter your email"
+                                required
+                            />
+                            <FormInput
+                                id="password"
+                                label="Password"
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter your password"
                                 required
                             />
                         </>
