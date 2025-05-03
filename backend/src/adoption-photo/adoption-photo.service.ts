@@ -52,7 +52,7 @@ export class AdoptionPhotoService {
     });
 
     if (!adoptionPhoto) {
-      throw new NotFoundException(`Foto de adoção com ID ${id} não encontrada`);
+      throw new NotFoundException(`Adoption photo with ID ${id} not found`);
     }
 
     return adoptionPhoto;
