@@ -136,15 +136,15 @@ describe('DogService', () => {
             expect(result.pagination).toEqual({
                 total: 10,
                 page: 1,
-                limit: 10,
-                totalPages: 1,
-                hasNext: false,
+                limit: 8,  // Changed from 10 to 8
+                totalPages: 2,
+                hasNext: true,
                 hasPrevious: false
             });
 
             // Check pagination methods were called
             expect(queryBuilder.skip).toHaveBeenCalledWith(0);
-            expect(queryBuilder.take).toHaveBeenCalledWith(10);
+            expect(queryBuilder.take).toHaveBeenCalledWith(8);  // Changed from 10 to 8
         });
 
         it('should use custom pagination parameters', async () => {

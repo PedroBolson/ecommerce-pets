@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery, getSchemaPath } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery, getSchemaPath, ApiBearerAuth } from '@nestjs/swagger';
 import { PetKnowledgeService } from './pet-knowledge.service';
 import { CreatePetKnowledgeDto } from './dto/create-pet-knowledge.dto';
 import { UpdatePetKnowledgeDto } from './dto/update-pet-knowledge.dto';
@@ -18,6 +18,7 @@ export class PetKnowledgeController {
     type: PetKnowledge,
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
+  @ApiBearerAuth('access-token')
   create(@Body() createPetKnowledgeDto: CreatePetKnowledgeDto) {
     return this.petKnowledgeService.create(createPetKnowledgeDto);
   }
@@ -99,6 +100,7 @@ export class PetKnowledgeController {
     type: PetKnowledge,
   })
   @ApiResponse({ status: 404, description: 'Pet knowledge article not found.' })
+  @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updatePetKnowledgeDto: UpdatePetKnowledgeDto) {
     return this.petKnowledgeService.update(id, updatePetKnowledgeDto);
   }
@@ -111,6 +113,7 @@ export class PetKnowledgeController {
     description: 'The pet knowledge article has been successfully deactivated.',
   })
   @ApiResponse({ status: 404, description: 'Pet knowledge article not found.' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.petKnowledgeService.remove(id);
   }

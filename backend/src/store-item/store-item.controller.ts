@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe
 import { StoreItemService } from './store-item.service';
 import { CreateStoreItemDto } from './dto/create-store-item.dto';
 import { UpdateStoreItemDto } from './dto/update-store-item.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { StoreItem } from './entities/store-item.entity';
 
 @ApiTags('Store Items')
@@ -19,6 +19,7 @@ export class StoreItemController {
     type: StoreItem
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBearerAuth('access-token')
   create(@Body() createStoreItemDto: CreateStoreItemDto) {
     return this.storeItemService.create(createStoreItemDto);
   }
@@ -82,6 +83,7 @@ export class StoreItemController {
   })
   @ApiResponse({ status: 404, description: 'Store item not found' })
   @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBearerAuth('access-token')
   update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStoreItemDto: UpdateStoreItemDto) {
     return this.storeItemService.update(id, updateStoreItemDto);
   }
@@ -91,6 +93,7 @@ export class StoreItemController {
   @ApiParam({ name: 'id', description: 'Store item ID' })
   @ApiResponse({ status: 200, description: 'The store item has been successfully deleted' })
   @ApiResponse({ status: 404, description: 'Store item not found' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.storeItemService.remove(id);
   }

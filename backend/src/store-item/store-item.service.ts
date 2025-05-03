@@ -45,7 +45,7 @@ export class StoreItemService {
     maxPrice?: number,
     inStock?: boolean,
   }): Promise<{ data: StoreItem[], pagination: any }> {
-    const { page = 1, limit = 10, ...filters } = params;
+    const { page = 1, limit = 8, ...filters } = params;
 
     const queryBuilder = this.storeItemRepository
       .createQueryBuilder('item')

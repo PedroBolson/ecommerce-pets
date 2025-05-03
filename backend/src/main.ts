@@ -21,7 +21,16 @@ export async function bootstrap() {
       .setTitle('Pet E-commerce API')
       .setDescription('API documentation for pet e-commerce platform')
       .setVersion('1.0')
-      .addBearerAuth()
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          in: 'header',
+          name: 'Authorization'
+        },
+        'access-token'
+      )
       .build();
 
     const document = SwaggerModule.createDocument(app, config);

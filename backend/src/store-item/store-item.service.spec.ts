@@ -109,15 +109,15 @@ describe('StoreItemService', () => {
             expect(result.pagination).toEqual({
                 total: 20,
                 page: 1,
-                limit: 10,
-                totalPages: 2,
+                limit: 8,  // Changed from 10 to 8
+                totalPages: 3,
                 hasNext: true,
                 hasPrevious: false
             });
 
             // Check pagination methods were called
             expect(queryBuilder.skip).toHaveBeenCalledWith(0);
-            expect(queryBuilder.take).toHaveBeenCalledWith(10);
+            expect(queryBuilder.take).toHaveBeenCalledWith(8);  // Changed from 10 to 8
         });
 
         it('should use custom pagination parameters', async () => {

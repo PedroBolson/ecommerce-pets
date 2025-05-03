@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 
 @ApiTags('Users')
@@ -20,6 +20,7 @@ export class UsersController {
   })
   @ApiResponse({ status: 400, description: 'Bad request - validation error' })
   @ApiResponse({ status: 409, description: 'Conflict - email already exists' })
+  @ApiBearerAuth('access-token')
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -31,6 +32,7 @@ export class UsersController {
     description: 'Retrieved all users successfully',
     type: [User]
   })
+  @ApiBearerAuth('access-token')
   findAll() {
     return this.usersService.findAll();
   }
@@ -44,6 +46,7 @@ export class UsersController {
     type: User
   })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiBearerAuth('access-token')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
@@ -59,6 +62,7 @@ export class UsersController {
   })
   @ApiResponse({ status: 400, description: 'Bad request - validation error' })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
@@ -82,6 +86,7 @@ export class UsersController {
   @ApiParam({ name: 'id', description: 'User ID' })
   @ApiResponse({ status: 200, description: 'The user has been successfully deleted' })
   @ApiResponse({ status: 404, description: 'User not found' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }

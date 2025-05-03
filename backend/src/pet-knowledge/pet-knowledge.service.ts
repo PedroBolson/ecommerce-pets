@@ -46,7 +46,7 @@ export class PetKnowledgeService {
   ): Promise<
     PetKnowledge[] | { data: PetKnowledge[]; pagination: any }
   > {
-    const { page = 1, limit = 10, category } = params;
+    const { page = 1, limit = 3, category } = params;
 
     try {
       const qb = this.petKnowledgeRepository.createQueryBuilder('petKnowledge');

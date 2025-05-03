@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BreedService } from './breed.service';
 import { CreateBreedDto } from './dto/create-breed.dto';
 import { UpdateBreedDto } from './dto/update-breed.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('breeds')
 @Controller('breed')
@@ -11,6 +11,7 @@ export class BreedController {
 
   @Post()
   @ApiOperation({ summary: 'Create new breed' })
+  @ApiBearerAuth('access-token')
   create(@Body() createBreedDto: CreateBreedDto) {
     return this.breedService.create(createBreedDto);
   }
@@ -29,12 +30,14 @@ export class BreedController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update breed information' })
+  @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updateBreedDto: UpdateBreedDto) {
     return this.breedService.update(id, updateBreedDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Remove breed' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.breedService.remove(id);
   }

@@ -1,4 +1,4 @@
-import { Injectable, ExecutionContext, CanActivate, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ExecutionContext, CanActivate, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
@@ -8,7 +8,6 @@ export class PublicWriteProtectedGuard implements CanActivate {
     private readonly logger = new Logger(PublicWriteProtectedGuard.name);
     private readonly isTest = process.env.NODE_ENV === 'test';
 
-
     constructor(
         private jwtService: JwtService,
         private configService: ConfigService,
@@ -16,24 +15,41 @@ export class PublicWriteProtectedGuard implements CanActivate {
 
     canActivate(context: ExecutionContext): boolean {
         const request = context.switchToHttp().getRequest<Request>();
-        const response = context.switchToHttp().getResponse();
+        const path = request.path;
+        const baseUrl = path.split('?')[0]; // Remove query parameters
 
-        // If it's a GET method, allow public access
+        // If it's a GET method, allow public access EXCEPT for contacts and users endpoints
         if (request.method === 'GET') {
+            // Special cases that require authentication even for GET
+            if (baseUrl === '/contacts' ||
+                baseUrl.startsWith('/contacts/') ||
+                baseUrl === '/users' ||
+                baseUrl.startsWith('/users/')) {
+                return this.authenticateRequest(request);
+            }
             return true;
         }
 
         // Allow access to login route
-        if (request.path === '/auth/login' && request.method === 'POST') {
+        if (path === '/auth/login' && request.method === 'POST') {
             return true;
         }
 
         // Allow access to user reset password route
-        if (request.path === '/users/reset-password' && request.method === 'PATCH') {
+        if (path === '/users/reset-password' && request.method === 'PATCH') {
             return true;
         }
 
-        // For other methods (POST, PATCH, DELETE), verify authentication
+        // Allow public access to POST contacts (contact form submissions)
+        if (baseUrl === '/contacts' && request.method === 'POST') {
+            return true;
+        }
+
+        // For all other methods (POST, PATCH, DELETE), verify authentication
+        return this.authenticateRequest(request);
+    }
+
+    private authenticateRequest(request: Request): boolean {
         try {
             const token = this.extractTokenFromHeader(request);
             if (!token) {

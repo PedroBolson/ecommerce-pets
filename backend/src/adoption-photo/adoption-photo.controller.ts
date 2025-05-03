@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AdoptionPhotoService } from './adoption-photo.service';
 import { CreateAdoptionPhotoDto } from './dto/create-adoption-photo.dto';
 import { UpdateAdoptionPhotoDto } from './dto/update-adoption-photo.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('adoption-photos')
 @Controller('adoption-photos')
@@ -11,6 +11,7 @@ export class AdoptionPhotoController {
 
   @Post()
   @ApiOperation({ summary: 'Add new adoption photo' })
+  @ApiBearerAuth('access-token')
   create(@Body() createAdoptionPhotoDto: CreateAdoptionPhotoDto) {
     return this.adoptionPhotoService.create(createAdoptionPhotoDto);
   }
@@ -35,12 +36,14 @@ export class AdoptionPhotoController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update adoption photo' })
+  @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updateAdoptionPhotoDto: UpdateAdoptionPhotoDto) {
     return this.adoptionPhotoService.update(id, updateAdoptionPhotoDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Remove adoption photo' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.adoptionPhotoService.remove(id);
   }

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BreedImageService } from './breed-image.service';
 import { CreateBreedImageDto } from './dto/create-breed-image.dto';
 import { UpdateBreedImageDto } from './dto/update-breed-image.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('breed-images')
 @Controller('breed-image')
@@ -11,6 +11,7 @@ export class BreedImageController {
 
   @Post()
   @ApiOperation({ summary: 'Add new breed image' })
+  @ApiBearerAuth('access-token')
   create(@Body() createBreedImageDto: CreateBreedImageDto) {
     return this.breedImageService.create(createBreedImageDto);
   }
@@ -29,12 +30,14 @@ export class BreedImageController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update breed image' })
+  @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updateBreedImageDto: UpdateBreedImageDto) {
     return this.breedImageService.update(id, updateBreedImageDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Remove breed image' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.breedImageService.remove(id);
   }

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { StoreCategoryService } from './store-category.service';
 import { CreateStoreCategoryDto } from './dto/create-store-category.dto';
 import { UpdateStoreCategoryDto } from './dto/update-store-category.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { StoreCategory } from './entities/store-category.entity';
 
 @ApiTags('Store Categories')
@@ -19,6 +19,7 @@ export class StoreCategoryController {
     type: StoreCategory
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBearerAuth('access-token')
   create(@Body() createStoreCategoryDto: CreateStoreCategoryDto) {
     return this.storeCategoryService.create(createStoreCategoryDto);
   }
@@ -58,6 +59,7 @@ export class StoreCategoryController {
   })
   @ApiResponse({ status: 404, description: 'Store category not found' })
   @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updateStoreCategoryDto: UpdateStoreCategoryDto) {
     return this.storeCategoryService.update(id, updateStoreCategoryDto);
   }
@@ -67,6 +69,7 @@ export class StoreCategoryController {
   @ApiParam({ name: 'id', description: 'Store category ID' })
   @ApiResponse({ status: 200, description: 'The store category has been successfully deleted' })
   @ApiResponse({ status: 404, description: 'Store category not found' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.storeCategoryService.remove(id);
   }

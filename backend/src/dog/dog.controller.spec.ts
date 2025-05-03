@@ -90,7 +90,7 @@ describe('DogController', () => {
             expect(result).toEqual(mockPaginatedResponse);
             expect(service.findAll).toHaveBeenCalledWith({
                 page: 1,
-                limit: 10
+                limit: 8  // Changed from 10 to 8
             });
         });
 

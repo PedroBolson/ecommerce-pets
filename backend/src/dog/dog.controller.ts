@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { DogService } from './dog.service';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
-import { ApiTags, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Dog } from './entities/dog.entity';
 
 @ApiTags('dogs')
@@ -14,6 +14,7 @@ export class DogController {
   @ApiOperation({ summary: 'Create new dog listing' })
   @ApiResponse({ status: 201, description: 'Dog successfully created', type: Dog })
   @ApiResponse({ status: 400, description: 'Invalid input' })
+  @ApiBearerAuth('access-token')
   create(@Body() createDogDto: CreateDogDto) {
     return this.dogService.create(createDogDto);
   }
@@ -32,7 +33,7 @@ export class DogController {
   @ApiResponse({ status: 200, description: 'List of dogs with pagination data' })
   findAll(
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('limit') limit: number = 8,
     @Query() filters: any
   ) {
     return this.dogService.findAll({
@@ -56,6 +57,7 @@ export class DogController {
   @ApiParam({ name: 'id', description: 'Dog ID' })
   @ApiResponse({ status: 200, description: 'Dog successfully updated', type: Dog })
   @ApiResponse({ status: 404, description: 'Dog not found' })
+  @ApiBearerAuth('access-token')
   update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
     return this.dogService.update(id, updateDogDto);
   }
@@ -65,6 +67,7 @@ export class DogController {
   @ApiParam({ name: 'id', description: 'Dog ID' })
   @ApiResponse({ status: 200, description: 'Dog successfully removed' })
   @ApiResponse({ status: 404, description: 'Dog not found' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.dogService.remove(id);
   }

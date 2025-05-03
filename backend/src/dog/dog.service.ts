@@ -57,7 +57,7 @@ export class DogService {
     minPrice?: number,
     maxPrice?: number,
   }): Promise<{ data: Dog[], pagination: any }> {
-    const { page = 1, limit = 10, ...filters } = params;
+    const { page = 1, limit = 8, ...filters } = params;
 
     const queryBuilder = this.dogRepository
       .createQueryBuilder('dog')

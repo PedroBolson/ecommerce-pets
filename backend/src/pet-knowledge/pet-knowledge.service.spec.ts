@@ -172,10 +172,17 @@ describe('PetKnowledgeService', () => {
 
             const result = (await service.findAll({})) as { data: PetKnowledge[]; pagination: any };
             expect(mockQB.skip).toHaveBeenCalledWith(0);
-            expect(mockQB.take).toHaveBeenCalledWith(10);
+            expect(mockQB.take).toHaveBeenCalledWith(3);  // Changed from 10 to 3
             expect(result).toEqual({
                 data,
-                pagination: { total: 15, page: 1, limit: 10, totalPages: 2, hasNext: true, hasPrevious: false },
+                pagination: {
+                    total: 15,
+                    page: 1,
+                    limit: 3,  // Changed from 10 to 3
+                    totalPages: 5,  // Changed from 2 to 5 (15/3=5)
+                    hasNext: true,
+                    hasPrevious: false
+                },
             });
         });
 

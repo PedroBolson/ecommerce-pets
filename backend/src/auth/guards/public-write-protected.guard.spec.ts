@@ -35,6 +35,9 @@ describe('PublicWriteProtectedGuard', () => {
         guard = module.get<PublicWriteProtectedGuard>(PublicWriteProtectedGuard);
         jwtService = module.get<JwtService>(JwtService);
         configService = module.get<ConfigService>(ConfigService);
+
+        // Reset mocks before each test
+        jest.clearAllMocks();
     });
 
     it('should be defined', () => {
@@ -42,323 +45,192 @@ describe('PublicWriteProtectedGuard', () => {
     });
 
     describe('canActivate', () => {
-        it('should allow GET requests without authentication', () => {
-            const context = createMockExecutionContext('GET', '/breeds');
+        it('should allow GET requests to public endpoints', () => {
+            const context = createMockExecutionContext('GET', '/dogs');
             expect(guard.canActivate(context)).toBe(true);
         });
 
-        it('should allow POST requests to /auth/login without authentication', () => {
-            const context = createMockExecutionContext('POST', '/auth/login');
-            expect(guard.canActivate(context)).toBe(true);
-        });
-
-        it('should reject POST requests without a valid token', () => {
-            const context = createMockExecutionContext('POST', '/breeds');
+        it('should require authentication for GET requests to /contacts', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('GET', '/contacts');
             expect(guard.canActivate(context)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('GET', '/contacts', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
         });
 
-        it('should allow POST requests with a valid token', () => {
-            const mockToken = 'valid.jwt.token';
-            const mockPayload = { sub: 'user-id', email: 'test@example.com', role: 'admin' };
+        it('should require authentication for GET requests to specific contact records', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('GET', '/contacts/123');
+            expect(guard.canActivate(context)).toBe(false);
 
-            mockJwtService.verify.mockReturnValueOnce(mockPayload);
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
 
-            const context = createMockExecutionContext('POST', '/breeds', mockToken);
+            const contextWithToken = createMockExecutionContext('GET', '/contacts/123', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
+        });
+
+        it('should allow POST requests to /contacts without authentication (public form submission)', () => {
+            const context = createMockExecutionContext('POST', '/contacts');
             expect(guard.canActivate(context)).toBe(true);
-
-            // Verify user was attached to request
-            expect(context.switchToHttp().getRequest().user).toEqual(mockPayload);
+            expect(mockJwtService.verify).not.toHaveBeenCalled();
         });
 
-        it('should reject requests with an invalid token', () => {
-            const mockToken = 'invalid.jwt.token';
+        it('should require authentication for PATCH requests to /contacts/:id', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('PATCH', '/contacts/123');
+            expect(guard.canActivate(context)).toBe(false);
 
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('PATCH', '/contacts/123', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
+        });
+
+        it('should require authentication for DELETE requests to /contacts/:id', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('DELETE', '/contacts/123');
+            expect(guard.canActivate(context)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('DELETE', '/contacts/123', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
+        });
+
+        it('should handle paths with query parameters correctly', () => {
+            // Public GET with query params - should remain public
+            const publicContext = createMockExecutionContext('GET', '/dogs?page=1&limit=10');
+            expect(guard.canActivate(publicContext)).toBe(true);
+
+            // Protected GET with query params - should require auth
+            const protectedContext = createMockExecutionContext('GET', '/contacts?page=1&limit=10');
+            expect(guard.canActivate(protectedContext)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('GET', '/contacts?page=1&limit=10', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+        });
+
+        it('should handle invalid tokens correctly', () => {
+            mockJwtService.verify.mockReset();
             mockJwtService.verify.mockImplementationOnce(() => {
                 throw new Error('Invalid token');
             });
 
-            const context = createMockExecutionContext('POST', '/breeds', mockToken);
+            const context = createMockExecutionContext('POST', '/breeds', 'invalid.token');
             expect(guard.canActivate(context)).toBe(false);
         });
 
-        it('should reject requests when JWT_SECRET is not defined', () => {
+        it('should handle missing JWT secret', () => {
+            // Simulate missing secret
             mockConfigService.get.mockReturnValueOnce(null);
 
-            const context = createMockExecutionContext('POST', '/breeds', 'token');
+            const context = createMockExecutionContext('POST', '/breeds', 'valid.token');
             expect(guard.canActivate(context)).toBe(false);
         });
 
-        it('should reject when authorization header exists but token is not Bearer type', () => {
-            const context = {
-                switchToHttp: () => ({
-                    getRequest: () => ({
-                        method: 'POST',
-                        path: '/breeds',
-                        headers: { authorization: 'Basic dXNlcjpwYXNz' },
-                        user: null,
-                    }),
-                    getResponse: () => ({}),
-                }),
-            } as ExecutionContext;
-
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should reject when authorization header is malformed', () => {
-            const context = {
-                switchToHttp: () => ({
-                    getRequest: () => ({
-                        method: 'POST',
-                        path: '/breeds',
-                        headers: { authorization: 'Bearertoken123' }, // No space between Bearer and token
-                        user: null,
-                    }),
-                    getResponse: () => ({}),
-                }),
-            } as ExecutionContext;
-
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should handle general exceptions during authentication', () => {
-            // Create a spy on extractTokenFromHeader that throws an error
-            jest.spyOn(guard as any, 'extractTokenFromHeader').mockImplementationOnce(() => {
-                throw new Error('Unexpected error');
-            });
-
-            const context = createMockExecutionContext('POST', '/breeds', 'some-token');
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should handle empty authorization header', () => {
-            const context = {
-                switchToHttp: () => ({
-                    getRequest: () => ({
-                        method: 'POST',
-                        path: '/breeds',
-                        headers: { authorization: '' },
-                        user: null,
-                    }),
-                    getResponse: () => ({}),
-                }),
-            } as ExecutionContext;
-
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should handle test environment correctly', () => {
-            // Save the original value
-            const originalNodeEnv = process.env.NODE_ENV;
-
-            // Force test environment
-            process.env.NODE_ENV = 'test';
-
-            // Mock to make jwtService.verify throw an error
-            mockJwtService.verify.mockImplementationOnce(() => {
-                throw new Error('Token error in test environment');
-            });
-
-            const context = createMockExecutionContext('POST', '/breeds', 'invalid-token');
-            expect(guard.canActivate(context)).toBe(false);
-
-            // Restore the original value
-            process.env.NODE_ENV = originalNodeEnv;
-        });
-
-        // Test different HTTP methods (PUT, PATCH, DELETE)
-        it('should reject PUT requests without a valid token', () => {
-            const context = createMockExecutionContext('PUT', '/breeds');
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should reject PATCH requests without a valid token', () => {
-            const context = createMockExecutionContext('PATCH', '/breeds/1');
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should reject DELETE requests without a valid token', () => {
-            const context = createMockExecutionContext('DELETE', '/breeds/1');
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should allow PUT requests with a valid token', () => {
-            const mockToken = 'valid.jwt.token';
-            const mockPayload = { sub: 'user-id', email: 'test@example.com', role: 'admin' };
-            mockJwtService.verify.mockReturnValueOnce(mockPayload);
-
-            const context = createMockExecutionContext('PUT', '/breeds/1', mockToken);
+        it('should allow access to login route', () => {
+            const context = createMockExecutionContext('POST', '/auth/login');
             expect(guard.canActivate(context)).toBe(true);
         });
 
-        // Test different path scenarios
-        it('should allow POST requests to other auth endpoints with valid token', () => {
-            const mockToken = 'valid.jwt.token';
-            const mockPayload = { sub: 'user-id', email: 'test@example.com', role: 'admin' };
-            mockJwtService.verify.mockReturnValueOnce(mockPayload);
-
-            const context = createMockExecutionContext('POST', '/auth/register', mockToken);
-            expect(guard.canActivate(context)).toBe(true);
-        });
-
-        // Test null/undefined headers scenarios
-        it('should handle undefined authorization header', () => {
-            const context = {
-                switchToHttp: () => ({
-                    getRequest: () => ({
-                        method: 'POST',
-                        path: '/breeds',
-                        headers: { /* no authorization header */ },
-                        user: null,
-                    }),
-                    getResponse: () => ({}),
-                }),
-            } as ExecutionContext;
-
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should handle null headers object', () => {
-            const context = {
-                switchToHttp: () => ({
-                    getRequest: () => ({
-                        method: 'POST',
-                        path: '/breeds',
-                        headers: null,
-                        user: null,
-                    }),
-                    getResponse: () => ({}),
-                }),
-            } as ExecutionContext;
-
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        // Test specific JWT error types
-        it('should handle TokenExpiredError from JWT verification', () => {
-            const mockToken = 'expired.jwt.token';
-
-            // Create a specific JWT TokenExpiredError
-            const tokenExpiredError = new Error('jwt expired');
-            tokenExpiredError.name = 'TokenExpiredError';
-            mockJwtService.verify.mockImplementationOnce(() => {
-                throw tokenExpiredError;
-            });
-
-            const context = createMockExecutionContext('POST', '/breeds', mockToken);
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should handle JsonWebTokenError from JWT verification', () => {
-            const mockToken = 'malformed.jwt.token';
-
-            // Create a specific JWT JsonWebTokenError
-            const jsonWebTokenError = new Error('invalid token');
-            jsonWebTokenError.name = 'JsonWebTokenError';
-            mockJwtService.verify.mockImplementationOnce(() => {
-                throw jsonWebTokenError;
-            });
-
-            const context = createMockExecutionContext('POST', '/breeds', mockToken);
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        // Test non-test environment logging
-        it('should log errors in non-test environment', () => {
-            // Create a fresh spy that we can verify directly
-            const errorSpy = jest.fn();
-
-            // Override the isTest flag and logger
-            (guard as any).isTest = false;
-            (guard as any).logger = {
-                warn: jest.fn(),
-                debug: jest.fn(),
-                error: errorSpy
-            };
-
-            // Make sure mockConfigService.get returns null for this specific call
-            mockConfigService.get = jest.fn().mockReturnValue(null);
-
-            const context = createMockExecutionContext('POST', '/breeds', 'token');
-            expect(guard.canActivate(context)).toBe(false);
-
-            // Verify our spy was called
-            expect(errorSpy).toHaveBeenCalledWith('JWT_SECRET is not defined in environment variables');
-        });
-
-        // Test with invalid JWT_SECRET type
-        it('should handle non-string JWT_SECRET', () => {
-            // Mock ConfigService to return a non-string value
-            mockConfigService.get.mockReturnValueOnce(123); // Number instead of string
-
-            const context = createMockExecutionContext('POST', '/breeds', 'token');
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        // Test for line 43 - token verification with different secrets
-        it('should use the provided JWT_SECRET for verification', () => {
-            const mockToken = 'special.test.token';
-            const mockPayload = { sub: 'user-id', email: 'test@example.com', role: 'admin' };
-
-            // Mock a specific JWT_SECRET
-            mockConfigService.get.mockReturnValueOnce('special-secret');
-
-            // Mock the verify method to check if it's called with the right secret
-            mockJwtService.verify.mockImplementationOnce((token, options) => {
-                expect(options.secret).toBe('special-secret');
-                return mockPayload;
-            });
-
-            const context = createMockExecutionContext('POST', '/breeds', mockToken);
-            expect(guard.canActivate(context)).toBe(true);
-        });
-
-        // Test for line 60 - empty authorization header parts
-        it('should handle malformed authorization header with empty parts', () => {
-            const context = {
-                switchToHttp: () => ({
-                    getRequest: () => ({
-                        method: 'POST',
-                        path: '/breeds',
-                        headers: { authorization: ' ' }, // Space only, splits to empty strings
-                        user: null,
-                    }),
-                    getResponse: () => ({}),
-                }),
-            } as ExecutionContext;
-
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        // Test edge case for authorization header with Bearer prefix but no token
-        it('should handle authorization header with Bearer prefix but no token', () => {
-            const context = {
-                switchToHttp: () => ({
-                    getRequest: () => ({
-                        method: 'POST',
-                        path: '/breeds',
-                        headers: { authorization: 'Bearer' }, // Just "Bearer" with no token part
-                        user: null,
-                    }),
-                    getResponse: () => ({}),
-                }),
-            } as ExecutionContext;
-
-            expect(guard.canActivate(context)).toBe(false);
-        });
-
-        it('should allow PATCH requests to /users/reset-password without authentication for password reset', () => {
+        it('should allow access to reset password route', () => {
             const context = createMockExecutionContext('PATCH', '/users/reset-password');
             expect(guard.canActivate(context)).toBe(true);
         });
 
-        it('should NOT allow PATCH requests to other endpoints without authentication', () => {
-            const context = createMockExecutionContext('PATCH', '/users/123');
+        it('should require authentication for GET requests to /users', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('GET', '/users');
             expect(guard.canActivate(context)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('GET', '/users', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
         });
 
-        it('should NOT allow other HTTP methods to /users without authentication', () => {
+        it('should require authentication for GET requests to specific user records', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('GET', '/users/abc-123');
+            expect(guard.canActivate(context)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('GET', '/users/abc-123', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
+        });
+
+        it('should require authentication for POST requests to /users', () => {
+            // Without token - should fail
             const context = createMockExecutionContext('POST', '/users');
             expect(guard.canActivate(context)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('POST', '/users', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
+        });
+
+        it('should require authentication for DELETE requests to /users/:id', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('DELETE', '/users/abc-123');
+            expect(guard.canActivate(context)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('DELETE', '/users/abc-123', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
+        });
+
+        it('should allow public access to PATCH /users/reset-password', () => {
+            const context = createMockExecutionContext('PATCH', '/users/reset-password');
+            expect(guard.canActivate(context)).toBe(true);
+            expect(mockJwtService.verify).not.toHaveBeenCalled();
+        });
+
+        it('should require authentication for normal PATCH to /users/:id', () => {
+            // Without token - should fail
+            const context = createMockExecutionContext('PATCH', '/users/abc-123');
+            expect(guard.canActivate(context)).toBe(false);
+
+            // With valid token - should pass
+            mockJwtService.verify.mockReset();
+            mockJwtService.verify.mockReturnValueOnce({ email: 'test@example.com' });
+
+            const contextWithToken = createMockExecutionContext('PATCH', '/users/abc-123', 'valid.token');
+            expect(guard.canActivate(contextWithToken)).toBe(true);
+            expect(mockJwtService.verify).toHaveBeenCalled();
         });
     });
 

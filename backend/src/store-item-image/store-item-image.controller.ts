@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from
 import { StoreItemImageService } from './store-item-image.service';
 import { CreateStoreItemImageDto } from './dto/create-store-item-image.dto';
 import { UpdateStoreItemImageDto } from './dto/update-store-item-image.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('store-item-images')
 @Controller('store-item-image')
@@ -11,6 +11,7 @@ export class StoreItemImageController {
 
   @Post()
   @ApiOperation({ summary: 'Add new store item image' })
+  @ApiBearerAuth('access-token')
   create(@Body() createStoreItemImageDto: CreateStoreItemImageDto) {
     return this.storeItemImageService.create(createStoreItemImageDto);
   }
@@ -35,12 +36,14 @@ export class StoreItemImageController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update store item image' })
+  @ApiBearerAuth('access-token')
   update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStoreItemImageDto: UpdateStoreItemImageDto) {
     return this.storeItemImageService.update(id, updateStoreItemImageDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Remove store item image' })
+  @ApiBearerAuth('access-token')
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.storeItemImageService.remove(id);
   }
