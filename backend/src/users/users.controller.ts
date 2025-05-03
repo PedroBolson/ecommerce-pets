@@ -63,6 +63,20 @@ export class UsersController {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @Patch('reset-password')
+  @ApiOperation({ summary: 'Reset user password by email' })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Password has been successfully reset',
+    type: User
+  })
+  @ApiResponse({ status: 400, description: 'Bad request - validation error' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  resetPassword(@Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.resetPasswordByEmail(updateUserDto);
+  }
+
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user' })
   @ApiParam({ name: 'id', description: 'User ID' })

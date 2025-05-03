@@ -1,25 +1,45 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login/Login';
+import Dashboard from './pages/Dashboard/Dashboard';
 
-type Health = { status: string };
+const App: React.FC = () => {
+  const isAuthenticated = (): boolean => {
+    return localStorage.getItem('token') !== null;
+  };
 
-function App() {
-  const [health, setHealth] = useState<Health | null>(null);
-
-  useEffect(() => {
-    fetch('/api/health')
-      .then(res => res.json())
-      .then((data: Health) => setHealth(data))
-      .catch(err => console.error('Health check failed:', err));
-  }, []);
+  // Protected route component
+  const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    if (!isAuthenticated()) {
+      return <Navigate to="/login" />;
+    }
+    return <>{children}</>;
+  };
 
   return (
-    <div>
-      <h1>PetShop CompassUOL</h1>
-      {health
-        ? <p>🟢 API Health: {health.status}</p>
-        : <p>⏳ Verificando API...</p>}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        {/* Redirect to dashboard if authenticated, otherwise to login */}
+        <Route
+          path="/"
+          element={
+            isAuthenticated() ?
+              <Navigate to="/dashboard" /> :
+              <Navigate to="/login" />
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

@@ -121,4 +121,33 @@ export class UsersService {
     await this.userRepository.delete(id);
     return user;
   }
+
+  async resetPasswordByEmail(updateUserDto: UpdateUserDto) {
+    if (!updateUserDto.email) {
+      throw new BadRequestException('Email is required');
+    }
+
+    if (!updateUserDto.password) {
+      throw new BadRequestException('Password is required');
+    }
+
+    if (!updateUserDto.confirmPassword) {
+      throw new BadRequestException('Password confirmation is required');
+    }
+
+    if (updateUserDto.password !== updateUserDto.confirmPassword) {
+      throw new BadRequestException('Password confirmation does not match');
+    }
+
+    const user = await this.findByEmail(updateUserDto.email);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.password = await bcrypt.hash(updateUserDto.password, 10);
+    await this.userRepository.save(user);
+
+    const { password, ...result } = user;
+    return result;
+  }
 }

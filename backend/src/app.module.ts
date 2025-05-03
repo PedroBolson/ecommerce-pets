@@ -17,6 +17,7 @@ import { StoreItemModule } from './store-item/store-item.module';
 import { StoreItemImageModule } from './store-item-image/store-item-image.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { PetKnowledgeModule } from './pet-knowledge/pet-knowledge.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { AuthModule } from './auth/auth.module';
     StoreItemImageModule,
     UsersModule,
     AuthModule,
+    PetKnowledgeModule,
   ],
   controllers: [AppController],
   providers: [

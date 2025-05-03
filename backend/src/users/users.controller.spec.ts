@@ -16,6 +16,7 @@ describe('UsersController', () => {
             findOne: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),
+            resetPasswordByEmail: jest.fn(),
         };
 
         controller = new UsersController(service as unknown as UsersService);
@@ -59,6 +60,15 @@ describe('UsersController', () => {
 
         expect(await controller.update('u4', dto)).toEqual(updated);
         expect(service.update).toHaveBeenCalledWith('u4', dto);
+    });
+
+    it('should reset a user\'s password', async () => {
+        const dto: UpdateUserDto = { email: 'f@g.com', password: 'Pass1', confirmPassword: 'Pass1' };
+        const result = { id: 'u6', email: dto.email, role: 'user' } as User;
+        service.resetPasswordByEmail!.mockResolvedValue(result as any);
+
+        expect(await controller.resetPassword(dto)).toEqual(result);
+        expect(service.resetPasswordByEmail).toHaveBeenCalledWith(dto);
     });
 
     it('should remove a user', async () => {

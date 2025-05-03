@@ -345,6 +345,21 @@ describe('PublicWriteProtectedGuard', () => {
 
             expect(guard.canActivate(context)).toBe(false);
         });
+
+        it('should allow PATCH requests to /users/reset-password without authentication for password reset', () => {
+            const context = createMockExecutionContext('PATCH', '/users/reset-password');
+            expect(guard.canActivate(context)).toBe(true);
+        });
+
+        it('should NOT allow PATCH requests to other endpoints without authentication', () => {
+            const context = createMockExecutionContext('PATCH', '/users/123');
+            expect(guard.canActivate(context)).toBe(false);
+        });
+
+        it('should NOT allow other HTTP methods to /users without authentication', () => {
+            const context = createMockExecutionContext('POST', '/users');
+            expect(guard.canActivate(context)).toBe(false);
+        });
     });
 
     // Helper function to create mock execution context

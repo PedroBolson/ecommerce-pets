@@ -28,6 +28,11 @@ export class PublicWriteProtectedGuard implements CanActivate {
             return true;
         }
 
+        // Allow access to user reset password route
+        if (request.path === '/users/reset-password' && request.method === 'PATCH') {
+            return true;
+        }
+
         // For other methods (POST, PATCH, DELETE), verify authentication
         try {
             const token = this.extractTokenFromHeader(request);
