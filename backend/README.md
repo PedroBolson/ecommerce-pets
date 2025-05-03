@@ -105,6 +105,8 @@ $ npm run test:cov
 
 ## 📁 Project Structure
 
+## 📁 Project Structure
+
 ```bash
 backend/
 ├── src/
@@ -118,8 +120,11 @@ backend/
 │   ├── adoption-photo/        # Adoption photos
 │   ├── store-category/        # Store categories
 │   ├── store-item/            # Store items
+│   ├── store-item-image/      # Store item images
+│   ├── pet-knowledge/         # Pet educational content
+│   ├── contact/               # Contact forms and inquiries
 │   └── scripts/               # Utility scripts
-└── test/                      # E2E tests
+└── test/                      # E2E tests   # E2E tests
 ```
 
 ## 🛠️ Key Endpoints
@@ -164,8 +169,31 @@ backend/
 - `PATCH /adoption-photo` - Update adoption photo (admin only)
 - `DELETE /adoption-photo/:id` - Delete adoption photo (admin only)
 
+### Pet Knowledge Articles
+- `GET /pet-knowledge` - List all pet knowledge articles (with optional category filter and pagination)
+- `GET /pet-knowledge/:id` - Get article details
+- `POST /pet-knowledge` - Create new article (admin only)
+- `PATCH /pet-knowledge/:id` - Update article (admin only)
+- `DELETE /pet-knowledge/:id` - Soft delete article (admin only)
+
+### Contact
+- `POST /contact` - Submit contact form/inquiry
+- `GET /contact` - List all contact submissions (admin only)
+- `GET /contact/:id` - Get contact submission details (admin only)
+- `DELETE /contact/:id` - Delete contact submission (admin only)
+
 ### System
 - `GET /api/health` - API health check
+
+## 📊 Database Schema
+
+[Entity Relationship Diagram or link to diagram]
+
+Key relationships:
+- Breeds have many BreedImages
+- Dogs belong to a specific Breed
+- StoreItems belong to StoreCategories
+- Pet Knowledge articles can reference Breeds
 
 ## 🔐 Security
 
@@ -189,6 +217,12 @@ The API implements comprehensive security measures:
 - Input validation on all endpoints
 - Environmental configuration for sensitive data
 
+## ✍️ Author
+
+This project is developed and maintained by Pedro Bolson.
+
+[GitHub](https://github.com/PedroBolson) | 
+
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).  
