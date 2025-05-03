@@ -1,6 +1,5 @@
 import React from 'react';
 import './LoginButton.css';
-
 interface ButtonProps {
     type?: 'button' | 'submit' | 'reset';
     onClick?: () => void;

@@ -132,8 +132,8 @@ backend/
 - `POST /auth/login` - User authentication
 
 ### User Management
-- `GET /users` - List all users
-- `GET /users/:id` - Get user from id
+- `GET /users` - List all users (admin only)
+- `GET /users/:id` - Get user from id (admon only)
 - `POST /users` - Register new user (admin only)
 - `PATCH /users/:id` - Update user (admin only)
 

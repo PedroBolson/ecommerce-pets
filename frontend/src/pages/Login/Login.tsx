@@ -70,22 +70,20 @@ const Login: React.FC = () => {
     return (
         <div className="login-container">
             <div className="login-form-wrapper">
-                <h1>{isForgotPassword ? 'Reset Password' : 'Login to Pet Store'}</h1>
+                <h1>{isForgotPassword ? 'Reset Password' : 'Login to Monito Store'}</h1>
 
                 {error && <div className="error-message">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="login-form">
                     {isForgotPassword ? (
-                        // Forgot Password Form
                         <>
-                            <h2>Reset Password</h2>
                             <FormInput
                                 id="email"
                                 label="Email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter your email"
+                                placeholder="Email"
                                 required
                             />
                             <FormInput
@@ -117,16 +115,14 @@ const Login: React.FC = () => {
                             />
                         </>
                     ) : (
-                        // Regular Login Form
                         <>
-                            <h2>Login</h2>
                             <FormInput
                                 id="email"
                                 label="Email"
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter your email"
+                                placeholder="Email"
                                 required
                             />
                             <FormInput
@@ -135,7 +131,7 @@ const Login: React.FC = () => {
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
+                                placeholder="Password"
                                 required
                             />
                         </>
