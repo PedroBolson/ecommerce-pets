@@ -103,7 +103,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## 📁 Project Structure
 
 ## 📁 Project Structure
 
