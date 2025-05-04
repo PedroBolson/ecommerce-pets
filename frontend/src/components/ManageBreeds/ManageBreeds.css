@@ -20,6 +20,10 @@
     font-size: 1rem;
 }
 
+.create-button:hover {
+    background-color: #45a049;
+}
+
 .breeds-list {
     margin-top: 20px;
 }
@@ -107,9 +111,26 @@
     color: white;
 }
 
+.card-actions button:first-child:hover {
+    background-color: #1976D2;
+}
+
 .card-actions button:last-child {
     background-color: #f44336;
     color: white;
+}
+
+.card-actions button:last-child:hover {
+    background-color: #d32f2f;
+}
+
+.card-actions button:nth-child(2) {
+    background-color: #6E6E6E;
+    color: white;
+}
+
+.card-actions button:nth-child(2):hover {
+    background-color: #5A5A5A;
 }
 
 .form-container {
@@ -162,10 +183,18 @@
     color: white;
 }
 
+.form-actions button:first-child:hover {
+    background-color: #45a049;
+}
+
 .form-actions button:last-child {
     font-weight: bold;
     background-color: #f44336;
     color: white;
+}
+
+.form-actions button:last-child:hover {
+    background-color: #d32f2f;
 }
 
 .loading,

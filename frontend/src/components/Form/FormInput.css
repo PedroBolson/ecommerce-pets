@@ -5,9 +5,13 @@
     width: 100%;
 }
 
+.form-group input {
+    color: #103559;
+    font-weight: bold;
+}
+
 .form-group label {
     font-size: 1rem;
-    color: #333;
     margin-left: .5rem;
     color: #103559;
 }
