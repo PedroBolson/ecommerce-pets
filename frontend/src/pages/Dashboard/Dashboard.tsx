@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 import logo from "/Monito-logo.svg";
 import "../../index.css";
@@ -14,6 +14,14 @@ import ManageContacts from "../../components/ManageContacts/ManageContacts";
 
 const Dashboard: React.FC = () => {
     const [activeSection, setActiveSection] = useState<string | null>(null);
+    const [serverStatus, setServerStatus] = useState<'online' | 'offline' | 'loading'>('loading');
+
+    useEffect(() => {
+        handleStatus();
+        const intervalId = setInterval(handleStatus, 30000);
+
+        return () => clearInterval(intervalId);
+    }, []);
 
     const renderActiveSection = () => {
         switch (activeSection) {
@@ -42,10 +50,29 @@ const Dashboard: React.FC = () => {
                 );
         }
     };
+    const handleStatus = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/health`);
+            if (response.ok) {
+                setServerStatus('online');
+            } else {
+                setServerStatus('offline');
+            }
+        } catch (error) {
+            setServerStatus('offline');
+            console.error('Server status check failed:', error);
+        }
+    }
 
     return (
         <div className="dashboard-container">
             <div className="dashboard-header">
+                <div className="server-status-container">
+                    <div className={`server-status ${serverStatus}`}>
+                        <span className="status-indicator"></span>
+                        Server
+                    </div>
+                </div>
                 <h1 className="dashboard-title">
                     <img
                         src={logo}

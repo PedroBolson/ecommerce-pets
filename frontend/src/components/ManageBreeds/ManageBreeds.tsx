@@ -23,6 +23,7 @@ const ManageBreeds: React.FC = () => {
     const [photoManagementMode, setPhotoManagementMode] = useState(false);
     const [breedForPhotos, setBreedForPhotos] = useState<Breed | null>(null);
     const [uploadLoading, setUploadLoading] = useState(false);
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     // Form state
     const [formData, setFormData] = useState({
@@ -279,6 +280,11 @@ const ManageBreeds: React.FC = () => {
         }
     };
 
+    // Filter breeds based on search term
+    const filteredBreeds = breeds.filter(breed =>
+        breed.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (loading) return <div className="loading">Loading breeds...</div>;
     if (error) return <div className="error">Error: {error}</div>;
 
@@ -287,6 +293,16 @@ const ManageBreeds: React.FC = () => {
             <div className="section-header">
                 <h2>Manage Breeds</h2>
                 <button className="create-button" onClick={handleCreateNew}>New Breed</button>
+            </div>
+
+            <div className="search-container">
+                <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search breeds by name..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </div>
 
             {formMode && (
@@ -327,11 +343,13 @@ const ManageBreeds: React.FC = () => {
 
             {!formMode && (
                 <div className="breeds-list">
-                    {breeds.length === 0 ? (
-                        <p className="no-items">No breeds registered.</p>
+                    {filteredBreeds.length === 0 ? (
+                        <p className="no-items">
+                            {breeds.length === 0 ? "No breeds registered." : "No breeds match your search."}
+                        </p>
                     ) : (
                         <div className="breed-cards">
-                            {breeds.map(breed => (
+                            {filteredBreeds.map(breed => (
                                 <div key={breed.id} className="breed-card">
                                     <div className="breed-image">
                                         {breed.images && breed.images.length > 0 ? (

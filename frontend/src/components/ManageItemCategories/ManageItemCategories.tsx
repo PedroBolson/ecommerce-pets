@@ -14,6 +14,7 @@ const ManageItemCategory: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<StoreCategory | null>(null);
     const [formMode, setFormMode] = useState<'create' | 'edit' | null>(null);
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     // Form state
     const [formData, setFormData] = useState({
@@ -152,6 +153,10 @@ const ManageItemCategory: React.FC = () => {
         return category.items?.length || 0;
     };
 
+    const filteredCategories = categories.filter(category =>
+        category.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (loading) return <div className="loading">Loading categories...</div>;
     if (error) return <div className="error">Error: {error}</div>;
 
@@ -160,6 +165,16 @@ const ManageItemCategory: React.FC = () => {
             <div className="section-header">
                 <h2>Manage Store Categories</h2>
                 <button className="create-button" onClick={handleCreateNew}>New Category</button>
+            </div>
+
+            <div className="search-container">
+                <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search categories by name..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </div>
 
             {formMode && (
@@ -211,8 +226,10 @@ const ManageItemCategory: React.FC = () => {
 
             {!formMode && (
                 <div className="categories-list">
-                    {categories.length === 0 ? (
-                        <p className="no-items">No categories available.</p>
+                    {filteredCategories.length === 0 ? (
+                        <p className="no-items">
+                            {categories.length === 0 ? "No categories available." : "No categories match your search."}
+                        </p>
                     ) : (
                         <table className="categories-table">
                             <thead>
@@ -224,7 +241,7 @@ const ManageItemCategory: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {categories.map(category => (
+                                {filteredCategories.map(category => (
                                     <tr key={category.id}>
                                         <td>{category.name}</td>
                                         <td>
