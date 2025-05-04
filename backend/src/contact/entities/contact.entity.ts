@@ -27,6 +27,14 @@ export class Contact {
     @ApiProperty({ description: 'State' })
     state: string;
 
+    @Column({ nullable: true })
+    @ApiProperty({ description: 'Interest on product/dog with that uuid' })
+    interestUuid: string;
+
+    @Column({ default: true })
+    @ApiProperty({ description: 'Witch interest type are' })
+    isDog: boolean;
+
     @CreateDateColumn()
     @ApiProperty({ description: 'Creation date' })
     createdAt: Date;

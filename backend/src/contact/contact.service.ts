@@ -19,14 +19,19 @@ export class ContactService {
 
   async findAll(params: {
     page?: number,
-    limit?: number
+    limit?: number,
+    isActive?: boolean,
   } = {}): Promise<{ data: Contact[], pagination: any }> {
-    const { page = 1, limit = 10 } = params;
+    const { page = 1, limit = 10, isActive } = params;
 
     const queryBuilder = this.contactRepository
       .createQueryBuilder('contact')
-      .where('contact.isActive = :isActive', { isActive: true })
       .orderBy('contact.createdAt', 'DESC');
+
+    if (isActive !== undefined) {
+      queryBuilder.andWhere('contact.isActive = :isActive', { isActive });
+    }
+
 
     const total = await queryBuilder.getCount();
 
@@ -74,5 +79,11 @@ export class ContactService {
     const contact = await this.findOne(id);
     contact.isActive = false;
     await this.contactRepository.save(contact);
+  }
+
+  async getActiveContactsCount(): Promise<number> {
+    return this.contactRepository.count({
+      where: { isActive: true }
+    });
   }
 }

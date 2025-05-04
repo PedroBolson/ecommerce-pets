@@ -445,11 +445,6 @@ const ManagePetKnowledge: React.FC = () => {
                                 onChange={handleInputChange}
                                 placeholder="https://example.com/image.jpg"
                             />
-                            {formData.imageUrl && (
-                                <div className="image-preview">
-                                    <img src={formData.imageUrl} alt="Preview" />
-                                </div>
-                            )}
                         </div>
 
                         <div className="form-actions">

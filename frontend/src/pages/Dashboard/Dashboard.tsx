@@ -8,7 +8,7 @@ import ManageDogs from "../../components/ManageDogs/ManageDogs";
 import ManageItemCategories from "../../components/ManageItemCategories/ManageItemCategories";
 import ManageItems from "../../components/ManageItems/ManageItems";
 import ManagePetKnowledge from "../../components/ManagePetKnowledge/ManagePetKnowledge";
-// import ManageContacts from "../../components/ManageContacts/ManageContacts";
+import ManageContacts from "../../components/ManageContacts/ManageContacts";
 // import ManageAdoptionPhotos from "../../components/ManageAdoptionPhotos/ManageAdoptionPhotos";
 // import ManageUsers from "../../components/ManageUsers/ManageUsers";
 
@@ -27,8 +27,8 @@ const Dashboard: React.FC = () => {
                 return <ManageItems />;
             case "pet-knowledge":
                 return <ManagePetKnowledge />;
-            // case "contacts":
-            //     return <ManageContacts />;
+            case "contacts":
+                return <ManageContacts />;
             // case "adoption-photos":
             //     return <ManageAdoptionPhotos />;
             // case "users":

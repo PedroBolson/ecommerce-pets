@@ -22,7 +22,7 @@ export class ContactController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all contacts with pagination' })
+  @ApiOperation({ summary: 'Get contacts with pagination' })
   @ApiBearerAuth('access-token')
   @ApiQuery({
     name: 'page',
@@ -35,6 +35,12 @@ export class ContactController {
     required: false,
     description: 'Number of items per page',
     type: Number,
+  })
+  @ApiQuery({
+    name: 'isActive',
+    required: false,
+    description: 'Filter by active status',
+    type: Boolean,
   })
   @ApiResponse({
     status: 200,
@@ -62,10 +68,12 @@ export class ContactController {
   findAll(
     @Query('page') page?: number,
     @Query('limit') limit?: number,
+    @Query('isActive') isActive?: boolean,
   ) {
     return this.contactService.findAll({
       page: page ? Number(page) : undefined,
       limit: limit ? Number(limit) : undefined,
+      isActive: isActive !== undefined ? isActive === true || isActive === false : undefined,
     });
   }
 
@@ -114,5 +122,23 @@ export class ContactController {
   @ApiBearerAuth('access-token')
   remove(@Param('id') id: string) {
     return this.contactService.remove(id);
+  }
+
+  @Get('count/active')
+  @ApiOperation({ summary: 'Get count of active contacts' })
+  @ApiBearerAuth('access-token')
+  @ApiResponse({
+    status: 200,
+    description: 'Number of active contacts',
+    schema: {
+      type: 'object',
+      properties: {
+        count: { type: 'number' }
+      }
+    }
+  })
+  getActiveCount() {
+    return this.contactService.getActiveContactsCount()
+      .then(count => ({ count }));
   }
 }
