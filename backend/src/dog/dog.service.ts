@@ -76,6 +76,10 @@ export class DogService {
       queryBuilder.andWhere('dog.size = :size', { size: filters.size });
     }
 
+    if (filters.color) {
+      queryBuilder.andWhere('dog.color = :color', { color: filters.color });
+    }
+
     if (filters.minAge !== undefined) {
       queryBuilder.andWhere('dog.ageInMonths >= :minAge', { minAge: filters.minAge });
     }

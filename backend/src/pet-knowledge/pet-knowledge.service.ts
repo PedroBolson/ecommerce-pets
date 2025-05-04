@@ -55,7 +55,6 @@ export class PetKnowledgeService {
       }
 
       qb.leftJoinAndSelect('petKnowledge.breed', 'breed')
-        .where('petKnowledge.isActive = :isActive', { isActive: true });
 
       if (category) {
         qb.andWhere('petKnowledge.category = :category', { category });
@@ -81,7 +80,7 @@ export class PetKnowledgeService {
       return { data, pagination };
     } catch (error) {
       // Fallback para find() em caso de erro
-      const where: any = { isActive: true };
+      const where: any = {};
       if (category) {
         where.category = category;
       }
@@ -94,13 +93,14 @@ export class PetKnowledgeService {
   }
 
   /**
-   * Find one active article by ID, throwing if not found.
+   * Find one article by ID, throwing if not found.
    */
   async findOne(id: string): Promise<PetKnowledge> {
     const article = await this.petKnowledgeRepository.findOne({
-      where: { id, isActive: true },
+      where: { id },
       relations: ['breed'],
     });
+
     if (!article) {
       throw new NotFoundException(
         `Pet knowledge article with ID ${id} not found`,
@@ -135,12 +135,8 @@ export class PetKnowledgeService {
     return this.petKnowledgeRepository.save(article);
   }
 
-  /**
-   * Soft-delete (deactivate) an article.
-   */
   async remove(id: string): Promise<void> {
     const article = await this.findOne(id);
-    article.isActive = false;
-    await this.petKnowledgeRepository.save(article);
+    await this.petKnowledgeRepository.remove(article);
   }
 }

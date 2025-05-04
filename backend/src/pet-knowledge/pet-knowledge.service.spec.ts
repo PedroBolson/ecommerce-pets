@@ -32,7 +32,7 @@ describe('PetKnowledgeService', () => {
         save: jest.fn(),
         find: jest.fn(),
         findOne: jest.fn(),
-        // make createQueryBuilder a jest.fn so we can override it
+        remove: jest.fn(),
         createQueryBuilder: jest.fn(),
     };
     const mockBreedRepository = { findOne: jest.fn() };
@@ -125,12 +125,12 @@ describe('PetKnowledgeService', () => {
             mockPetKnowledgeRepository.createQueryBuilder.mockReturnValue(undefined);
         });
 
-        it('should return all active articles', async () => {
+        it('should return all articles', async () => {
             mockPetKnowledgeRepository.find.mockResolvedValue([mockPetKnowledge]);
 
             const result = (await service.findAll({})) as PetKnowledge[];
             expect(petKnowledgeRepository.find).toHaveBeenCalledWith({
-                where: { isActive: true },
+                where: {},
                 relations: ['breed'],
                 order: { createdAt: 'DESC' },
             });
@@ -142,7 +142,7 @@ describe('PetKnowledgeService', () => {
 
             const result = (await service.findAll({ category: 'Test Category' })) as PetKnowledge[];
             expect(petKnowledgeRepository.find).toHaveBeenCalledWith({
-                where: { category: 'Test Category', isActive: true },
+                where: { category: 'Test Category' },
                 relations: ['breed'],
                 order: { createdAt: 'DESC' },
             });
@@ -206,11 +206,13 @@ describe('PetKnowledgeService', () => {
             mockPetKnowledgeRepository.findOne.mockResolvedValue(mockPetKnowledge);
             const result = await service.findOne('test-id');
             expect(petKnowledgeRepository.findOne).toHaveBeenCalledWith({
-                where: { id: 'test-id', isActive: true },
+                where: { id: 'test-id' },
                 relations: ['breed'],
             });
             expect(result).toEqual(mockPetKnowledge);
         });
+
+        // Other tests remain unchanged
         it('throws if not found', async () => {
             mockPetKnowledgeRepository.findOne.mockResolvedValue(null);
             await expect(service.findOne('x')).rejects.toThrow(NotFoundException);
@@ -256,14 +258,17 @@ describe('PetKnowledgeService', () => {
     });
 
     describe('remove', () => {
-        it('soft-deletes article', async () => {
-            const article = { ...mockPetKnowledge };
-            mockPetKnowledgeRepository.findOne.mockResolvedValue(article);
-            mockPetKnowledgeRepository.save.mockResolvedValue({ ...article, isActive: false });
+        it('deletes article from database', async () => {
+            mockPetKnowledgeRepository.findOne.mockResolvedValue(mockPetKnowledge);
+            mockPetKnowledgeRepository.remove = jest.fn().mockResolvedValue(mockPetKnowledge);
 
             await service.remove('test-id');
-            expect(article.isActive).toBe(false);
-            expect(petKnowledgeRepository.save).toHaveBeenCalledWith(expect.objectContaining({ isActive: false }));
+
+            expect(petKnowledgeRepository.findOne).toHaveBeenCalledWith({
+                where: { id: 'test-id' },
+                relations: ['breed'],
+            });
+            expect(petKnowledgeRepository.remove).toHaveBeenCalledWith(mockPetKnowledge);
         });
 
         it('throws if not found', async () => {
