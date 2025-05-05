@@ -43,7 +43,6 @@ const ManageItems: React.FC = () => {
     const [itemForPhotos, setItemForPhotos] = useState<StoreItem | null>(null);
     const [uploadLoading, setUploadLoading] = useState(false);
 
-    // Filter states
     const [filterCategory, setFilterCategory] = useState<string>('');
     const [filterMinPrice, setFilterMinPrice] = useState<string>('');
     const [filterMaxPrice, setFilterMaxPrice] = useState<string>('');
@@ -52,7 +51,6 @@ const ManageItems: React.FC = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [limit] = useState(8);
 
-    // Form state
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -62,14 +60,12 @@ const ManageItems: React.FC = () => {
         sku: ''
     });
 
-    // Image form state
     const [imageFormData, setImageFormData] = useState<ImageFormData>({
         url: '',
         altText: '',
         displayOrder: 0
     });
 
-    // Photo pagination state
     const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
     const photosPerPage = 4;
 
@@ -83,14 +79,11 @@ const ManageItems: React.FC = () => {
             setLoading(true);
             const token = localStorage.getItem('token');
 
-            // Build URL with filter parameters
             let params = new URLSearchParams();
 
-            // Add pagination parameters
             params.append('page', currentPage.toString());
             params.append('limit', limit.toString());
 
-            // Add filter parameters if they exist
             if (filterCategory) {
                 params.append('categoryId', filterCategory);
             }
@@ -120,10 +113,9 @@ const ManageItems: React.FC = () => {
 
             const responseData = await response.json();
 
-            // Handle different response formats
             if (Array.isArray(responseData)) {
                 setItems(responseData);
-                setTotalPages(1); // If not paginated
+                setTotalPages(1);
             } else if (responseData && responseData.data && Array.isArray(responseData.data)) {
                 setItems(responseData.data);
                 setTotalPages(responseData.pagination?.totalPages || 1);
@@ -262,7 +254,7 @@ const ManageItems: React.FC = () => {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify(apiData) // Send mapped data
+                    body: JSON.stringify(apiData)
                 });
 
                 if (!response.ok) {
@@ -291,7 +283,7 @@ const ManageItems: React.FC = () => {
 
             setFormMode(null);
             setSelectedItem(null);
-            fetchItems(); // Refresh items after add/edit
+            fetchItems();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Error saving');
             console.error(err);
@@ -301,7 +293,7 @@ const ManageItems: React.FC = () => {
     const handleManagePhotos = (item: StoreItem) => {
         setPhotoManagementMode(true);
         setItemForPhotos(item);
-        setCurrentPhotoPage(1); // Reset to first page when managing photos
+        setCurrentPhotoPage(1);
         setImageFormData({
             url: '',
             altText: '',
@@ -324,13 +316,11 @@ const ManageItems: React.FC = () => {
         try {
             const token = localStorage.getItem('token');
 
-            // Create the image data with item ID
             const imageData = {
                 ...imageFormData,
                 itemId: itemForPhotos.id
             };
 
-            // Post to the store-item-image endpoint
             const response = await fetch('http://localhost:3000/store-item-image', {
                 method: 'POST',
                 headers: {
@@ -344,7 +334,6 @@ const ManageItems: React.FC = () => {
                 throw new Error(`Error adding image: ${response.status}`);
             }
 
-            // Fetch the updated item to get the new image
             const itemResponse = await fetch(`http://localhost:3000/store-item/${itemForPhotos.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -357,15 +346,12 @@ const ManageItems: React.FC = () => {
 
             const updatedItem = await itemResponse.json();
 
-            // Update the items list
             setItems(items.map(i =>
                 i.id === updatedItem.id ? updatedItem : i
             ));
 
-            // Update the item for photos
             setItemForPhotos(updatedItem);
 
-            // Reset form
             setImageFormData({
                 url: '',
                 altText: '',
@@ -396,7 +382,6 @@ const ManageItems: React.FC = () => {
                 throw new Error(`Error deleting photo: ${response.status}`);
             }
 
-            // Fetch the updated item
             const itemId = itemForPhotos?.id;
             if (itemId) {
                 const itemResponse = await fetch(`http://localhost:3000/store-item/${itemId}`, {
@@ -411,12 +396,10 @@ const ManageItems: React.FC = () => {
 
                 const updatedItem = await itemResponse.json();
 
-                // Update state
                 setItems(items.map(i =>
                     i.id === updatedItem.id ? updatedItem : i
                 ));
 
-                // Update the item for photos
                 setItemForPhotos(updatedItem);
             }
 
@@ -467,26 +450,25 @@ const ManageItems: React.FC = () => {
         }
     };
 
-    if (loading && items.length === 0) return <div className="loading">Loading items...</div>;
+    if (loading && items.length === 0) return <div className="mi-loading">Loading items...</div>;
 
     return (
         <div className="manage-items">
-            <div className="section-header">
+            <div className="mi-section-header">
                 <h2>Manage Store Items</h2>
-                <button className="create-button" onClick={handleCreateNew}>New Item</button>
+                <button className="mi-create-button" onClick={handleCreateNew}>New Item</button>
             </div>
 
-            {/* Filter Section */}
-            <div className="filters-container">
+            <div className="mi-filters-container">
                 <h3>Filters</h3>
-                <div className="filters-grid">
-                    <div className="filter-group">
+                <div className="mi-filters-grid">
+                    <div className="mi-filter-group">
                         <label>Category:</label>
                         <select
                             value={filterCategory}
                             onChange={(e) => {
                                 setFilterCategory(e.target.value);
-                                setCurrentPage(1); // Reset to first page when filtering
+                                setCurrentPage(1);
                             }}
                         >
                             <option value="">All Categories</option>
@@ -498,7 +480,7 @@ const ManageItems: React.FC = () => {
                         </select>
                     </div>
 
-                    <div className="filter-group">
+                    <div className="mi-filter-group">
                         <label>Stock Status:</label>
                         <select
                             value={filterInStock}
@@ -513,7 +495,7 @@ const ManageItems: React.FC = () => {
                         </select>
                     </div>
 
-                    <div className="filter-group price-range">
+                    <div className="mi-filter-group">
                         <label>Price Range:</label>
                         <div className="price-inputs">
                             <input
@@ -526,7 +508,7 @@ const ManageItems: React.FC = () => {
                                 }}
                                 min="0"
                             />
-                            <span>to</span>
+                            <span className='mi-span-to'>to</span>
                             <input
                                 type="number"
                                 placeholder="Max $"
@@ -540,24 +522,22 @@ const ManageItems: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="filter-actions">
-                        <button className="reset-filters" onClick={resetFilters}>
+                    <div className="mi-filter-actions">
+                        <button className="mi-reset-filters" onClick={resetFilters}>
                             Reset Filters
                         </button>
                     </div>
                 </div>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="mi-error">{error}</div>}
 
             {formMode && (
-                <div className="form-container">
-                    {/* Form content (unchanged) */}
+                <div className="mi-form-container">
                     <h3>{formMode === 'create' ? 'Create New Item' : 'Edit Item'}</h3>
                     <form onSubmit={handleSubmit}>
-                        {/* Form fields remain unchanged */}
-                        <div className="form-row">
-                            <div className="form-group">
+                        <div className="mi-form-row">
+                            <div className="mi-form-group">
                                 <label htmlFor="name">Name:</label>
                                 <input
                                     type="text"
@@ -569,7 +549,7 @@ const ManageItems: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="mi-form-group">
                                 <label htmlFor="sku">SKU:</label>
                                 <input
                                     type="text"
@@ -581,7 +561,7 @@ const ManageItems: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="mi-form-group">
                                 <label htmlFor="categoryId">Category:</label>
                                 <select
                                     id="categoryId"
@@ -600,8 +580,8 @@ const ManageItems: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
+                        <div className="mi-form-row">
+                            <div className="mi-form-group">
                                 <label htmlFor="price">Price ($):</label>
                                 <input
                                     type="number"
@@ -615,7 +595,7 @@ const ManageItems: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="mi-form-group">
                                 <label htmlFor="stock">Stock:</label>
                                 <input
                                     type="number"
@@ -629,7 +609,7 @@ const ManageItems: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-group">
+                        <div className="mi-form-group">
                             <label htmlFor="description">Description:</label>
                             <textarea
                                 id="description"
@@ -641,8 +621,8 @@ const ManageItems: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-actions">
-                            <button type="submit" className="save-button">
+                        <div className="mi-form-actions">
+                            <button type="submit" className="mi-save-button">
                                 {formMode === 'create' ? 'Create' : 'Save'}
                             </button>
                             <button
@@ -651,7 +631,7 @@ const ManageItems: React.FC = () => {
                                     setFormMode(null);
                                     setSelectedItem(null);
                                 }}
-                                className="cancel-button"
+                                className="mi-cancel-button"
                             >
                                 Cancel
                             </button>
@@ -661,40 +641,40 @@ const ManageItems: React.FC = () => {
             )}
 
             {!formMode && (
-                <div className="items-list">
-                    {loading && <div className="loading-overlay">Loading...</div>}
+                <div className="mi-items-list">
+                    {loading && <div className="mi-loading-overlay">Loading...</div>}
 
                     {items.length === 0 && !loading ? (
-                        <p className="no-items">No items found matching your filters.</p>
+                        <p className="mi-no-items">No items found matching your filters.</p>
                     ) : (
                         <>
-                            <div className="item-cards">
+                            <div className="mi-item-cards">
                                 {items.map(item => (
-                                    <div key={item.id} className="item-card">
-                                        <div className="item-image">
+                                    <div key={item.id} className="mi-item-card">
+                                        <div className="mi-item-image">
                                             {item.images && item.images.length > 0 ? (
                                                 <img src={item.images[0].url} alt={item.name} />
                                             ) : (
-                                                <div className="no-image">No image</div>
+                                                <div className="mi-no-image">No image</div>
                                             )}
                                         </div>
                                         <h3>{item.name}</h3>
-                                        <div className="item-details">
-                                            <span className="item-category">{getCategoryName(item)}</span>
-                                            <span className="price">{formatPrice(item.price)}</span>
+                                        <div className="mi-item-details">
+                                            <span className="mi-item-category">{getCategoryName(item)}</span>
+                                            <span className="mi-price">{formatPrice(item.price)}</span>
                                         </div>
                                         <p>{item.description.length > 100 ?
                                             `${item.description.substring(0, 100)}...` :
                                             item.description}
                                         </p>
-                                        <div className="stock-info">
-                                            <span className={`stock-level ${item.stock < 5 ? 'low-stock' : ''}`}>
+                                        <div className="mi-stock-info">
+                                            <span className={`mi-stock-level ${item.stock < 5 ? 'low-stock' : ''}`}>
                                                 {item.stock === 0 ? 'Out of stock' :
                                                     item.stock < 5 ? 'Low stock' : 'In stock'}
                                             </span>
-                                            <span className="quantity">Qty: {item.stock}</span>
+                                            <span className="mi-quantity">Qty: {item.stock}</span>
                                         </div>
-                                        <div className="card-actions">
+                                        <div className="mi-card-actions">
                                             <button onClick={() => handleEdit(item)}>Edit</button>
                                             <button onClick={() => handleManagePhotos(item)}>Photos</button>
                                             <button onClick={() => handleDelete(item.id)}>Delete</button>
@@ -703,9 +683,8 @@ const ManageItems: React.FC = () => {
                                 ))}
                             </div>
 
-                            {/* Pagination Controls */}
                             {totalPages > 1 && (
-                                <div className="pagination">
+                                <div className="mi-pagination">
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}
@@ -729,22 +708,22 @@ const ManageItems: React.FC = () => {
             )}
 
             {photoManagementMode && itemForPhotos && (
-                <div className="photo-management-overlay">
-                    <div className="photo-management-container">
+                <div className="mi-photo-management-overlay">
+                    <div className="mi-photo-management-container">
                         <h3>Manage Photos for {itemForPhotos.name}</h3>
 
-                        <div className="current-photos">
+                        <div className="mi-current-photos">
                             {itemForPhotos.images && itemForPhotos.images.length > 0 ? (
                                 <>
-                                    <div className="photo-grid">
+                                    <div className="mi-photo-grid">
                                         {getPaginatedPhotos(itemForPhotos.images).map(image => (
-                                            <div key={image.id} className="photo-item">
+                                            <div key={image.id} className="mi-photo-item">
                                                 <img src={image.url} alt={image.altText || itemForPhotos.name} />
-                                                <div className="photo-details">
+                                                <div className="mi-photo-details">
                                                     <p>Order: {image.displayOrder}</p>
                                                 </div>
                                                 <button
-                                                    className="delete-photo"
+                                                    className="mi-delete-photo"
                                                     onClick={() => handleDeletePhoto(image.id)}
                                                 >
                                                     Delete
@@ -754,19 +733,19 @@ const ManageItems: React.FC = () => {
                                     </div>
 
                                     {itemForPhotos.images.length > photosPerPage && (
-                                        <div className="pagination-controls">
+                                        <div className="mi-pagination">
                                             <button
-                                                className="pagination-button"
+                                                className="mi-pagination-button"
                                                 onClick={handlePrevPage}
                                                 disabled={currentPhotoPage === 1}
                                             >
                                                 Previous
                                             </button>
-                                            <span className="pagination-info">
+                                            <span className="mi-pagination-info">
                                                 Page {currentPhotoPage} of {getPageCount(itemForPhotos.images)}
                                             </span>
                                             <button
-                                                className="pagination-button"
+                                                className="mi-pagination-button"
                                                 onClick={handleNextPage}
                                                 disabled={currentPhotoPage === getPageCount(itemForPhotos.images)}
                                             >
@@ -776,13 +755,13 @@ const ManageItems: React.FC = () => {
                                     )}
                                 </>
                             ) : (
-                                <p className="no-photos">No photos available</p>
+                                <p className="mi-no-photos">No photos available</p>
                             )}
                         </div>
 
-                        <div className="add-photo-form">
+                        <div className="mi-add-photo-form">
                             <h4>Add New Photo</h4>
-                            <div className="form-group">
+                            <div className="mi-form-group">
                                 <label htmlFor="url">Image URL:</label>
                                 <input
                                     type="text"
@@ -794,7 +773,7 @@ const ManageItems: React.FC = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="mi-form-group">
                                 <label htmlFor="altText">Alt Text:</label>
                                 <input
                                     type="text"
@@ -805,7 +784,7 @@ const ManageItems: React.FC = () => {
                                     placeholder="Description of the image"
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="mi-form-group">
                                 <label htmlFor="displayOrder">Display Order:</label>
                                 <input
                                     type="number"
@@ -817,7 +796,7 @@ const ManageItems: React.FC = () => {
                                 />
                             </div>
                             <button
-                                className="add-photo-btn"
+                                className="mi-add-photo-btn"
                                 disabled={uploadLoading || !imageFormData.url.trim()}
                                 onClick={handleAddPhoto}
                             >
@@ -825,7 +804,7 @@ const ManageItems: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="modal-actions">
+                        <div className="mi-modal-actions">
                             <button onClick={() => {
                                 setPhotoManagementMode(false);
                                 setItemForPhotos(null);

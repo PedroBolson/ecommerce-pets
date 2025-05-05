@@ -301,16 +301,15 @@ const ManageDogs: React.FC = () => {
 
     return (
         <div className="manage-dogs">
-            <div className="section-header">
+            <div className="md-section-header">
                 <h2>Manage Dogs</h2>
-                <button className="create-button" onClick={handleCreateNew}>New Dog</button>
+                <button className="md-create-button" onClick={handleCreateNew}>New Dog</button>
             </div>
 
-            {/* Add filter controls */}
-            <div className="filters-container">
+            <div className="md-filters-container">
                 <h3>Filters</h3>
-                <div className="filters-grid">
-                    <div className="filter-group">
+                <div className="md-filters-grid">
+                    <div className="md-filter-group">
                         <label>Gender:</label>
                         <select
                             value={filterGender}
@@ -322,7 +321,7 @@ const ManageDogs: React.FC = () => {
                         </select>
                     </div>
 
-                    <div className="filter-group">
+                    <div className="md-filter-group">
                         <label>Color:</label>
                         <select
                             value={filterColor}
@@ -335,7 +334,7 @@ const ManageDogs: React.FC = () => {
                         </select>
                     </div>
 
-                    <div className="filter-group">
+                    <div className="md-filter-group">
                         <label>Size:</label>
                         <select
                             value={filterSize}
@@ -348,7 +347,7 @@ const ManageDogs: React.FC = () => {
                         </select>
                     </div>
 
-                    <div className="filter-group">
+                    <div className="md-filter-group">
                         <label>Breed:</label>
                         <select
                             value={filterBreed}
@@ -361,9 +360,9 @@ const ManageDogs: React.FC = () => {
                         </select>
                     </div>
 
-                    <div className="filter-group price-range">
+                    <div className="md-filter-group">
                         <label>Price Range:</label>
-                        <div className="price-inputs">
+                        <div className="md-price-inputs">
                             <input
                                 type="number"
                                 placeholder="Min $"
@@ -382,22 +381,22 @@ const ManageDogs: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="filter-actions">
-                        <button className="reset-filters" onClick={resetFilters}>
+                    <div className="md-filter-actions">
+                        <button className="md-reset-filters" onClick={resetFilters}>
                             Reset Filters
                         </button>
                     </div>
                 </div>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="md-error">{error}</div>}
 
             {formMode && (
-                <div className="form-container">
+                <div className="md-form-container">
                     <h3>{formMode === 'create' ? 'Add New Dog' : 'Edit Dog'}</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-row">
-                            <div className="form-group">
+                        <div className="md-form-row">
+                            <div className="md-form-group">
                                 <label htmlFor="sku">SKU:</label>
                                 <input
                                     type="text"
@@ -409,7 +408,7 @@ const ManageDogs: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="md-form-group">
                                 <label htmlFor="breedId">Breed:</label>
                                 <select
                                     id="breedId"
@@ -427,8 +426,8 @@ const ManageDogs: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
+                        <div className="md-form-row">
+                            <div className="md-form-group">
                                 <label htmlFor="gender">Gender:</label>
                                 <select
                                     id="gender"
@@ -441,7 +440,7 @@ const ManageDogs: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="form-group">
+                            <div className="md-form-group">
                                 <label htmlFor="ageInMonths">Age (months):</label>
                                 <input
                                     type="number"
@@ -455,7 +454,7 @@ const ManageDogs: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="md-form-group">
                                 <label htmlFor="size">Size:</label>
                                 <select
                                     id="size"
@@ -470,8 +469,8 @@ const ManageDogs: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
+                        <div className="md-form-row">
+                            <div className="md-form-group">
                                 <label htmlFor="color">Color:</label>
                                 <input
                                     type="text"
@@ -482,7 +481,7 @@ const ManageDogs: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="md-form-group">
                                 <label htmlFor="price">Price ($):</label>
                                 <input
                                     type="number"
@@ -497,8 +496,8 @@ const ManageDogs: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-row checkboxes">
-                            <div className="form-group checkbox">
+                        <div className="md-form-row md-checkboxes">
+                            <div className="md-form-group md-checkbox">
                                 <input
                                     type="checkbox"
                                     id="vaccinated"
@@ -509,7 +508,7 @@ const ManageDogs: React.FC = () => {
                                 <label htmlFor="vaccinated">Vaccinated</label>
                             </div>
 
-                            <div className="form-group checkbox">
+                            <div className="md-form-group md-checkbox">
                                 <input
                                     type="checkbox"
                                     id="dewormed"
@@ -520,7 +519,7 @@ const ManageDogs: React.FC = () => {
                                 <label htmlFor="dewormed">Dewormed</label>
                             </div>
 
-                            <div className="form-group checkbox">
+                            <div className="md-form-group md-checkbox">
                                 <input
                                     type="checkbox"
                                     id="microchip"
@@ -532,8 +531,8 @@ const ManageDogs: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
+                        <div className="md-form-row">
+                            <div className="md-form-group">
                                 <label htmlFor="certification">Certification:</label>
                                 <input
                                     type="text"
@@ -544,7 +543,7 @@ const ManageDogs: React.FC = () => {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="md-form-group">
                                 <label htmlFor="location">Location:</label>
                                 <input
                                     type="text"
@@ -556,7 +555,7 @@ const ManageDogs: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-group">
+                        <div className="md-form-group">
                             <label htmlFor="additionalInfo">Additional Information:</label>
                             <textarea
                                 id="additionalInfo"
@@ -567,8 +566,8 @@ const ManageDogs: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-actions">
-                            <button type="submit" className="save-button">
+                        <div className="md-form-actions">
+                            <button type="submit" className="md-save-button">
                                 {formMode === 'create' ? 'Create' : 'Save'}
                             </button>
                             <button
@@ -577,7 +576,7 @@ const ManageDogs: React.FC = () => {
                                     setFormMode(null);
                                     setSelectedDog(null);
                                 }}
-                                className="cancel-button"
+                                className="md-cancel-button"
                             >
                                 Cancel
                             </button>
@@ -587,13 +586,13 @@ const ManageDogs: React.FC = () => {
             )}
 
             {!formMode && (
-                <div className="dogs-list">
+                <div className="md-dogs-list">
                     {loading ? (
-                        <div className="loading">Loading dogs...</div>
+                        <div className="md-loading">Loading dogs...</div>
                     ) : dogs.length === 0 ? (
-                        <p className="no-items">No dogs found matching the filters.</p>
+                        <p className="md-no-items">No dogs found matching the filters.</p>
                     ) : (
-                        <table className="dogs-table">
+                        <table className="md-dogs-table">
                             <thead>
                                 <tr>
                                     <th>SKU</th>
@@ -618,22 +617,22 @@ const ManageDogs: React.FC = () => {
                                         <td>{dog.size}</td>
                                         <td>{dog.color}</td>
                                         <td>{formatPrice(dog.price)}</td>
-                                        <td>
+                                        <td className="md-health-cell">
                                             {dog.vaccinated ? '💉' : ''}
                                             {dog.dewormed ? '🪱' : ''}
                                             {dog.microchip ? '🔍' : ''}
                                         </td>
                                         <td>{dog.location || 'N/A'}</td>
-                                        <td className="actions-cell">
+                                        <td className="md-actions-cell">
                                             <button
                                                 onClick={() => handleEdit(dog)}
-                                                className="edit-button"
+                                                className="md-edit-button"
                                             >
                                                 Edit
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(dog.id)}
-                                                className="delete-button"
+                                                className="md-delete-button"
                                             >
                                                 Delete
                                             </button>

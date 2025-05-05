@@ -21,7 +21,6 @@
     font-display: swap;
 }
 
-/* Apply the font family globally */
 body,
 button,
 input,
@@ -36,7 +35,6 @@ select {
     font-family: 'Gilroy', sans-serif !important;
 }
 
-/* Set base styles for the body */
 body {
     margin: 0;
     padding: 0;

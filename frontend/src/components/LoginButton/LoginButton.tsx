@@ -20,7 +20,7 @@ export const LoginButton: React.FC<ButtonProps> = ({
             type={type}
             onClick={onClick}
             disabled={disabled}
-            className={`button ${className}`}
+            className={`login-button ${className}`}
         >
             {children}
         </button>

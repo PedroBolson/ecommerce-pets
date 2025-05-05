@@ -2,19 +2,19 @@
     padding: 20px 0;
 }
 
-.section-header {
+.map-section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.search-container {
+.map-search-container {
     margin-bottom: 20px;
     width: 100%;
 }
 
-.search-input {
+.map-search-input {
     width: 98%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -22,97 +22,120 @@
     font-size: 16px;
 }
 
-.search-input:focus {
+.map-search-input:focus {
     outline: none;
     border-color: #4a90e2;
     box-shadow: 0 0 3px rgba(74, 144, 226, 0.3);
 }
 
-.breeds-grid {
+.map-breeds-grid {
     width: 100%;
 }
 
-.breed-cards {
+.map-breed-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
 }
 
-.breed-card {
+.map-breed-card {
     border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    background-color: #fff;
+    border-radius: 25px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    overflow: hidden;
     transition: transform 0.2s ease;
+    background-color: #fff;
 }
 
-.breed-card:hover {
+.map-breed-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.breed-image {
-    height: 1200px;
+.map-breed-image {
+    height: 220px;
+    min-height: 220px;
+    max-height: 220px;
     width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f8f8;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    border-radius: 4px;
-    margin-bottom: 10px;
 }
 
-.breed-image img {
+.map-breed-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 15px;
+    border-radius: 25px 25px 0 0;
+    transition: transform 0.3s ease;
 }
 
-.no-image {
-    background-color: #f0f0f0;
-    color: #888;
+.map-breed-card:hover .map-breed-image img {
+    transform: scale(1.05);
+}
+
+.map-no-image {
+    color: #999;
+    text-align: center;
+    height: 100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
-    border-radius: 4px;
+    background-color: #f5f5f5;
 }
 
-.breed-card h3 {
-    margin: 10px 0;
+.map-breed-card h3 {
+    border-bottom: 1px solid #eee;
     font-size: 18px;
+    margin: 10px 0;
+    padding: 10px 15px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: #333;
 }
 
-.adoption-photos-count {
+.map-adoption-photos-count {
     color: #666;
-    margin-bottom: 15px;
     font-size: 14px;
+    margin-bottom: 15px;
+    padding: 0 15px;
+    flex-grow: 1;
 }
 
-.card-actions {
+.map-card-actions {
     display: flex;
     justify-content: center;
+    margin-top: auto;
+    padding: 10px 15px;
+    border-top: 1px solid #eee;
 }
 
-.manage-photos-button {
+.map-manage-photos-button {
+    font-size: 16px;
     background-color: #4a90e2;
     color: white;
     border: none;
-    border-radius: 4px;
-    padding: 8px 12px;
+    border-radius: 15px;
+    padding: 10px 18px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
+    transition: background-color 0.2s;
 }
 
-.manage-photos-button:hover {
+.map-manage-photos-button:hover {
     background-color: #357ab8;
 }
 
-.photo-management-overlay {
+.map-photo-management-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -125,7 +148,7 @@
     z-index: 1000;
 }
 
-.photo-management-container {
+.map-photo-management-container {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
@@ -135,14 +158,14 @@
     overflow-y: auto;
 }
 
-.photo-grid {
+.map-photo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 15px;
     margin-bottom: 20px;
 }
 
-.photo-item {
+.map-photo-item {
     border: 1px solid #ddd;
     border-radius: 6px;
     overflow: hidden;
@@ -151,20 +174,20 @@
     height: 80%;
 }
 
-.photo-item img {
+.map-photo-item img {
     width: 100%;
     height: 180px;
     object-fit: cover;
 }
 
-.photo-details {
+.map-photo-details {
     padding: 10px;
     background-color: #f9f9f9;
     font-size: 12px;
     flex-grow: 1;
 }
 
-.delete-photo {
+.map-delete-photo {
     display: block;
     width: 95%;
     background-color: #ff4d4f;
@@ -178,11 +201,11 @@
     transition: background-color 0.2s;
 }
 
-.delete-photo:hover {
+.map-delete-photo:hover {
     background-color: #ff7875;
 }
 
-.add-photo-form {
+.map-add-photo-form {
     margin-top: 20px;
     padding: 15px;
     border: 1px solid #ddd;
@@ -190,24 +213,24 @@
     background-color: #f9f9f9;
 }
 
-.form-group {
+.map-form-group {
     margin-bottom: 15px;
 }
 
-.form-group label {
+.map-form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: 500;
 }
 
-.form-group input {
+.map-form-group input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-.add-photo-btn {
+.map-add-photo-btn {
     background-color: #52c41a;
     color: white;
     border: none;
@@ -217,17 +240,17 @@
     font-weight: 500;
 }
 
-.add-photo-btn:disabled {
+.map-add-photo-btn:disabled {
     background-color: #d9d9d9;
     cursor: not-allowed;
 }
 
-.modal-actions {
+.map-modal-actions {
     margin-top: 20px;
     text-align: right;
 }
 
-.close-button {
+.map-close-button {
     background-color: #f0f0f0;
     border: 1px solid #d9d9d9;
     border-radius: 4px;
@@ -235,24 +258,24 @@
     cursor: pointer;
 }
 
-.no-photos,
-.no-items {
+.map-no-photos,
+.map-no-items {
     text-align: center;
     color: #888;
     padding: 20px;
 }
 
-.loading,
-.error {
+.map-loading,
+.map-error {
     text-align: center;
     padding: 20px;
 }
 
-.error {
+.map-error {
     color: #ff4d4f;
 }
 
-.pagination-controls {
+.map-pagination-controls {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -260,7 +283,7 @@
     gap: 15px;
 }
 
-.pagination-button {
+.map-pagination-button {
     background-color: #4a90e2;
     color: white;
     border: none;
@@ -270,12 +293,20 @@
     font-weight: 500;
 }
 
-.pagination-button:disabled {
+.map-pagination-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }
 
-.pagination-info {
+.map-pagination-info {
     font-size: 14px;
     color: #666;
+}
+
+#root>div>div.dashboard-content>div>div.breeds-grid>div>div>div.card-actions>button {
+    background-color: #2196F3;
+}
+
+#root>div>div.dashboard-content>div>div.breeds-grid>div>div>div.card-actions>button:hover {
+    background-color: #1976D2;
 }

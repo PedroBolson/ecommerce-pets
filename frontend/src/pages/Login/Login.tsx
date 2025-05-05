@@ -75,7 +75,7 @@ const Login: React.FC = () => {
                     <img src="/Monito-logo.svg" alt="Logo" className="logo" />
                 </h1>
 
-                {error && <div className="error-message">{error}</div>}
+                {error && <div className="login-error-message">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="login-form">
                     {isForgotPassword ? (
@@ -151,10 +151,10 @@ const Login: React.FC = () => {
                     </LoginButton>
                 </form>
 
-                <div className="additional-actions">
+                <div className="login-additional-actions">
                     <button
                         onClick={toggleForgotPassword}
-                        className="forgot-password-button"
+                        className="login-forgot-password-button"
                     >
                         {isForgotPassword ? 'Return to Login' : 'Forgot password?'}
                     </button>

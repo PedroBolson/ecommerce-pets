@@ -16,13 +16,11 @@ const ManageItemCategory: React.FC = () => {
     const [formMode, setFormMode] = useState<'create' | 'edit' | null>(null);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
-    // Form state
     const [formData, setFormData] = useState({
         name: '',
         description: ''
     });
 
-    // Load categories when component mounts
     useEffect(() => {
         fetchCategories();
     }, []);
@@ -157,20 +155,20 @@ const ManageItemCategory: React.FC = () => {
         category.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div className="loading">Loading categories...</div>;
-    if (error) return <div className="error">Error: {error}</div>;
+    if (loading) return <div className="mic-loading">Loading categories...</div>;
+    if (error) return <div className="mic-error">Error: {error}</div>;
 
     return (
         <div className="manage-categories">
-            <div className="section-header">
+            <div className="mic-section-header">
                 <h2>Manage Store Categories</h2>
-                <button className="create-button" onClick={handleCreateNew}>New Category</button>
+                <button className="mic-create-button" onClick={handleCreateNew}>New Category</button>
             </div>
 
-            <div className="search-container">
+            <div className="mic-search-container">
                 <input
                     type="text"
-                    className="search-input"
+                    className="mic-search-input"
                     placeholder="Search categories by name..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -178,10 +176,10 @@ const ManageItemCategory: React.FC = () => {
             </div>
 
             {formMode && (
-                <div className="form-container">
+                <div className="mic-form-container">
                     <h3>{formMode === 'create' ? 'Create New Category' : 'Edit Category'}</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className="mic-form-group">
                             <label htmlFor="name">Name:</label>
                             <input
                                 type="text"
@@ -194,7 +192,7 @@ const ManageItemCategory: React.FC = () => {
                             <small>Category name must be unique</small>
                         </div>
 
-                        <div className="form-group">
+                        <div className="mic-form-group">
                             <label htmlFor="description">Description:</label>
                             <textarea
                                 id="description"
@@ -205,8 +203,8 @@ const ManageItemCategory: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-actions">
-                            <button type="submit" className="save-button">
+                        <div className="mic-form-actions">
+                            <button type="submit" className="mic-save-button">
                                 {formMode === 'create' ? 'Create' : 'Save'}
                             </button>
                             <button
@@ -215,7 +213,7 @@ const ManageItemCategory: React.FC = () => {
                                     setFormMode(null);
                                     setSelectedCategory(null);
                                 }}
-                                className="cancel-button"
+                                className="mic-cancel-button"
                             >
                                 Cancel
                             </button>
@@ -225,13 +223,13 @@ const ManageItemCategory: React.FC = () => {
             )}
 
             {!formMode && (
-                <div className="categories-list">
+                <div className="mic-categories-list">
                     {filteredCategories.length === 0 ? (
-                        <p className="no-items">
+                        <p className="mic-no-items">
                             {categories.length === 0 ? "No categories available." : "No categories match your search."}
                         </p>
                     ) : (
-                        <table className="categories-table">
+                        <table className="mic-categories-table">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -251,17 +249,17 @@ const ManageItemCategory: React.FC = () => {
                                                     category.description) :
                                                 'No description'}
                                         </td>
-                                        <td className="items-count">{countItemsInCategory(category)}</td>
-                                        <td className="actions-cell">
+                                        <td className="mic-items-count">{countItemsInCategory(category)}</td>
+                                        <td className="mic-actions-cell">
                                             <button
                                                 onClick={() => handleEdit(category)}
-                                                className="edit-button"
+                                                className="mic-edit-button"
                                             >
                                                 Edit
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(category.id)}
-                                                className="delete-button"
+                                                className="mic-delete-button"
                                             >
                                                 Delete
                                             </button>

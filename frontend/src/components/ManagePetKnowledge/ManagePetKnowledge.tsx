@@ -307,24 +307,24 @@ const ManagePetKnowledge: React.FC = () => {
 
     return (
         <div className="manage-pet-knowledge">
-            <div className="section-header">
+            <div className="mpk-section-header">
                 <h2>Manage Pet Knowledge Articles</h2>
-                <div className="header-actions">
-                    <div className="active-count">
+                <div className="mpk-header-actions">
+                    <div className="mpk-active-count">
                         <span className={activeArticlesCount >= MAX_ACTIVE_ARTICLES ? 'count-full' : ''}>
                             Active Articles: {activeArticlesCount}/{MAX_ACTIVE_ARTICLES}
                         </span>
                         <small>Active articles are featured on the homepage</small>
                     </div>
-                    <div className="filter-controls">
-                        <span className="filter-label">Category:</span>
+                    <div className="mpk-filter-controls">
+                        <span className="mpk-filter-label">Category:</span>
                         <select
                             value={filterCategory}
                             onChange={(e) => {
                                 setFilterCategory(e.target.value);
                                 setCurrentPage(1);
                             }}
-                            className="category-filter"
+                            className="mpk-category-filter"
                         >
                             <option value="">All Categories</option>
                             {categories.map(category => (
@@ -332,18 +332,18 @@ const ManagePetKnowledge: React.FC = () => {
                             ))}
                         </select>
                     </div>
-                    <button className="create-button" onClick={handleCreateNew}>New Article</button>
+                    <button className="mpk-create-button" onClick={handleCreateNew}>New Article</button>
                 </div>
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="mpk-error-message">{error}</div>}
 
             {formMode && (
-                <div className="form-container">
+                <div className="mpk-form-container">
                     <h3>{formMode === 'create' ? 'Create New Article' : 'Edit Article'}</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="title">Title: <span className="required">*</span></label>
+                        <div className="mpk-form-group">
+                            <label htmlFor="title">Title: <span className="mpk-required">*</span></label>
                             <input
                                 type="text"
                                 id="title"
@@ -354,9 +354,9 @@ const ManagePetKnowledge: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="category">Category: <span className="required">*</span></label>
+                        <div className="mpk-form-row">
+                            <div className="mpk-form-group">
+                                <label htmlFor="category">Category: <span className="mpk-required">*</span></label>
                                 <select
                                     id="category"
                                     name="category"
@@ -370,7 +370,7 @@ const ManagePetKnowledge: React.FC = () => {
                                 </select>
                             </div>
 
-                            <div className="form-group">
+                            <div className="mpk-form-group">
                                 <label htmlFor="breedId">Breed: (Optional)</label>
                                 <select
                                     id="breedId"
@@ -386,8 +386,8 @@ const ManagePetKnowledge: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="form-group checkbox-group">
-                            <div className="checkbox-container">
+                        <div className="mpk-form-group mpk-checkbox-group">
+                            <div className="mpk-checkbox-container">
                                 <input
                                     type="checkbox"
                                     id="isActive"
@@ -398,21 +398,21 @@ const ManagePetKnowledge: React.FC = () => {
                                 />
                                 <label htmlFor="isActive">
                                     Featured on Homepage
-                                    <span className="helper-text">
+                                    <span className="mpk-helper-text">
                                         (Limited to {MAX_ACTIVE_ARTICLES} articles)
                                     </span>
                                 </label>
                             </div>
                             {activeArticlesCount >= MAX_ACTIVE_ARTICLES && !formData.isActive && (
-                                <p className="limit-warning">
+                                <p className="mpk-limit-warning">
                                     Maximum active articles limit reached ({MAX_ACTIVE_ARTICLES}).
                                     You must deactivate an article before activating a new one.
                                 </p>
                             )}
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="summary">Summary: <span className="required">*</span></label>
+                        <div className="mpk-form-group">
+                            <label htmlFor="summary">Summary: <span className="mpk-required">*</span></label>
                             <textarea
                                 id="summary"
                                 name="summary"
@@ -423,8 +423,8 @@ const ManagePetKnowledge: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="content">Content: <span className="required">*</span></label>
+                        <div className="mpk-form-group">
+                            <label htmlFor="content">Content: <span className="mpk-required">*</span></label>
                             <textarea
                                 id="content"
                                 name="content"
@@ -435,7 +435,7 @@ const ManagePetKnowledge: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-group">
+                        <div className="mpk-form-group">
                             <label htmlFor="imageUrl">Image URL: (Optional)</label>
                             <input
                                 type="url"
@@ -447,8 +447,8 @@ const ManagePetKnowledge: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-actions">
-                            <button type="submit" className="save-button">
+                        <div className="mpk-form-actions">
+                            <button type="submit" className="mpk-save-button">
                                 {formMode === 'create' ? 'Create' : 'Save'}
                             </button>
                             <button
@@ -458,7 +458,7 @@ const ManagePetKnowledge: React.FC = () => {
                                     setSelectedArticle(null);
                                     setError(null);
                                 }}
-                                className="cancel-button"
+                                className="mpk-cancel-button"
                             >
                                 Cancel
                             </button>
@@ -468,51 +468,51 @@ const ManagePetKnowledge: React.FC = () => {
             )}
 
             {!formMode && (
-                <div className="articles-list">
+                <div className="mpk-articles-list">
                     {loading ? (
-                        <div className="loading">Loading articles...</div>
+                        <div className="mpk-loading">Loading articles...</div>
                     ) : articles.length === 0 ? (
-                        <p className="no-items">No articles available.</p>
+                        <p className="mpk-no-items">No articles available.</p>
                     ) : (
                         <>
-                            <div className="article-cards">
+                            <div className="mpk-article-cards">
                                 {articles.map(article => (
-                                    <div key={article.id} className={`article-card ${article.isActive ? 'active-article' : 'inactive-article'}`}>
+                                    <div key={article.id} className={`mpk-article-card ${article.isActive ? 'mpk-active-article' : 'mpk-inactive-article'}`}>
                                         {article.isActive && (
-                                            <div className="active-badge">
+                                            <div className="mpk-active-badge">
                                                 Featured
                                             </div>
                                         )}
-                                        <div className="article-image">
+                                        <div className="mpk-article-image">
                                             {article.imageUrl ? (
                                                 <img src={article.imageUrl} alt={article.title} />
                                             ) : (
-                                                <div className="no-image">No Image</div>
+                                                <div className="mpk-no-image">No Image</div>
                                             )}
                                         </div>
-                                        <div className="article-content">
+                                        <div className="mpk-article-content">
                                             <h3>{truncateText(article.title, 50)}</h3>
-                                            <div className="article-meta">
+                                            <div className="mpk-article-meta">
                                                 <span className="category">{article.category}</span>
                                                 {article.breed && (
                                                     <span className="breed">Breed: {article.breed.name}</span>
                                                 )}
-                                                <span className="date">{formatDate(article.createdAt)}</span>
-                                                <span className={`status-indicator ${article.isActive ? 'status-active' : 'status-inactive'}`}>
+                                                <span className={`mpk-status-indicator ${article.isActive ? 'mpk-status-active' : 'mpk-status-inactive'}`}>
                                                     {article.isActive ? 'Active' : 'Inactive'}
                                                 </span>
+                                                <span className="date">{formatDate(article.createdAt)}</span>
                                             </div>
-                                            <p className="summary">{truncateText(article.summary, 120)}</p>
-                                            <div className="article-actions">
+                                            <p className="mpk-summary">{truncateText(article.summary, 120)}</p>
+                                            <div className="mpk-article-actions">
                                                 <button
                                                     onClick={() => handleEdit(article)}
-                                                    className="edit-button"
+                                                    className="mpk-edit-button"
                                                 >
                                                     Edit
                                                 </button>
                                                 <button
                                                     onClick={() => handleToggleActive(article)}
-                                                    className={`feature-button ${article.isActive ? 'featured' : ''}`}
+                                                    className={`mpk-feature-button ${article.isActive ? 'featured' : ''}`}
                                                     disabled={!article.isActive && activeArticlesCount >= MAX_ACTIVE_ARTICLES}
                                                     title={!article.isActive && activeArticlesCount >= MAX_ACTIVE_ARTICLES ?
                                                         `Limited to ${MAX_ACTIVE_ARTICLES} active articles` : ''}
@@ -521,7 +521,7 @@ const ManagePetKnowledge: React.FC = () => {
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(article.id)}
-                                                    className="delete-button"
+                                                    className="mpk-delete-button"
                                                 >
                                                     Delete
                                                 </button>
@@ -532,7 +532,7 @@ const ManagePetKnowledge: React.FC = () => {
                             </div>
 
                             {totalPages > 1 && (
-                                <div className="pagination">
+                                <div className="mpk-pagination">
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}

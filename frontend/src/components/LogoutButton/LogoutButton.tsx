@@ -15,7 +15,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ className = "" }) => {
         localStorage.removeItem("user");
 
         // Redirect to login page
-        navigate("/");
+        navigate("/login");
     };
 
     return (

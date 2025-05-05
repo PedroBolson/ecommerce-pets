@@ -312,20 +312,20 @@ const ManageBreeds: React.FC = () => {
         breed.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div className="loading">Loading breeds...</div>;
-    if (error) return <div className="error">Error: {error}</div>;
+    if (loading) return <div className="mb-loading">Loading breeds...</div>;
+    if (error) return <div className="mb-error">Error: {error}</div>;
 
     return (
         <div className="manage-breeds">
-            <div className="section-header">
+            <div className="mb-section-header">
                 <h2>Manage Breeds</h2>
-                <button className="create-button" onClick={handleCreateNew}>New Breed</button>
+                <button className="mb-create-button" onClick={handleCreateNew}>New Breed</button>
             </div>
 
-            <div className="search-container">
+            <div className="mb-search-container">
                 <input
                     type="text"
-                    className="search-input"
+                    className="mb-search-input"
                     placeholder="Search breeds by name..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -333,10 +333,10 @@ const ManageBreeds: React.FC = () => {
             </div>
 
             {formMode && (
-                <div className="form-container">
+                <div className="mb-form-container">
                     <h3>{formMode === 'create' ? 'Create New Breed' : 'Edit Breed'}</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className="mb-form-group">
                             <label htmlFor="name">Name:</label>
                             <input
                                 type="text"
@@ -348,7 +348,7 @@ const ManageBreeds: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-group">
+                        <div className="mb-form-group">
                             <label htmlFor="description">Description:</label>
                             <textarea
                                 id="description"
@@ -360,7 +360,7 @@ const ManageBreeds: React.FC = () => {
                             />
                         </div>
 
-                        <div className="form-actions">
+                        <div className="mb-form-actions">
                             <button type="submit">{formMode === 'create' ? 'Create' : 'Save'}</button>
                             <button type="button" onClick={() => setFormMode(null)}>Cancel</button>
                         </div>
@@ -369,20 +369,20 @@ const ManageBreeds: React.FC = () => {
             )}
 
             {!formMode && (
-                <div className="breeds-list">
+                <div className="mb-breeds-list">
                     {filteredBreeds.length === 0 ? (
-                        <p className="no-items">
+                        <p className="mb-no-items">
                             {breeds.length === 0 ? "No breeds registered." : "No breeds match your search."}
                         </p>
                     ) : (
-                        <div className="breed-cards">
+                        <div className="mb-breed-cards">
                             {filteredBreeds.map(breed => (
-                                <div key={breed.id} className="breed-card">
-                                    <div className="breed-image">
+                                <div key={breed.id} className="mb-breed-card">
+                                    <div className="mb-breed-image">
                                         {breed.images && breed.images.length > 0 ? (
                                             <img src={breed.images[0].url} alt={breed.images[0].altText || breed.name} />
                                         ) : (
-                                            <div className="no-image">No image</div>
+                                            <div className="mb-no-image">No image</div>
                                         )}
                                     </div>
                                     <h3>{breed.name}</h3>
@@ -390,7 +390,7 @@ const ManageBreeds: React.FC = () => {
                                         `${breed.description.substring(0, 100)}...` :
                                         breed.description}
                                     </p>
-                                    <div className="card-actions">
+                                    <div className="mb-card-actions">
                                         <button onClick={() => handleEdit(breed)}>Edit</button>
                                         <button onClick={() => handleManagePhotos(breed)}>Photos</button>
                                         <button onClick={() => handleDelete(breed.id)}>Delete</button>
@@ -403,22 +403,22 @@ const ManageBreeds: React.FC = () => {
             )}
 
             {photoManagementMode && breedForPhotos && (
-                <div className="photo-management-overlay">
-                    <div className="photo-management-container">
+                <div className="mb-photo-management-overlay">
+                    <div className="mb-photo-management-container">
                         <h3>Manage Photos for {breedForPhotos.name}</h3>
 
-                        <div className="current-photos">
+                        <div className="mb-current-photos">
                             {breedForPhotos.images && breedForPhotos.images.length > 0 ? (
                                 <>
-                                    <div className="photo-grid">
+                                    <div className="mb-photo-grid">
                                         {getPaginatedPhotos(breedForPhotos.images).map(image => (
-                                            <div key={image.id} className="photo-item">
+                                            <div key={image.id} className="mb-photo-item">
                                                 <img src={image.url} alt={image.altText || breedForPhotos.name} />
-                                                <div className="photo-details">
+                                                <div className="mb-photo-details">
                                                     <p>Order: {image.displayOrder}</p>
                                                 </div>
                                                 <button
-                                                    className="delete-photo"
+                                                    className="mb-delete-photo"
                                                     onClick={() => handleDeletePhoto(image.id)}
                                                 >
                                                     Delete
@@ -429,19 +429,19 @@ const ManageBreeds: React.FC = () => {
 
                                     {/* Pagination controls - only show if more than one page */}
                                     {breedForPhotos.images.length > photosPerPage && (
-                                        <div className="pagination-controls">
+                                        <div className="mb-pagination-controls">
                                             <button
-                                                className="pagination-button"
+                                                className="mb-pagination-button"
                                                 onClick={handlePrevPage}
                                                 disabled={currentPhotoPage === 1}
                                             >
                                                 Previous
                                             </button>
-                                            <span className="pagination-info">
+                                            <span className="mb-pagination-info">
                                                 Page {currentPhotoPage} of {getPageCount(breedForPhotos.images)}
                                             </span>
                                             <button
-                                                className="pagination-button"
+                                                className="mb-pagination-button"
                                                 onClick={handleNextPage}
                                                 disabled={currentPhotoPage === getPageCount(breedForPhotos.images)}
                                             >
@@ -451,13 +451,13 @@ const ManageBreeds: React.FC = () => {
                                     )}
                                 </>
                             ) : (
-                                <p className="no-photos">No photos available</p>
+                                <p className="mb-no-photos">No photos available</p>
                             )}
                         </div>
 
-                        <div className="add-photo-form">
+                        <div className="mb-add-photo-form">
                             <h4>Add New Photo</h4>
-                            <div className="form-group">
+                            <div className="mb-form-group">
                                 <label htmlFor="url">Image URL:</label>
                                 <input
                                     type="text"
@@ -469,7 +469,7 @@ const ManageBreeds: React.FC = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="mb-form-group">
                                 <label htmlFor="altText">Alt Text:</label>
                                 <input
                                     type="text"
@@ -480,7 +480,7 @@ const ManageBreeds: React.FC = () => {
                                     placeholder="Description of the image"
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="mb-form-group">
                                 <label htmlFor="displayOrder">Display Order:</label>
                                 <input
                                     type="number"
@@ -492,7 +492,7 @@ const ManageBreeds: React.FC = () => {
                                 />
                             </div>
                             <button
-                                className="add-photo-btn"
+                                className="mb-add-photo-btn"
                                 disabled={uploadLoading || !imageFormData.url.trim()}
                                 onClick={handleAddPhoto}
                             >
@@ -500,7 +500,7 @@ const ManageBreeds: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="modal-actions">
+                        <div className="mb-modal-actions">
                             <button onClick={() => {
                                 setPhotoManagementMode(false);
                                 setBreedForPhotos(null);

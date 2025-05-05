@@ -2,14 +2,33 @@
     width: 100%;
 }
 
-.section-header {
+.mic-section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.create-button {
+.mic-search-container {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.mic-search-input {
+    width: 98%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.mic-search-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 3px rgba(74, 144, 226, 0.3);
+    outline: none;
+}
+
+.mic-create-button {
     font-weight: bold;
     background-color: #4CAF50;
     color: white;
@@ -20,11 +39,11 @@
     font-size: 1rem;
 }
 
-.create-button:hover {
+.mic-create-button:hover {
     background-color: #45a049;
 }
 
-.form-container {
+.mic-form-container {
     background-color: #f9f9f9;
     border-radius: 15px;
     padding: 25px;
@@ -32,32 +51,32 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.form-container h3 {
+.mic-form-container h3 {
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 22px;
 }
 
-.form-group {
+.mic-form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.mic-form-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
     font-size: 16px;
 }
 
-.form-group small {
+.mic-form-group small {
     color: #666;
     font-size: 12px;
     display: block;
     margin-top: 5px;
 }
 
-.form-group input,
-.form-group textarea {
+.mic-form-group input,
+.mic-form-group textarea {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
@@ -67,17 +86,17 @@
     font-family: 'Gilroy', sans-serif;
 }
 
-.form-group textarea {
+.mic-form-group textarea {
     resize: vertical;
 }
 
-.form-actions {
+.mic-form-actions {
     display: flex;
     gap: 10px;
     margin-top: 25px;
 }
 
-.form-actions button {
+.mic-form-actions button {
     font-weight: bold;
     padding: 12px 20px;
     border: none;
@@ -87,29 +106,29 @@
     transition: background-color 0.2s;
 }
 
-.save-button {
+.mic-save-button {
     background-color: #4CAF50;
     color: white;
 }
 
-.save-button:hover {
+.mic-save-button:hover {
     background-color: #45a049;
 }
 
-.cancel-button {
+.mic-cancel-button {
     background-color: #f44336;
     color: white;
 }
 
-.cancel-button:hover {
+.mic-cancel-button:hover {
     background-color: #d32f2f;
 }
 
-.categories-list {
+.mic-categories-list {
     margin-top: 20px;
 }
 
-.categories-table {
+.mic-categories-table {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
@@ -118,38 +137,41 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.categories-table th,
-.categories-table td {
+.mic-categories-table th,
+.mic-categories-table td {
     padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #eee;
 }
 
-.categories-table th {
+.mic-categories-table th {
     background-color: #f5f5f5;
     font-weight: bold;
     font-size: 16px;
 }
 
-.categories-table tr:last-child td {
+.mic-categories-table tr:last-child td {
     border-bottom: none;
 }
 
-.categories-table tbody tr:hover {
-    background-color: #f9f9f9;
+.mic-categories-table tbody tr:nth-child(even) {
+    background-color: #eeeeee;
 }
 
-.items-count {
+.mic-categories-table tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+.mic-items-count {
     text-align: center;
     font-weight: bold;
 }
 
-.actions-cell {
+.mic-actions-cell {
     white-space: nowrap;
     width: 150px;
 }
 
-.actions-cell button {
+.mic-actions-cell button {
     margin-right: 8px;
     padding: 6px 12px;
     border: none;
@@ -159,33 +181,33 @@
     font-weight: bold;
 }
 
-.edit-button {
+.mic-edit-button {
     background-color: #2196F3;
     color: white;
 }
 
-.edit-button:hover {
+.mic-edit-button:hover {
     background-color: #0b7dda;
 }
 
-.delete-button {
+.mic-delete-button {
     background-color: #f44336;
     color: white;
 }
 
-.delete-button:hover {
+.mic-delete-button:hover {
     background-color: #d32f2f;
 }
 
-.loading,
-.error,
-.no-items {
+.mic-loading,
+.mic-error,
+.mic-no-items {
     padding: 20px;
     text-align: center;
     font-size: 18px;
     color: #666;
 }
 
-.error {
+.mic-error {
     color: #f44336;
 }

@@ -18,7 +18,7 @@ interface UserData {
     role: string;
 }
 
-// Função para decodificar o JWT
+// Function to decode JWT token
 const decodeToken = (token: string): UserData | null => {
     try {
         const base64Payload = token.split('.')[1];
@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
     const renderActiveSection = () => {
         if (userData?.role !== 'admin' && ['users'].includes(activeSection || '')) {
             return (
-                <div className="access-denied">
+                <div className="db-access-denied">
                     <h2>Restrict Acess</h2>
                     <p>You don't have permission to acees this, sorry.</p>
                 </div>
@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
                 return <ManageUsers />;
             default:
                 return (
-                    <div className="dashboard-welcome">
+                    <div className="db-dashboard-welcome">
                         {userData?.role === 'admin' ? (
                             <>
                                 <h2>Welcome back to the admin panel!</h2>
@@ -109,13 +109,13 @@ const Dashboard: React.FC = () => {
                                 <p>You can manage content you have permission to edit.</p>
                             </>
                         )}
-                        <div className="user-info-card">
-                            <div className="user-avatar">
+                        <div className="db-user-info-card">
+                            <div className="db-user-avatar">
                                 {userData?.email?.charAt(0).toUpperCase() || '?'}
                             </div>
-                            <div className="user-details">
+                            <div className="db-user-details">
                                 <h3>{userData?.email || 'User'}</h3>
-                                <span className={`user-role ${userData?.role}`}>
+                                <span className={`db-user-role ${userData?.role}`}>
                                     {userData?.role === 'admin' ? 'Administrator' : 'Content Manager'}
                                 </span>
                             </div>
@@ -129,49 +129,49 @@ const Dashboard: React.FC = () => {
         const commonMenuItems = (
             <>
                 <button
-                    className={`menu-button ${activeSection === "breeds" ? "active" : ""}`}
+                    className={`db-menu-button ${activeSection === "breeds" ? "active" : ""}`}
                     onClick={() => setActiveSection("breeds")}
                 >
                     Breeds
                 </button>
 
                 <button
-                    className={`menu-button ${activeSection === "dogs" ? "active" : ""}`}
+                    className={`db-menu-button ${activeSection === "dogs" ? "active" : ""}`}
                     onClick={() => setActiveSection("dogs")}
                 >
                     Dogs
                 </button>
 
                 <button
-                    className={`menu-button ${activeSection === "item-categories" ? "active" : ""}`}
+                    className={`db-menu-button ${activeSection === "item-categories" ? "active" : ""}`}
                     onClick={() => setActiveSection("item-categories")}
                 >
                     Item Categories
                 </button>
 
                 <button
-                    className={`menu-button ${activeSection === "items" ? "active" : ""}`}
+                    className={`db-menu-button ${activeSection === "items" ? "active" : ""}`}
                     onClick={() => setActiveSection("items")}
                 >
                     Items
                 </button>
 
                 <button
-                    className={`menu-button ${activeSection === "pet-knowledge" ? "active" : ""}`}
+                    className={`db-menu-button ${activeSection === "pet-knowledge" ? "active" : ""}`}
                     onClick={() => setActiveSection("pet-knowledge")}
                 >
                     Pet Knowledge
                 </button>
 
                 <button
-                    className={`menu-button ${activeSection === "contacts" ? "active" : ""}`}
+                    className={`db-menu-button ${activeSection === "contacts" ? "active" : ""}`}
                     onClick={() => setActiveSection("contacts")}
                 >
                     Contacts
                 </button>
 
                 <button
-                    className={`menu-button ${activeSection === "adoption-photos" ? "active" : ""}`}
+                    className={`db-menu-button ${activeSection === "adoption-photos" ? "active" : ""}`}
                     onClick={() => setActiveSection("adoption-photos")}
                 >
                     Adoption Photos
@@ -182,7 +182,7 @@ const Dashboard: React.FC = () => {
         const adminMenuItems = (
             <>
                 <button
-                    className={`menu-button admin-only ${activeSection === "users" ? "active" : ""}`}
+                    className={`db-menu-button admin-only ${activeSection === "users" ? "active" : ""}`}
                     onClick={() => setActiveSection("users")}
                 >
                     Users
@@ -191,7 +191,7 @@ const Dashboard: React.FC = () => {
         );
 
         return (
-            <div className="dashboard-menu">
+            <div className="db-dashboard-menu">
                 {commonMenuItems}
                 {userData?.role === 'admin' && adminMenuItems}
             </div>
@@ -199,32 +199,32 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <div className="dashboard-container">
-            <div className="dashboard-header">
-                <div className="server-status-container">
-                    <div className={`server-status ${serverStatus}`}>
-                        <span className="status-indicator"></span>
+        <div className="db-dashboard-container">
+            <div className="db-dashboard-header">
+                <div className="db-server-status-container">
+                    <div className={`db-server-status ${serverStatus}`}>
+                        <span className="db-status-indicator"></span>
                         Server
                     </div>
                 </div>
-                <h1 className="dashboard-title">
+                <h1 className="db-dashboard-title">
                     <img
                         src={logo}
                         alt="Logo"
-                        className="dashboard-logo"
+                        className="db-dashboard-logo"
                     />
                     dashboard
-                    {userData?.role === 'admin' && <span className="admin-badge">Admin</span>}
+                    {userData?.role === 'admin' && <span className="db-admin-badge">Admin</span>}
                 </h1>
-                <div className="dashboard-logout">
-                    <div className="user-email">{userData?.email}</div>
+                <div className="db-dashboard-logout">
+                    <div className="db-user-email">{userData?.email}</div>
                     <LogoutButton />
                 </div>
             </div>
 
             {renderMenu()}
 
-            <div className="dashboard-content">
+            <div className="db-dashboard-content">
                 {renderActiveSection()}
             </div>
         </div>

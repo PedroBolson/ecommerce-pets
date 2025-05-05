@@ -34,7 +34,6 @@ const ManageAdoptionPhotos: React.FC = () => {
     const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
     const photosPerPage = 4;
 
-    // Image form state
     const [imageFormData, setImageFormData] = useState<ImageFormData>({
         url: '',
         altText: '',
@@ -216,52 +215,52 @@ const ManageAdoptionPhotos: React.FC = () => {
         breed.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (loading) return <div className="loading">Loading breeds...</div>;
-    if (error) return <div className="error">Error: {error}</div>;
+    if (loading) return <div className="map-loading">Loading breeds...</div>;
+    if (error) return <div className="map-error">Error: {error}</div>;
 
     return (
         <div className="manage-adoption-photos">
-            <div className="section-header">
+            <div className="map-section-header">
                 <h2>Manage Adoption Photos</h2>
             </div>
 
-            <div className="search-container">
+            <div className="map-search-container">
                 <input
                     type="text"
-                    className="search-input"
+                    className="map-search-input"
                     placeholder="Search breeds by name..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
 
-            <div className="breeds-grid">
+            <div className="map-breeds-grid">
                 {filteredBreeds.length === 0 ? (
-                    <p className="no-items">
+                    <p className="map-no-items">
                         {breeds.length === 0 ? "No breeds registered." : "No breeds match your search."}
                     </p>
                 ) : (
-                    <div className="breed-cards">
+                    <div className="map-breed-cards">
                         {filteredBreeds.map(breed => (
-                            <div key={breed.id} className="breed-card">
-                                <div className="breed-image">
+                            <div key={breed.id} className="map-breed-card">
+                                <div className="map-breed-image">
                                     {breed.images && breed.images.length > 0 ? (
                                         <img src={breed.images[0].url} alt={breed.images[0].altText || breed.name} />
                                     ) : (
-                                        <div className="no-image">No image</div>
+                                        <div className="map-no-image">No image</div>
                                     )}
                                 </div>
                                 <h3>{breed.name}</h3>
 
-                                <div className="adoption-photos-count">
+                                <div className="map-adoption-photos-count">
                                     <span>
                                         {adoptionPhotos[breed.id]?.length || 0} adoption photos
                                     </span>
                                 </div>
 
-                                <div className="card-actions">
+                                <div className="map-card-actions">
                                     <button
-                                        className="manage-photos-button"
+                                        className="map-manage-photos-button"
                                         onClick={() => handleManagePhotos(breed)}
                                     >
                                         Manage Photos
@@ -274,23 +273,23 @@ const ManageAdoptionPhotos: React.FC = () => {
             </div>
 
             {photoManagementMode && selectedBreed && (
-                <div className="photo-management-overlay">
-                    <div className="photo-management-container">
+                <div className="map-photo-management-overlay">
+                    <div className="map-photo-management-container">
                         <h3>Manage Adoption Photos for {selectedBreed.name}</h3>
 
-                        <div className="current-photos">
+                        <div className="map-current-photos">
                             {adoptionPhotos[selectedBreed.id]?.length > 0 ? (
                                 <>
-                                    <div className="photo-grid">
+                                    <div className="map-photo-grid">
                                         {getPaginatedPhotos(adoptionPhotos[selectedBreed.id]).map(photo => (
-                                            <div key={photo.id} className="photo-item">
+                                            <div key={photo.id} className="map-photo-item">
                                                 <img src={photo.url} alt={photo.altText || `Adoption photo for ${selectedBreed.name}`} />
-                                                <div className="photo-details">
+                                                <div className="map-photo-details">
                                                     <p>{photo.altText || 'No description'}</p>
                                                     <p>Order: {photo.displayOrder}</p>
                                                 </div>
                                                 <button
-                                                    className="delete-photo"
+                                                    className="map-delete-photo"
                                                     onClick={() => handleDeletePhoto(photo.id)}
                                                 >
                                                     Delete
@@ -300,19 +299,19 @@ const ManageAdoptionPhotos: React.FC = () => {
                                     </div>
 
                                     {getPageCount(adoptionPhotos[selectedBreed.id]) > 1 && (
-                                        <div className="pagination-controls">
+                                        <div className="map-pagination-controls">
                                             <button
-                                                className="pagination-button"
+                                                className="map-pagination-button"
                                                 onClick={handlePrevPage}
                                                 disabled={currentPhotoPage === 1}
                                             >
                                                 Previous
                                             </button>
-                                            <span className="pagination-info">
+                                            <span className="map-pagination-info">
                                                 Page {currentPhotoPage} of {getPageCount(adoptionPhotos[selectedBreed.id])}
                                             </span>
                                             <button
-                                                className="pagination-button"
+                                                className="map-pagination-button"
                                                 onClick={handleNextPage}
                                                 disabled={currentPhotoPage === getPageCount(adoptionPhotos[selectedBreed.id])}
                                             >
@@ -322,13 +321,13 @@ const ManageAdoptionPhotos: React.FC = () => {
                                     )}
                                 </>
                             ) : (
-                                <p className="no-photos">No adoption photos available for this breed</p>
+                                <p className="map-no-photos">No adoption photos available for this breed</p>
                             )}
                         </div>
 
-                        <div className="add-photo-form">
+                        <div className="map-add-photo-form">
                             <h4>Add New Adoption Photo</h4>
-                            <div className="form-group">
+                            <div className="map-form-group">
                                 <label htmlFor="url">Image URL:</label>
                                 <input
                                     type="text"
@@ -340,7 +339,7 @@ const ManageAdoptionPhotos: React.FC = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="map-form-group">
                                 <label htmlFor="altText">Description (Alt Text):</label>
                                 <input
                                     type="text"
@@ -351,7 +350,7 @@ const ManageAdoptionPhotos: React.FC = () => {
                                     placeholder="Happy family with their adopted dog"
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="map-form-group">
                                 <label htmlFor="displayOrder">Display Order:</label>
                                 <input
                                     type="number"
@@ -363,7 +362,7 @@ const ManageAdoptionPhotos: React.FC = () => {
                                 />
                             </div>
                             <button
-                                className="add-photo-btn"
+                                className="map-add-photo-btn"
                                 disabled={uploadLoading || !imageFormData.url.trim()}
                                 onClick={handleAddPhoto}
                             >
@@ -371,9 +370,9 @@ const ManageAdoptionPhotos: React.FC = () => {
                             </button>
                         </div>
 
-                        <div className="modal-actions">
+                        <div className="map-modal-actions">
                             <button
-                                className="close-button"
+                                className="map-close-button"
                                 onClick={() => {
                                     setPhotoManagementMode(false);
                                     setSelectedBreed(null);

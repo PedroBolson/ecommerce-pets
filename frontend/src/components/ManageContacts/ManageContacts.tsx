@@ -270,21 +270,21 @@ const ManageContacts: React.FC = () => {
 
     return (
         <div className="manage-contacts">
-            <div className="section-header">
+            <div className="mc-section-header">
                 <h2>Contact Management</h2>
-                <div className="filter-tabs">
+                <div className="mc-filter-tabs">
                     <button
-                        className={`tab-button ${filterActive === undefined ? 'active' : ''}`}
+                        className={`mc-tab-button ${filterActive === undefined ? 'active' : ''}`}
                         onClick={() => {
                             setFilterActive(undefined);
                             setCurrentPage(1);
                         }}
                     >
                         Messages
-                        {activeCount > 0 && <span className="notification-badge">{activeCount}</span>}
+                        {activeCount > 0 && <span className="mc-notification-badge">{activeCount}</span>}
                     </button>
                     <button
-                        className={`tab-button ${filterActive === false ? 'false' : ''}`}
+                        className={`mc-tab-button ${filterActive === false ? 'false' : ''}`}
                         onClick={() => {
                             setFilterActive(false);
                             setCurrentPage(1);
@@ -295,7 +295,7 @@ const ManageContacts: React.FC = () => {
                 </div>
             </div>
 
-            <div className="search-bar">
+            <div className="mc-search-bar">
                 <input
                     type="text"
                     placeholder="Search by name, email or phone..."
@@ -304,19 +304,19 @@ const ManageContacts: React.FC = () => {
                 />
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="mc-error-message">{error}</div>}
 
             {loading ? (
-                <div className="loading">Loading contacts...</div>
+                <div className="mc-loading">Loading contacts...</div>
             ) : filteredContacts.length === 0 ? (
-                <p className="no-contacts">
+                <p className="mc-no-contacts">
                     {filterActive === false
                         ? "No resolved contacts found."
                         : "No messages found."}
                 </p>
             ) : (
-                <div className="contacts-container">
-                    <table className="contacts-table">
+                <div className="mc-contacts-container">
+                    <table className="mc-contacts-table">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -330,35 +330,35 @@ const ManageContacts: React.FC = () => {
                         </thead>
                         <tbody>
                             {filteredContacts.map(contact => (
-                                <tr key={contact.id} className={contact.isActive ? 'active-row' : 'inactive-row'}>
+                                <tr key={contact.id} className={contact.isActive ? 'mc-active-row' : 'mc-inactive-row'}>
                                     <td>{contact.fullName}</td>
                                     <td>{contact.email}</td>
                                     <td>{contact.phone || 'N/A'}</td>
                                     <td>{formatDate(contact.createdAt)}</td>
                                     <td>
-                                        <span className={`status-badge ${contact.isActive ? 'active' : 'resolved'}`}>
+                                        <span className={`mc-status-badge ${contact.isActive ? 'mc-active' : 'mc-resolved'}`}>
                                             {contact.isActive ? 'Active' : 'Resolved'}
                                         </span>
                                     </td>
                                     <td>
                                         {contact.interestUuid ? (
-                                            <span className={`interest-badge ${contact.isDog ? 'dog-badge' : 'product-badge'}`}>
+                                            <span className={`mc-interest-badge ${contact.isDog ? 'mc-dog-badge' : 'mc-product-badge'}`}>
                                                 {contact.isDog ? 'Dog' : 'Product'}
                                             </span>
                                         ) : (
                                             <span>No</span>
                                         )}
                                     </td>
-                                    <td className="actions-cell">
+                                    <td className="mc-actions-cell">
                                         <button
-                                            className="view-button"
+                                            className="mc-view-button"
                                             onClick={() => handleViewDetails(contact)}
                                         >
                                             View
                                         </button>
                                         {contact.isActive && (
                                             <button
-                                                className="resolve-button"
+                                                className="mc-resolve-button"
                                                 onClick={() => handleMarkResolved(contact.id)}
                                             >
                                                 Resolve
@@ -371,7 +371,7 @@ const ManageContacts: React.FC = () => {
                     </table>
 
                     {totalPages > 1 && (
-                        <div className="pagination">
+                        <div className="mc-pagination">
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
@@ -393,64 +393,64 @@ const ManageContacts: React.FC = () => {
             )}
 
             {showDetails && selectedContact && (
-                <div className="contact-details-overlay">
-                    <div className="contact-details">
+                <div className="mc-contact-details-overlay">
+                    <div className="mc-contact-details">
                         <h3>Contact Details</h3>
 
-                        <div className="detail-row">
-                            <span className="label">Name:</span>
-                            <span className="value">{selectedContact.fullName}</span>
+                        <div className="mc-detail-row">
+                            <span className="mc-label">Name:</span>
+                            <span className="mc-value">{selectedContact.fullName}</span>
                         </div>
 
-                        <div className="detail-row">
-                            <span className="label">Email:</span>
-                            <span className="value">{selectedContact.email}</span>
+                        <div className="mc-detail-row">
+                            <span className="mc-label">Email:</span>
+                            <span className="mc-value">{selectedContact.email}</span>
                         </div>
 
                         {selectedContact.phone && (
-                            <div className="detail-row">
-                                <span className="label">Phone:</span>
-                                <span className="value">{selectedContact.phone}</span>
+                            <div className="mc-detail-row">
+                                <span className="mc-label">Phone:</span>
+                                <span className="mc-value">{selectedContact.phone}</span>
                             </div>
                         )}
 
                         {selectedContact.city && (
-                            <div className="detail-row">
-                                <span className="label">City:</span>
-                                <span className="value">{selectedContact.city}</span>
+                            <div className="mc-detail-row">
+                                <span className="mc-label">City:</span>
+                                <span className="mc-value">{selectedContact.city}</span>
                             </div>
                         )}
 
                         {selectedContact.state && (
-                            <div className="detail-row">
-                                <span className="label">State:</span>
-                                <span className="value">{selectedContact.state}</span>
+                            <div className="mc-detail-row">
+                                <span className="mc-label">State:</span>
+                                <span className="mc-value">{selectedContact.state}</span>
                             </div>
                         )}
 
-                        <div className="detail-row">
-                            <span className="label">Date:</span>
-                            <span className="value">{formatDate(selectedContact.createdAt)}</span>
+                        <div className="mc-detail-row">
+                            <span className="mc-label">Date:</span>
+                            <span className="mc-value">{formatDate(selectedContact.createdAt)}</span>
                         </div>
 
                         {selectedContact.interestUuid && (
-                            <div className="interest-section">
+                            <div className="mc-interest-section">
                                 <h4>Interest Information</h4>
                                 {loadingInterestItem ? (
                                     <p>Loading interest item...</p>
                                 ) : interestItem ? (
-                                    <div className="interest-details">
-                                        <div className="detail-row">
-                                            <span className="label">Type:</span>
-                                            <span className="value">
+                                    <div className="mc-interest-details">
+                                        <div className="mc-detail-row">
+                                            <span className="mc-label">Type:</span>
+                                            <span className="mc-value">
                                                 {interestItem.type === 'storeItem' ? 'Product' : 'Dog'}
                                             </span>
                                         </div>
 
                                         {(interestItem.type !== 'dog' || (interestItem.data as Dog).name) && (
-                                            <div className="detail-row">
-                                                <span className="label">Name:</span>
-                                                <span className="value">
+                                            <div className="mc-detail-row">
+                                                <span className="mc-label">Name:</span>
+                                                <span className="mc-value">
                                                     {interestItem.type === 'dog'
                                                         ? `${(interestItem.data as Dog).sku}`
                                                         : String(interestItem.data.name)}
@@ -460,15 +460,15 @@ const ManageContacts: React.FC = () => {
 
                                         {interestItem.type === 'storeItem' && (
                                             <>
-                                                <div className="detail-row">
-                                                    <span className="label">Category:</span>
-                                                    <span className="value">
+                                                <div className="mc-detail-row">
+                                                    <span className="mc-label">Category:</span>
+                                                    <span className="mc-value">
                                                         {String((interestItem.data as StoreItem).category)}
                                                     </span>
                                                 </div>
-                                                <div className="detail-row">
-                                                    <span className="label">Price:</span>
-                                                    <span className="value">
+                                                <div className="mc-detail-row">
+                                                    <span className="mc-label">Price:</span>
+                                                    <span className="mc-value">
                                                         ${typeof (interestItem.data as StoreItem).price === 'number' ? (interestItem.data as StoreItem).price.toFixed(2) : '0.00'}
                                                     </span>
                                                 </div>
@@ -477,33 +477,33 @@ const ManageContacts: React.FC = () => {
 
                                         {interestItem.type === 'dog' && (
                                             <>
-                                                <div className="detail-row">
-                                                    <span className="label">Breed:</span>
-                                                    <span className="value">
+                                                <div className="mc-detail-row">
+                                                    <span className="mc-label">Breed:</span>
+                                                    <span className="mc-value">
                                                         {typeof (interestItem.data as Dog).breed === 'string' ? (interestItem.data as Dog).breed : (interestItem.data as Dog).breed?.name || 'Unknown Breed'}
                                                     </span>
                                                 </div>
 
                                                 {(interestItem.data as Dog).gender && (
-                                                    <div className="detail-row">
-                                                        <span className="label">Gender:</span>
-                                                        <span className="value">
+                                                    <div className="mc-detail-row">
+                                                        <span className="mc-label">Gender:</span>
+                                                        <span className="mc-value">
                                                             {String((interestItem.data as Dog).gender)}
                                                         </span>
                                                     </div>
                                                 )}
 
-                                                <div className="detail-row">
-                                                    <span className="label">Age:</span>
-                                                    <span className="value">
+                                                <div className="mc-detail-row">
+                                                    <span className="mc-label">Age:</span>
+                                                    <span className="mc-value">
                                                         {(interestItem.data as Dog).age} {(interestItem.data as Dog).age === 1 ? 'year' : 'years'}
                                                         {(interestItem.data as Dog).ageInMonths ? ` (${(interestItem.data as Dog).ageInMonths} months)` : ''}
                                                     </span>
                                                 </div>
 
-                                                <div className="detail-row">
-                                                    <span className="label">Price:</span>
-                                                    <span className="value">
+                                                <div className="mc-detail-row">
+                                                    <span className="mc-label">Price:</span>
+                                                    <span className="mc-value">
                                                         ${typeof (interestItem.data as Dog).price === 'number' ? ((interestItem.data as Dog).price || 0).toFixed(2) : '0.00'}
                                                     </span>
                                                 </div>
@@ -512,9 +512,9 @@ const ManageContacts: React.FC = () => {
 
                                         {(interestItem.type === 'storeItem' && (interestItem.data as StoreItem).description) ||
                                             (interestItem.type === 'dog' && (interestItem.data as Dog).additionalInfo) ? (
-                                            <div className="detail-row">
-                                                <span className="label">Description:</span>
-                                                <span className="value">
+                                            <div className="mc-detail-row">
+                                                <span className="mc-label">Description:</span>
+                                                <span className="mc-value">
                                                     {(() => {
                                                         const desc = interestItem.type === 'storeItem'
                                                             ? (interestItem.data as StoreItem).description
@@ -528,7 +528,7 @@ const ManageContacts: React.FC = () => {
                                         ) : null}
 
                                         {interestItem.type === 'storeItem' && interestItem.data.imageUrl && (
-                                            <div className="interest-image">
+                                            <div className="mc-interest-image">
                                                 <img
                                                     src={interestItem.data.imageUrl}
                                                     alt={interestItem.data.name}
@@ -542,17 +542,17 @@ const ManageContacts: React.FC = () => {
                             </div>
                         )}
 
-                        <div className="detail-actions">
+                        <div className="mc-detail-actions">
                             {selectedContact.isActive && (
                                 <button
-                                    className="resolve-button"
+                                    className="mc-resolve-button"
                                     onClick={() => handleMarkResolved(selectedContact.id)}
                                 >
                                     Mark as Resolved
                                 </button>
                             )}
                             <button
-                                className="close-button"
+                                className="mc-close-button"
                                 onClick={() => {
                                     setShowDetails(false);
                                     setSelectedContact(null);

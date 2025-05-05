@@ -273,7 +273,7 @@ const ManageUsers: React.FC = () => {
     if (authUser?.role !== 'admin') {
         return (
             <div className="manage-users">
-                <div className="error-message">
+                <div className="mu-error-message">
                     <h2>Restricted Access</h2>
                     <p>Only administrators can access this page.</p>
                 </div>
@@ -283,27 +283,27 @@ const ManageUsers: React.FC = () => {
 
     return (
         <div className="manage-users">
-            <div className="section-header">
+            <div className="mu-section-header">
                 <h2>Manage Users</h2>
-                <button className="create-button" onClick={handleCreateNew}>
+                <button className="mu-create-button" onClick={handleCreateNew}>
                     New User
                 </button>
             </div>
 
-            <div className="search-container">
+            <div className="mu-search-container">
                 <input
                     type="text"
                     placeholder="Search by email or role..."
                     value={searchTerm}
                     onChange={e => setSearchTerm(e.target.value)}
-                    className="search-input"
+                    className="mu-search-input"
                 />
             </div>
 
-            {error && <div className="error-message">{error}</div>}
+            {error && <div className="mu-error-message">{error}</div>}
 
             {formMode && (
-                <div className="form-container">
+                <div className="mu-form-container">
                     <h3>
                         {formMode === 'create'
                             ? 'Create New User'
@@ -313,7 +313,7 @@ const ManageUsers: React.FC = () => {
                     </h3>
 
                     <form onSubmit={handleSubmit}>
-                        <div className="form-group">
+                        <div className="mu-form-group">
                             <label htmlFor="email">Email:</label>
                             <input
                                 type="email"
@@ -327,7 +327,7 @@ const ManageUsers: React.FC = () => {
                         </div>
 
                         {(formMode === 'create' || formMode === 'edit') && (
-                            <div className="form-group">
+                            <div className="mu-form-group">
                                 <label htmlFor="confirmEmail">Confirm Email:</label>
                                 <input
                                     type="email"
@@ -342,7 +342,7 @@ const ManageUsers: React.FC = () => {
 
                         {(formMode === 'create' || formMode === 'password') && (
                             <>
-                                <div className="form-group">
+                                <div className="mu-form-group">
                                     <label htmlFor="password">Password:</label>
                                     <input
                                         type="password"
@@ -353,12 +353,12 @@ const ManageUsers: React.FC = () => {
                                         required
                                         minLength={8}
                                     />
-                                    <small className="helper-text">
+                                    <small className="mu-helper-text">
                                         Minimum 8 characters, include uppercase, lowercase and numbers
                                     </small>
                                 </div>
 
-                                <div className="form-group">
+                                <div className="mu-form-group">
                                     <label htmlFor="confirmPassword">Confirm Password:</label>
                                     <input
                                         type="password"
@@ -373,7 +373,7 @@ const ManageUsers: React.FC = () => {
                         )}
 
                         {(formMode === 'create' || formMode === 'edit') && (
-                            <div className="form-group">
+                            <div className="mu-form-group">
                                 <label htmlFor="role">Role:</label>
                                 <select
                                     id="role"
@@ -388,8 +388,8 @@ const ManageUsers: React.FC = () => {
                             </div>
                         )}
 
-                        <div className="form-actions">
-                            <button type="submit" className="save-button">
+                        <div className="mu-form-actions">
+                            <button type="submit" className="mu-save-button">
                                 {formMode === 'create'
                                     ? 'Create'
                                     : formMode === 'edit'
@@ -403,7 +403,7 @@ const ManageUsers: React.FC = () => {
                                     setSelectedUser(null);
                                     setError(null);
                                 }}
-                                className="cancel-button"
+                                className="mu-cancel-button"
                             >
                                 Cancel
                             </button>
@@ -413,14 +413,14 @@ const ManageUsers: React.FC = () => {
             )}
 
             {!formMode && (
-                <div className="users-list">
+                <div className="mu-users-list">
                     {loading ? (
-                        <div className="loading">Loading users...</div>
+                        <div className="mu-loading">Loading users...</div>
                     ) : filteredUsers.length === 0 ? (
-                        <p className="no-items">No users found.</p>
+                        <p className="mu-no-items">No users found.</p>
                     ) : (
                         <>
-                            <table className="users-table">
+                            <table className="mu-users-table">
                                 <thead>
                                     <tr>
                                         <th>Email</th>
@@ -432,31 +432,31 @@ const ManageUsers: React.FC = () => {
                                     {filteredUsers.map(user => (
                                         <tr
                                             key={user.id}
-                                            className={user.id === authUser?.id ? 'current-user-row' : ''}
+                                            className={user.id === authUser?.id ? 'mu-current-user-row' : ''}
                                         >
                                             <td>{user.email}</td>
                                             <td>
-                                                <span className={`role-badge role-${user.role}`}>
+                                                <span className={`mu-role-badge mu-role-${user.role}`}>
                                                     {user.role === 'admin' ? 'Administrator' : 'User'}
                                                 </span>
                                             </td>
-                                            <td className="actions-cell">
-                                                <div className="table-actions">
+                                            <td className="mu-actions-cell">
+                                                <div className="mu-table-actions">
                                                     <button
                                                         onClick={() => handleEditUser(user)}
-                                                        className="edit-button"
+                                                        className="mu-edit-button"
                                                     >
                                                         Edit
                                                     </button>
                                                     <button
                                                         onClick={() => handleResetPassword(user)}
-                                                        className="password-button"
+                                                        className="mu-password-button"
                                                     >
                                                         Password
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(user.id)}
-                                                        className="delete-button"
+                                                        className="mu-delete-button"
                                                         disabled={user.id === authUser?.id}
                                                     >
                                                         Delete
@@ -469,7 +469,7 @@ const ManageUsers: React.FC = () => {
                             </table>
 
                             {totalPages > 1 && (
-                                <div className="pagination">
+                                <div className="mu-pagination">
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}
