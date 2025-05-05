@@ -20,6 +20,10 @@
     font-size: 1rem;
 }
 
+.mu-create-button:hover {
+    background-color: #45a049;
+}
+
 .mu-form-container {
     background-color: #f9f9f9;
     border-radius: 15px;

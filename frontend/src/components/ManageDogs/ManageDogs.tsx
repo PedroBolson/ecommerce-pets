@@ -283,10 +283,17 @@ const ManageDogs: React.FC = () => {
     };
 
     const formatPrice = (price: number): string => {
-        return new Intl.NumberFormat('en-US', {
+        return new Intl.NumberFormat('vi-VN', {
             style: 'currency',
-            currency: 'USD'
+            currency: 'VND',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
         }).format(price);
+    };
+
+    const formatNumberWithSeparators = (num: number | string): string => {
+        if (typeof num === 'string' && num === '') return '';
+        return new Intl.NumberFormat('vi-VN').format(Number(num));
     };
 
     const calculateAge = (months: number): string => {
@@ -365,7 +372,7 @@ const ManageDogs: React.FC = () => {
                         <div className="md-price-inputs">
                             <input
                                 type="number"
-                                placeholder="Min $"
+                                placeholder="Min ₫"
                                 value={filterMinPrice}
                                 onChange={(e) => setFilterMinPrice(e.target.value)}
                                 min="0"
@@ -373,7 +380,7 @@ const ManageDogs: React.FC = () => {
                             <span>to</span>
                             <input
                                 type="number"
-                                placeholder="Max $"
+                                placeholder="Max ₫"
                                 value={filterMaxPrice}
                                 onChange={(e) => setFilterMaxPrice(e.target.value)}
                                 min="0"
@@ -482,17 +489,20 @@ const ManageDogs: React.FC = () => {
                             </div>
 
                             <div className="md-form-group">
-                                <label htmlFor="price">Price ($):</label>
+                                <label htmlFor="price">Price (₫):</label>
                                 <input
                                     type="number"
                                     id="price"
                                     name="price"
                                     min="0"
-                                    step="0.01"
+                                    step="1"
                                     value={formData.price}
                                     onChange={handleInputChange}
                                     required
                                 />
+                                <small className="price-preview">
+                                    {formData.price > 0 ? `Formatted: ${formatNumberWithSeparators(formData.price)} ₫` : ''}
+                                </small>
                             </div>
                         </div>
 

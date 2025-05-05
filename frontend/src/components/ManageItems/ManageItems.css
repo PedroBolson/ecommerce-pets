@@ -151,6 +151,15 @@
 
 .mi-price {
     color: #333;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.price-preview {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 0.85em;
 }
 
 .mi-item-card p {

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
-// import MainPage from './pages/MainPage/MainPage';
+import MainPage from './pages/Store/MainPage/MainPage';
 // import DogsPage from './pages/Store/DogsPage';
 // import DogDetailsPage from './pages/Store/DogDetailsPage';
 // import ProductsPage from './pages/Store/ProductsPage';
@@ -26,7 +26,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         {/* Public store routes */}
-        {/* <Route path="/" element={<MainPage />} /> */}
+        <Route path="/" element={<MainPage />} />
         {/* <Route path="/dogs" element={<DogsPage />} /> */}
         {/* <Route path="/dogs/:id" element={<DogDetailsPage />} /> */}
         {/* <Route path="/products" element={<ProductsPage />} /> */}

@@ -1,3 +1,11 @@
+.db-dashboard-wrapper {
+    background: linear-gradient(102.87deg, #FCEED5 6.43%, #FCEED5 78.33%, #FFE7BA 104.24%);
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .db-dashboard-title {
     color: #103559;
     display: flex;

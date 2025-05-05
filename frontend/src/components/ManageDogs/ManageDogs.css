@@ -160,6 +160,11 @@
     background-color: #e0e0e0;
 }
 
+.md-dogs-table td:nth-child(7) {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
 .md-health-cell {
     display: flex;
     align-items: center;
@@ -278,6 +283,13 @@
 .md-price-inputs span {
     text-align: center;
     color: #666;
+}
+
+.price-preview {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 0.85em;
 }
 
 .md-filter-actions {

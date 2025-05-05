@@ -199,33 +199,35 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <div className="db-dashboard-container">
-            <div className="db-dashboard-header">
-                <div className="db-server-status-container">
-                    <div className={`db-server-status ${serverStatus}`}>
-                        <span className="db-status-indicator"></span>
-                        Server
+        <div className="db-dashboard-wrapper">
+            <div className="db-dashboard-container">
+                <div className="db-dashboard-header">
+                    <div className="db-server-status-container">
+                        <div className={`db-server-status ${serverStatus}`}>
+                            <span className="db-status-indicator"></span>
+                            Server
+                        </div>
+                    </div>
+                    <h1 className="db-dashboard-title">
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            className="db-dashboard-logo"
+                        />
+                        dashboard
+                        {userData?.role === 'admin' && <span className="db-admin-badge">Admin</span>}
+                    </h1>
+                    <div className="db-dashboard-logout">
+                        <div className="db-user-email">{userData?.email}</div>
+                        <LogoutButton />
                     </div>
                 </div>
-                <h1 className="db-dashboard-title">
-                    <img
-                        src={logo}
-                        alt="Logo"
-                        className="db-dashboard-logo"
-                    />
-                    dashboard
-                    {userData?.role === 'admin' && <span className="db-admin-badge">Admin</span>}
-                </h1>
-                <div className="db-dashboard-logout">
-                    <div className="db-user-email">{userData?.email}</div>
-                    <LogoutButton />
+
+                {renderMenu()}
+
+                <div className="db-dashboard-content">
+                    {renderActiveSection()}
                 </div>
-            </div>
-
-            {renderMenu()}
-
-            <div className="db-dashboard-content">
-                {renderActiveSection()}
             </div>
         </div>
     );

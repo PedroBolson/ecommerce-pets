@@ -46,6 +46,15 @@ interface InterestItem {
     data: StoreItem | Dog;
 }
 
+const formatPrice = (price: number): string => {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(price);
+};
+
 const ManageContacts: React.FC = () => {
     const [contacts, setContacts] = useState<Contact[]>([]);
     const [loading, setLoading] = useState(true);
@@ -469,7 +478,9 @@ const ManageContacts: React.FC = () => {
                                                 <div className="mc-detail-row">
                                                     <span className="mc-label">Price:</span>
                                                     <span className="mc-value">
-                                                        ${typeof (interestItem.data as StoreItem).price === 'number' ? (interestItem.data as StoreItem).price.toFixed(2) : '0.00'}
+                                                        {typeof (interestItem.data as StoreItem).price === 'number'
+                                                            ? formatPrice((interestItem.data as StoreItem).price)
+                                                            : '₫0'}
                                                     </span>
                                                 </div>
                                             </>
@@ -504,7 +515,9 @@ const ManageContacts: React.FC = () => {
                                                 <div className="mc-detail-row">
                                                     <span className="mc-label">Price:</span>
                                                     <span className="mc-value">
-                                                        ${typeof (interestItem.data as Dog).price === 'number' ? ((interestItem.data as Dog).price || 0).toFixed(2) : '0.00'}
+                                                        {typeof (interestItem.data as Dog).price === 'number'
+                                                            ? formatPrice((interestItem.data as Dog).price || 0)
+                                                            : '₫0'}
                                                     </span>
                                                 </div>
                                             </>
