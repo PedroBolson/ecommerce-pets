@@ -24,6 +24,8 @@ const ManageBreeds: React.FC = () => {
     const [breedForPhotos, setBreedForPhotos] = useState<Breed | null>(null);
     const [uploadLoading, setUploadLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
+    const photosPerPage = 4;
 
     // Form state
     const [formData, setFormData] = useState({
@@ -162,9 +164,34 @@ const ManageBreeds: React.FC = () => {
         }
     };
 
+    const getPaginatedPhotos = (photos: Array<{ id: string, url: string, altText?: string, displayOrder: number }>) => {
+        const startIndex = (currentPhotoPage - 1) * photosPerPage;
+        return photos.slice(startIndex, startIndex + photosPerPage);
+    };
+
+    const getPageCount = (photos: Array<{ id: string, url: string, altText?: string, displayOrder: number }>) => {
+        return Math.ceil(photos.length / photosPerPage);
+    };
+
+    const handleNextPage = () => {
+        if (!breedForPhotos?.images) return;
+
+        const pageCount = getPageCount(breedForPhotos.images);
+        if (currentPhotoPage < pageCount) {
+            setCurrentPhotoPage(prev => prev + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPhotoPage > 1) {
+            setCurrentPhotoPage(prev => prev - 1);
+        }
+    };
+
     const handleManagePhotos = (breed: Breed) => {
         setPhotoManagementMode(true);
         setBreedForPhotos(breed);
+        setCurrentPhotoPage(1); // Reset to first page
         setImageFormData({
             url: '',
             altText: '',
@@ -382,22 +409,47 @@ const ManageBreeds: React.FC = () => {
 
                         <div className="current-photos">
                             {breedForPhotos.images && breedForPhotos.images.length > 0 ? (
-                                <div className="photo-grid">
-                                    {breedForPhotos.images.map(image => (
-                                        <div key={image.id} className="photo-item">
-                                            <img src={image.url} alt={image.altText || breedForPhotos.name} />
-                                            <div className="photo-details">
-                                                <p>Order: {image.displayOrder}</p>
+                                <>
+                                    <div className="photo-grid">
+                                        {getPaginatedPhotos(breedForPhotos.images).map(image => (
+                                            <div key={image.id} className="photo-item">
+                                                <img src={image.url} alt={image.altText || breedForPhotos.name} />
+                                                <div className="photo-details">
+                                                    <p>Order: {image.displayOrder}</p>
+                                                </div>
+                                                <button
+                                                    className="delete-photo"
+                                                    onClick={() => handleDeletePhoto(image.id)}
+                                                >
+                                                    Delete
+                                                </button>
                                             </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Pagination controls - only show if more than one page */}
+                                    {breedForPhotos.images.length > photosPerPage && (
+                                        <div className="pagination-controls">
                                             <button
-                                                className="delete-photo"
-                                                onClick={() => handleDeletePhoto(image.id)}
+                                                className="pagination-button"
+                                                onClick={handlePrevPage}
+                                                disabled={currentPhotoPage === 1}
                                             >
-                                                Delete
+                                                Previous
+                                            </button>
+                                            <span className="pagination-info">
+                                                Page {currentPhotoPage} of {getPageCount(breedForPhotos.images)}
+                                            </span>
+                                            <button
+                                                className="pagination-button"
+                                                onClick={handleNextPage}
+                                                disabled={currentPhotoPage === getPageCount(breedForPhotos.images)}
+                                            >
+                                                Next
                                             </button>
                                         </div>
-                                    ))}
-                                </div>
+                                    )}
+                                </>
                             ) : (
                                 <p className="no-photos">No photos available</p>
                             )}

@@ -9,21 +9,75 @@ import ManageItemCategories from "../../components/ManageItemCategories/ManageIt
 import ManageItems from "../../components/ManageItems/ManageItems";
 import ManagePetKnowledge from "../../components/ManagePetKnowledge/ManagePetKnowledge";
 import ManageContacts from "../../components/ManageContacts/ManageContacts";
-// import ManageAdoptionPhotos from "../../components/ManageAdoptionPhotos/ManageAdoptionPhotos";
-// import ManageUsers from "../../components/ManageUsers/ManageUsers";
+import ManageAdoptionPhotos from "../../components/ManageAdoptionPhotos/ManageAdoptionPhotos";
+import ManageUsers from "../../components/ManageUsers/ManageUsers";
+
+interface UserData {
+    id: string;
+    email: string;
+    role: string;
+}
+
+// Função para decodificar o JWT
+const decodeToken = (token: string): UserData | null => {
+    try {
+        const base64Payload = token.split('.')[1];
+        const payload = atob(base64Payload);
+        const parsedPayload = JSON.parse(payload);
+
+        return {
+            id: parsedPayload.sub,
+            email: parsedPayload.email,
+            role: parsedPayload.role
+        };
+    } catch (error) {
+        console.error("Error decoding token:", error);
+        return null;
+    }
+};
 
 const Dashboard: React.FC = () => {
     const [activeSection, setActiveSection] = useState<string | null>(null);
     const [serverStatus, setServerStatus] = useState<'online' | 'offline' | 'loading'>('loading');
+    const [userData, setUserData] = useState<UserData | null>(null);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const user = decodeToken(token);
+            setUserData(user);
+        }
+
         handleStatus();
         const intervalId = setInterval(handleStatus, 30000);
 
         return () => clearInterval(intervalId);
     }, []);
 
+    const handleStatus = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/health`);
+            if (response.ok) {
+                setServerStatus('online');
+            } else {
+                setServerStatus('offline');
+            }
+        } catch (error) {
+            setServerStatus('offline');
+            console.error('Server status check failed:', error);
+        }
+    };
+
     const renderActiveSection = () => {
+        if (userData?.role !== 'admin' && ['users'].includes(activeSection || '')) {
+            return (
+                <div className="access-denied">
+                    <h2>Restrict Acess</h2>
+                    <p>You don't have permission to acees this, sorry.</p>
+                </div>
+            );
+        }
+
         switch (activeSection) {
             case "breeds":
                 return <ManageBreeds />;
@@ -37,32 +91,112 @@ const Dashboard: React.FC = () => {
                 return <ManagePetKnowledge />;
             case "contacts":
                 return <ManageContacts />;
-            // case "adoption-photos":
-            //     return <ManageAdoptionPhotos />;
-            // case "users":
-            //     return <ManageUsers />;
+            case "adoption-photos":
+                return <ManageAdoptionPhotos />;
+            case "users":
+                return <ManageUsers />;
             default:
                 return (
                     <div className="dashboard-welcome">
-                        <h2>Welcome to the Admin Panel</h2>
-                        <p>Select an option above to manage website resources.</p>
+                        {userData?.role === 'admin' ? (
+                            <>
+                                <h2>Welcome back to the admin panel!</h2>
+                                <p>You have full access to manage all website resources.</p>
+                            </>
+                        ) : (
+                            <>
+                                <h2>Welcome back! Good to see you again!</h2>
+                                <p>You can manage content you have permission to edit.</p>
+                            </>
+                        )}
+                        <div className="user-info-card">
+                            <div className="user-avatar">
+                                {userData?.email?.charAt(0).toUpperCase() || '?'}
+                            </div>
+                            <div className="user-details">
+                                <h3>{userData?.email || 'User'}</h3>
+                                <span className={`user-role ${userData?.role}`}>
+                                    {userData?.role === 'admin' ? 'Administrator' : 'Content Manager'}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 );
         }
     };
-    const handleStatus = async () => {
-        try {
-            const response = await fetch(`http://localhost:3000/api/health`);
-            if (response.ok) {
-                setServerStatus('online');
-            } else {
-                setServerStatus('offline');
-            }
-        } catch (error) {
-            setServerStatus('offline');
-            console.error('Server status check failed:', error);
-        }
-    }
+
+    const renderMenu = () => {
+        const commonMenuItems = (
+            <>
+                <button
+                    className={`menu-button ${activeSection === "breeds" ? "active" : ""}`}
+                    onClick={() => setActiveSection("breeds")}
+                >
+                    Breeds
+                </button>
+
+                <button
+                    className={`menu-button ${activeSection === "dogs" ? "active" : ""}`}
+                    onClick={() => setActiveSection("dogs")}
+                >
+                    Dogs
+                </button>
+
+                <button
+                    className={`menu-button ${activeSection === "item-categories" ? "active" : ""}`}
+                    onClick={() => setActiveSection("item-categories")}
+                >
+                    Item Categories
+                </button>
+
+                <button
+                    className={`menu-button ${activeSection === "items" ? "active" : ""}`}
+                    onClick={() => setActiveSection("items")}
+                >
+                    Items
+                </button>
+
+                <button
+                    className={`menu-button ${activeSection === "pet-knowledge" ? "active" : ""}`}
+                    onClick={() => setActiveSection("pet-knowledge")}
+                >
+                    Pet Knowledge
+                </button>
+
+                <button
+                    className={`menu-button ${activeSection === "contacts" ? "active" : ""}`}
+                    onClick={() => setActiveSection("contacts")}
+                >
+                    Contacts
+                </button>
+
+                <button
+                    className={`menu-button ${activeSection === "adoption-photos" ? "active" : ""}`}
+                    onClick={() => setActiveSection("adoption-photos")}
+                >
+                    Adoption Photos
+                </button>
+            </>
+        );
+
+        const adminMenuItems = (
+            <>
+                <button
+                    className={`menu-button admin-only ${activeSection === "users" ? "active" : ""}`}
+                    onClick={() => setActiveSection("users")}
+                >
+                    Users
+                </button>
+            </>
+        );
+
+        return (
+            <div className="dashboard-menu">
+                {commonMenuItems}
+                {userData?.role === 'admin' && adminMenuItems}
+            </div>
+        );
+    };
 
     return (
         <div className="dashboard-container">
@@ -80,68 +214,21 @@ const Dashboard: React.FC = () => {
                         className="dashboard-logo"
                     />
                     dashboard
+                    {userData?.role === 'admin' && <span className="admin-badge">Admin</span>}
                 </h1>
                 <div className="dashboard-logout">
+                    <div className="user-email">{userData?.email}</div>
                     <LogoutButton />
                 </div>
             </div>
 
-            <div className="dashboard-menu">
-                <button
-                    className={`menu-button ${activeSection === "breeds" ? "active" : ""}`}
-                    onClick={() => setActiveSection("breeds")}
-                >
-                    Breeds
-                </button>
-                <button
-                    className={`menu-button ${activeSection === "dogs" ? "active" : ""}`}
-                    onClick={() => setActiveSection("dogs")}
-                >
-                    Dogs
-                </button>
-                <button
-                    className={`menu-button ${activeSection === "item-categories" ? "active" : ""}`}
-                    onClick={() => setActiveSection("item-categories")}
-                >
-                    Item Categories
-                </button>
-                <button
-                    className={`menu-button ${activeSection === "items" ? "active" : ""}`}
-                    onClick={() => setActiveSection("items")}
-                >
-                    Items
-                </button>
-                <button
-                    className={`menu-button ${activeSection === "pet-knowledge" ? "active" : ""}`}
-                    onClick={() => setActiveSection("pet-knowledge")}
-                >
-                    Pet Knowledge
-                </button>
-                <button
-                    className={`menu-button ${activeSection === "contacts" ? "active" : ""}`}
-                    onClick={() => setActiveSection("contacts")}
-                >
-                    Contacts
-                </button>
-                <button
-                    className={`menu-button ${activeSection === "adoption-photos" ? "active" : ""}`}
-                    onClick={() => setActiveSection("adoption-photos")}
-                >
-                    Adoption Photos
-                </button>
-                <button
-                    className={`menu-button ${activeSection === "users" ? "active" : ""}`}
-                    onClick={() => setActiveSection("users")}
-                >
-                    Users
-                </button>
-            </div>
+            {renderMenu()}
 
             <div className="dashboard-content">
                 {renderActiveSection()}
             </div>
         </div>
     );
-}
+};
 
 export default Dashboard;

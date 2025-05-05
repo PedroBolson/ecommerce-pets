@@ -69,6 +69,10 @@ const ManageItems: React.FC = () => {
         displayOrder: 0
     });
 
+    // Photo pagination state
+    const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
+    const photosPerPage = 4;
+
     useEffect(() => {
         fetchItems();
         fetchCategories();
@@ -297,6 +301,7 @@ const ManageItems: React.FC = () => {
     const handleManagePhotos = (item: StoreItem) => {
         setPhotoManagementMode(true);
         setItemForPhotos(item);
+        setCurrentPhotoPage(1); // Reset to first page when managing photos
         setImageFormData({
             url: '',
             altText: '',
@@ -435,6 +440,30 @@ const ManageItems: React.FC = () => {
     const handlePageChange = (newPage: number) => {
         if (newPage > 0 && newPage <= totalPages) {
             setCurrentPage(newPage);
+        }
+    };
+
+    const getPaginatedPhotos = (photos: StoreItemImage[]) => {
+        const startIndex = (currentPhotoPage - 1) * photosPerPage;
+        return photos.slice(startIndex, startIndex + photosPerPage);
+    };
+
+    const getPageCount = (photos: StoreItemImage[]) => {
+        return Math.ceil(photos.length / photosPerPage);
+    };
+
+    const handleNextPage = () => {
+        if (!itemForPhotos?.images) return;
+
+        const pageCount = getPageCount(itemForPhotos.images);
+        if (currentPhotoPage < pageCount) {
+            setCurrentPhotoPage(prev => prev + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPhotoPage > 1) {
+            setCurrentPhotoPage(prev => prev - 1);
         }
     };
 
@@ -706,22 +735,46 @@ const ManageItems: React.FC = () => {
 
                         <div className="current-photos">
                             {itemForPhotos.images && itemForPhotos.images.length > 0 ? (
-                                <div className="photo-grid">
-                                    {itemForPhotos.images.map(image => (
-                                        <div key={image.id} className="photo-item">
-                                            <img src={image.url} alt={image.altText || itemForPhotos.name} />
-                                            <div className="photo-details">
-                                                <p>Order: {image.displayOrder}</p>
+                                <>
+                                    <div className="photo-grid">
+                                        {getPaginatedPhotos(itemForPhotos.images).map(image => (
+                                            <div key={image.id} className="photo-item">
+                                                <img src={image.url} alt={image.altText || itemForPhotos.name} />
+                                                <div className="photo-details">
+                                                    <p>Order: {image.displayOrder}</p>
+                                                </div>
+                                                <button
+                                                    className="delete-photo"
+                                                    onClick={() => handleDeletePhoto(image.id)}
+                                                >
+                                                    Delete
+                                                </button>
                                             </div>
+                                        ))}
+                                    </div>
+
+                                    {itemForPhotos.images.length > photosPerPage && (
+                                        <div className="pagination-controls">
                                             <button
-                                                className="delete-photo"
-                                                onClick={() => handleDeletePhoto(image.id)}
+                                                className="pagination-button"
+                                                onClick={handlePrevPage}
+                                                disabled={currentPhotoPage === 1}
                                             >
-                                                Delete
+                                                Previous
+                                            </button>
+                                            <span className="pagination-info">
+                                                Page {currentPhotoPage} of {getPageCount(itemForPhotos.images)}
+                                            </span>
+                                            <button
+                                                className="pagination-button"
+                                                onClick={handleNextPage}
+                                                disabled={currentPhotoPage === getPageCount(itemForPhotos.images)}
+                                            >
+                                                Next
                                             </button>
                                         </div>
-                                    ))}
-                                </div>
+                                    )}
+                                </>
                             ) : (
                                 <p className="no-photos">No photos available</p>
                             )}
