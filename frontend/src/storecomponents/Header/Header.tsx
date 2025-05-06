@@ -37,7 +37,7 @@ const Header: React.FC = () => {
                         <li className="dropdown">
                             <Link to="/">Category</Link>
                             <div className="dropdown-menu">
-                                <Link to="/category/dogs">Dogs</Link>
+                                <Link to="/dogs">Dogs</Link>
                                 <Link to="/category/products">Products</Link>
                             </div>
                         </li>

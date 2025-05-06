@@ -23,7 +23,7 @@ export default function SectionHero() {
                     </p>
                     <div className="hero-buttons">
                         <button className="hero-btn-intro">View Intro</button>
-                        <button className="hero-btn-explore">Explore Now</button>
+                        <button className="hero-btn-explore" onClick={() => window.location.href = '/dogs'}>Explore Now</button>
                     </div>
                 </div>
                 <div className="hero-image-container">

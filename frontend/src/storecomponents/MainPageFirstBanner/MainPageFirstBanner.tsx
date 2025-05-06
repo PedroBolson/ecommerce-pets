@@ -36,7 +36,10 @@ const MainPageFirstBanner: React.FC<MainPageFirstBannerProps> = ({
                             </svg>
                         </span>
                     </button>
-                    <button className="banner-btn btn--solid" onClick={onExplore}>
+                    <button className="banner-btn btn--solid" onClick={() => {
+                        if (onExplore) onExplore();
+                        window.location.href = '/dogs';
+                    }}>
                         Explore Now
                     </button>
                 </div>
