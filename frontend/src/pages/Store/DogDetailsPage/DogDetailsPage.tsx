@@ -5,6 +5,7 @@ import './DogDetailsPage.css';
 import Header from '../../../storecomponents/Header/Header';
 import AdoptionPhoto from '../../../storecomponents/AdoptionPhoto/AdoptionPhoto';
 import SimilarDogs from '../../../storecomponents/SimilarDogs/SimilarDogs';
+import Footer from '../../../storecomponents/Footer/Footer';
 
 interface Dog {
     id: string;
@@ -68,6 +69,7 @@ const DogDetailsPage: React.FC = () => {
                 currentDogId={dog.id}
                 dogSize={dog.size}
             />
+            <Footer />
         </>
     );
 };

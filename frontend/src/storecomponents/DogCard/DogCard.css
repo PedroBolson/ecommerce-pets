@@ -35,14 +35,14 @@
 }
 
 .dog-card-info {
-    padding: 16px;
+    padding: 13px;
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
 .dog-code-breed {
-    font-size: 18px;
+    font-size: 16px;
     margin: 0;
     display: flex;
     align-items: baseline;

@@ -1,0 +1,159 @@
+.footer-subscribe-wrapper {
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    background-color: #fceed5;
+    padding: 60px 20px;
+}
+
+.footer-subscribe-box {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #003459;
+    border-radius: 16px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.footer-subscribe-title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.footer-subscribe-form {
+    display: flex;
+    flex: 1;
+    max-width: 600px;
+}
+
+.footer-subscribe-input {
+    flex: 1;
+    height: 48px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 24px 0 0 24px;
+    font-size: 16px;
+}
+
+.footer-subscribe-btn {
+    background-color: #fff;
+    color: #003459;
+    border: none;
+    border-radius: 0 24px 24px 0;
+    padding: 0 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.footer-subscribe-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.footer-nav-wrapper {
+    background-color: #fceed5;
+    padding: 20px 0;
+}
+
+.footer-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 32px;
+}
+
+.footer-links a {
+    color: #003459;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.footer-links a:hover {
+    opacity: 0.7;
+}
+
+.footer-social {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #003459;
+    transition: opacity 0.2s;
+}
+
+.footer-face:hover {
+    fill: #3b5998;
+    /* Facebook Blue */
+}
+
+.footer-twitter:hover {
+    fill: #1DA1F2;
+    /* Twitter Blue */
+}
+
+.footer-insta:hover {
+    fill: #E1306C;
+    /* Instagram Pink */
+}
+
+.footer-yt:hover {
+    fill: #FF0000;
+    /* YouTube Red */
+}
+
+.footer-divider {
+    border: none;
+    border-top: 1px solid rgba(16, 53, 89, 0.2);
+    margin: 16px auto 0;
+    max-width: 1280px;
+}
+
+@media (max-width: 768px) {
+    .footer-subscribe-box {
+        flex-direction: column;
+        padding: 24px 12px;
+        gap: 24px;
+    }
+
+    .footer-subscribe-form {
+        width: 100%;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-subscribe-input,
+    .footer-subscribe-btn {
+        border-radius: 24px;
+        width: 100%;
+    }
+
+    .footer-nav-inner {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
+}
