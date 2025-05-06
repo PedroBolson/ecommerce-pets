@@ -1,32 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-
-type Currency = {
-    code: string;
-    name: string;
-    flag: string;
-};
-
-const currencies: Currency[] = [
-    { code: 'VND', name: 'Vietnam', flag: '🇻🇳' },
-    { code: 'BRL', name: 'Brasil', flag: '🇧🇷' },
-    { code: 'USD', name: 'USA', flag: '🇺🇸' },
-    { code: 'EUR', name: 'Euro', flag: '🇪🇺' }
-];
+import { useCurrency, currencies } from '../../context/CurrencyContext';
 
 const Header: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedCurrency, setSelectedCurrency] = useState<Currency>(currencies[0]);
     const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
+
+    const { currency, setCurrency } = useCurrency();
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        // Implement search functionality
     };
 
-    const handleCurrencySelect = (currency: Currency) => {
-        setSelectedCurrency(currency);
+    const handleCurrencySelect = (newCurrency: typeof currency) => {
+        setCurrency(newCurrency);
         setCurrencyDropdownOpen(false);
     };
 
@@ -79,22 +67,22 @@ const Header: React.FC = () => {
                             onClick={toggleCurrencyDropdown}
                             aria-expanded={currencyDropdownOpen}
                         >
-                            <span className="currency-flag">{selectedCurrency.flag}</span>
-                            <span className="currency-code">{selectedCurrency.code}</span>
+                            <span className="currency-flag">{currency.flag}</span>
+                            <span className="currency-code">{currency.code}</span>
                             <span className="currency-arrow">▼</span>
                         </button>
 
                         {currencyDropdownOpen && (
                             <div className="currency-dropdown-menu">
-                                {currencies.map(currency => (
+                                {currencies.map(c => (
                                     <button
-                                        key={currency.code}
+                                        key={c.code}
                                         className="currency-option"
-                                        onClick={() => handleCurrencySelect(currency)}
+                                        onClick={() => handleCurrencySelect(c)}
                                     >
-                                        <span className="currency-flag">{currency.flag}</span>
-                                        <span className="currency-code">{currency.code}</span>
-                                        <span className="currency-name">{currency.name}</span>
+                                        <span className="currency-flag">{c.flag}</span>
+                                        <span className="currency-code">{c.code}</span>
+                                        <span className="currency-name">{c.name}</span>
                                     </button>
                                 ))}
                             </div>

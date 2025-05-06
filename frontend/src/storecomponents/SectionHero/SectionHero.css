@@ -100,7 +100,7 @@
 }
 
 .hero-shape-rect8 {
-    top: calc(-695 / 1080 * var(--viewport-height));
+    top: calc(-670 / 1080 * var(--viewport-height));
     left: calc(75 / 1920 * var(--viewport-width));
     width: calc(635 / 1920 * var(--viewport-width));
     height: calc(635 / 1920 * var(--viewport-width));

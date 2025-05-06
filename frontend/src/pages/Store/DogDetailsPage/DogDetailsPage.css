@@ -1,0 +1,24 @@
+.dog-details-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dog-details-loading,
+.dog-details-error,
+.dog-details-not-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    font-size: 18px;
+    color: #666;
+}
+
+.dog-details-error {
+    color: #f44336;
+}
+
+.dog-details-container {
+    margin-top: 10%;
+}

@@ -1,0 +1,65 @@
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import DogDetails from '../../../storecomponents/DogDetails/DogDetails';
+import './DogDetailsPage.css';
+import Header from '../../../storecomponents/Header/Header';
+
+interface Dog {
+    id: string;
+    sku: string;
+    breed: { id: string; name: string; description?: string };
+    gender: 'Male' | 'Female';
+    ageInMonths: number;
+    size: 'Small' | 'Medium' | 'Large';
+    color: string;
+    price: number;
+    vaccinated: boolean;
+    dewormed: boolean;
+    microchip: boolean;
+    certification?: string;
+    location?: string;
+    publishedDate?: string;
+    additionalInfo?: string;
+}
+
+const DogDetailsPage: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
+    const [dog, setDog] = useState<Dog | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                const res = await fetch(`http://localhost:3000/dog/${id}`, {
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data: Dog = await res.json();
+                setDog(data);
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Error loading dog');
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [id]);
+
+    if (loading) return <div className="dog-details-loading">Loading...</div>;
+    if (error) return <div className="dog-details-error">Error: {error}</div>;
+    if (!dog) return <div className="dog-details-not-found">Not found</div>;
+
+    return (
+        <>
+            <Header />
+            <div className="dog-details-page">
+                <div className="dog-details-container">
+                    <DogDetails dog={dog} />
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default DogDetailsPage;
