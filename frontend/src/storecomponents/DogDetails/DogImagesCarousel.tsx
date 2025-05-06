@@ -18,7 +18,6 @@ const DogImagesCarousel: React.FC<DogImagesCarouselProps> = ({
     images,
     dogName,
 }) => {
-    // Placeholder caso não venha nenhuma imagem
     const slides = useMemo<ReactImageGalleryItem[]>(() => {
         const list = images.length
             ? images
@@ -38,6 +37,7 @@ const DogImagesCarousel: React.FC<DogImagesCarouselProps> = ({
                 showPlayButton={false}
                 showFullscreenButton={false}
                 showNav={true}
+                autoPlay={true}
                 showThumbnails={true}
                 thumbnailPosition="bottom"
                 renderLeftNav={(onClick, disabled) => (
@@ -46,7 +46,6 @@ const DogImagesCarousel: React.FC<DogImagesCarouselProps> = ({
                         onClick={onClick}
                         disabled={disabled}
                     >
-                        {/* inline SVG esquerda */}
                         <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="5" y="5" width="42" height="42" rx="20" fill="white" fillOpacity="0.4" />
                             <path d="M28.1667 32.5L21.6667 26L28.1667 19.5" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
@@ -59,7 +58,6 @@ const DogImagesCarousel: React.FC<DogImagesCarouselProps> = ({
                         onClick={onClick}
                         disabled={disabled}
                     >
-                        {/* inline SVG direita */}
                         <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="42" height="42" rx="20" transform="matrix(-1 0 0 1 47 5)" fill="white" fillOpacity="0.4" />
                             <path d="M23.8335 32.5L30.3335 26L23.8335 19.5" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />

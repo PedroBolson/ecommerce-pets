@@ -504,7 +504,7 @@ const ManageBreeds: React.FC = () => {
                             <button onClick={() => {
                                 setPhotoManagementMode(false);
                                 setBreedForPhotos(null);
-                            }}>Close</button>
+                            }} className='mb-modal-close'>Close</button>
                         </div>
                     </div>
                 </div>

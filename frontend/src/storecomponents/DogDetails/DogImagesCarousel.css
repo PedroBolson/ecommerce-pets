@@ -66,6 +66,7 @@
     height: 94px;
     object-fit: cover;
     display: block;
+    cursor: pointer;
 }
 
 .image-gallery-thumbnail:hover {

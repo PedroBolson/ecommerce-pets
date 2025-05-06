@@ -285,7 +285,6 @@ const ManageAdoptionPhotos: React.FC = () => {
                                             <div key={photo.id} className="map-photo-item">
                                                 <img src={photo.url} alt={photo.altText || `Adoption photo for ${selectedBreed.name}`} />
                                                 <div className="map-photo-details">
-                                                    <p>{photo.altText || 'No description'}</p>
                                                     <p>Order: {photo.displayOrder}</p>
                                                 </div>
                                                 <button
@@ -356,7 +355,7 @@ const ManageAdoptionPhotos: React.FC = () => {
                                     type="number"
                                     id="displayOrder"
                                     name="displayOrder"
-                                    value={imageFormData.displayOrder}
+                                    value={imageFormData.displayOrder + 1}
                                     onChange={handleImageInputChange}
                                     min="0"
                                 />

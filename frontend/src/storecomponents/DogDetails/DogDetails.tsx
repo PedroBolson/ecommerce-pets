@@ -33,7 +33,6 @@ const DogDetails: React.FC<{ dog: Dog }> = ({ dog }) => {
     const [images, setImages] = useState<BreedImage[]>([]);
     const [loadingImgs, setLoadingImgs] = useState(true);
 
-    // Usar o contexto de moeda
     const { formatPrice } = useCurrency();
 
     useEffect(() => {
@@ -191,7 +190,6 @@ const DogDetails: React.FC<{ dog: Dog }> = ({ dog }) => {
                             </div>
                             <div className="dog-sku">SKU: #{dog.sku}</div>
                             <h1 className="dog-name">{dog.breed.name}</h1>
-                            {/* Use a função formatPrice do contexto */}
                             <div className="dog-price">{formatPrice(dog.price)}</div>
                             <div className="dog-actions">
                                 <button className="btn-contact">Contact us</button>

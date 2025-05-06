@@ -15,7 +15,6 @@ export const currencies: Currency[] = [
     { code: 'EUR', name: 'Euro', flag: '🇪🇺', symbol: '€', rate: 0.000034 }   // 1 VND ≈ 0.000034 EUR
 ];
 
-// Interface do contexto
 interface CurrencyContextType {
     currency: Currency;
     setCurrency: (currency: Currency) => void;
@@ -23,20 +22,18 @@ interface CurrencyContextType {
     formatPrice: (price: number | string) => string;
 }
 
-// Criação do contexto
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
 
-// Provider do contexto
 export const CurrencyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [currency, setCurrency] = useState<Currency>(currencies[0]); // VND como padrão
+    const [currency, setCurrency] = useState<Currency>(currencies[0]);
 
-    // Função para converter preço de VND para a moeda selecionada
+    // Function to convert price from VND to selected currency
     const convertPrice = (priceInVND: number | string): number => {
         const numericPrice = typeof priceInVND === 'string' ? parseFloat(priceInVND) : priceInVND;
         return numericPrice * currency.rate;
     };
 
-    // Função para formatar o preço de acordo com a moeda
+    // Function to format the price according to the currency
     const formatPrice = (price: number | string): string => {
         const numericPrice = typeof price === 'string' ? parseFloat(price) : price;
         const convertedPrice = numericPrice * currency.rate;
@@ -64,7 +61,6 @@ export const CurrencyProvider: React.FC<{ children: ReactNode }> = ({ children }
     );
 };
 
-// Hook personalizado para usar o contexto
 export const useCurrency = (): CurrencyContextType => {
     const context = useContext(CurrencyContext);
     if (context === undefined) {

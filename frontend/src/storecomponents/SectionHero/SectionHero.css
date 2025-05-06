@@ -32,8 +32,8 @@
 
 
 .hero-shape-rect1 {
-    top: calc(272 / 1080 * var(--viewport-height));
-    left: calc(983 / 1920 * var(--viewport-width));
+    top: calc(302 / 1080 * var(--viewport-height));
+    left: calc(1018 / 1920 * var(--viewport-width));
     width: calc(635 / 1920 * var(--viewport-width));
     height: calc(635 / 1920 * var(--viewport-width));
     border-radius: calc(99 / 1920 * var(--viewport-width));
@@ -41,10 +41,10 @@
 }
 
 .hero-shape-rect2 {
-    top: calc(252 / 1080 * var(--viewport-height));
-    left: calc(982 / 1920 * var(--viewport-width));
-    width: calc(358 / 1920 * var(--viewport-width));
-    height: calc(335 / 1920 * var(--viewport-width));
+    top: calc(276 / 1080 * var(--viewport-height));
+    left: calc(1013 / 1920 * var(--viewport-width));
+    width: calc(400 / 1920 * var(--viewport-width));
+    height: calc(400 / 1920 * var(--viewport-width));
     border-radius: calc(99 / 1920 * var(--viewport-width));
     transform: rotate(-88.23deg);
     background-color: #103559;
@@ -52,8 +52,8 @@
 }
 
 .hero-shape-rect3 {
-    top: calc(195 / 1080 * var(--viewport-height));
-    left: calc(402 / 1920 * var(--viewport-width));
+    top: calc(237 / 1080 * var(--viewport-height));
+    left: calc(311 / 1920 * var(--viewport-width));
     width: calc(70 / 1920 * var(--viewport-width));
     height: calc(70 / 1920 * var(--viewport-width));
     border-radius: calc(20 / 1920 * var(--viewport-width));
@@ -61,8 +61,8 @@
 }
 
 .hero-shape-rect4 {
-    top: calc(165 / 1080 * var(--viewport-height));
-    left: calc(1056 / 1920 * var(--viewport-width));
+    top: calc(180 / 1080 * var(--viewport-height));
+    left: calc(1081 / 1920 * var(--viewport-width));
     width: calc(15 / 1920 * var(--viewport-width));
     height: calc(15 / 1920 * var(--viewport-width));
     border-radius: calc(4 / 1920 * var(--viewport-width));
@@ -70,8 +70,8 @@
 }
 
 .hero-shape-rect5 {
-    top: calc(205 / 1080 * var(--viewport-height));
-    left: calc(1029 / 1920 * var(--viewport-width));
+    top: calc(234 / 1080 * var(--viewport-height));
+    left: calc(1055 / 1920 * var(--viewport-width));
     width: calc(22 / 1920 * var(--viewport-width));
     height: calc(22 / 1920 * var(--viewport-width));
     border-radius: calc(9 / 1920 * var(--viewport-width));
@@ -81,8 +81,8 @@
 }
 
 .hero-shape-rect6 {
-    top: calc(197 / 1080 * var(--viewport-height));
-    left: calc(1030 / 1920 * var(--viewport-width));
+    top: calc(224 / 1080 * var(--viewport-height));
+    left: calc(1055 / 1920 * var(--viewport-width));
     width: calc(27 / 1920 * var(--viewport-width));
     height: calc(27 / 1920 * var(--viewport-width));
     border-radius: calc(6 / 1920 * var(--viewport-width));
@@ -90,7 +90,7 @@
 }
 
 .hero-shape-rect7 {
-    top: calc(625 / 1080 * var(--viewport-height));
+    top: calc(680 / 1080 * var(--viewport-height));
     left: calc(325 / 1920 * var(--viewport-width));
     width: calc(635 / 1920 * var(--viewport-width));
     height: calc(635 / 1920 * var(--viewport-width));
@@ -100,8 +100,8 @@
 }
 
 .hero-shape-rect8 {
-    top: calc(-670 / 1080 * var(--viewport-height));
-    left: calc(75 / 1920 * var(--viewport-width));
+    top: calc(-652 / 1080 * var(--viewport-height));
+    left: calc(0 / 1920 * var(--viewport-width));
     width: calc(635 / 1920 * var(--viewport-width));
     height: calc(635 / 1920 * var(--viewport-width));
     border-radius: calc(99 / 1920 * var(--viewport-width));

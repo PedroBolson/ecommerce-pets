@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import DogDetails from '../../../storecomponents/DogDetails/DogDetails';
 import './DogDetailsPage.css';
 import Header from '../../../storecomponents/Header/Header';
+import AdoptionPhoto from '../../../storecomponents/AdoptionPhoto/AdoptionPhoto';
+import SimilarDogs from '../../../storecomponents/SimilarDogs/SimilarDogs';
 
 interface Dog {
     id: string;
@@ -58,6 +60,14 @@ const DogDetailsPage: React.FC = () => {
                     <DogDetails dog={dog} />
                 </div>
             </div>
+            <AdoptionPhoto
+                breedId={dog.breed.id}
+                title={`Our ${dog.breed.name} customer`}
+            />
+            <SimilarDogs
+                currentDogId={dog.id}
+                dogSize={dog.size}
+            />
         </>
     );
 };
