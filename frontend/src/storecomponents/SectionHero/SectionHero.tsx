@@ -1,4 +1,5 @@
 import "./SectionHero.css";
+import { Link } from "react-router-dom";
 
 export default function SectionHero() {
     return (
@@ -23,7 +24,9 @@ export default function SectionHero() {
                     </p>
                     <div className="hero-buttons">
                         <button className="hero-btn-intro">View Intro</button>
-                        <button className="hero-btn-explore" onClick={() => window.location.href = '/dogs'}>Explore Now</button>
+                        <Link to="/dogs" className="hero-btn-explore">
+                            Explore Now
+                        </Link>
                     </div>
                 </div>
                 <div className="hero-image-container">

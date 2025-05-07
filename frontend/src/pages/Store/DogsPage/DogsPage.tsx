@@ -144,6 +144,37 @@ const DogsPage: React.FC = () => {
         return { backgroundColor: colorHexMap[col] || '#ccc' };
     };
 
+    const getFilterHeading = () => {
+        let heading = '';
+
+        if (currentGender) {
+            heading += `${currentGender} `;
+        }
+
+        if (currentColor) {
+            heading += `${currentColor} `;
+        }
+
+        if (currentSize) {
+            heading += `${currentSize} `;
+        }
+
+        if (currentBreed) {
+            const breedName = breeds.find(b => b.id === currentBreed)?.name || '';
+            if (breedName) {
+                heading += `${breedName} `;
+            }
+        }
+
+        if (!heading) {
+            heading = 'All ';
+        }
+
+        heading += 'Dogs';
+
+        return heading;
+    };
+
     useEffect(() => {
         (async () => {
             const res = await fetch('http://localhost:3000/breed-image');
@@ -332,7 +363,7 @@ const DogsPage: React.FC = () => {
 
                 <section className="dogs-content">
                     <header className="dogs-header">
-                        <h1>{currentSize || 'All'} Dogs</h1>
+                        <h1>{getFilterHeading()}</h1>
                         <div className="dogs-count">
                             {loading ? '...' : `${dogs.length} puppies found`}
                         </div>

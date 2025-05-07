@@ -32,7 +32,10 @@ const ManageDogs: React.FC = () => {
     const [selectedDog, setSelectedDog] = useState<Dog | null>(null);
     const [formMode, setFormMode] = useState<'create' | 'edit' | null>(null);
 
-    // Filter states
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [limit] = useState(10); // Number of dogs per page
+
     const [filterGender, setFilterGender] = useState<string>('');
     const [filterColor, setFilterColor] = useState<string>('');
     const [filterMinPrice, setFilterMinPrice] = useState<string>('');
@@ -67,7 +70,16 @@ const ManageDogs: React.FC = () => {
     useEffect(() => {
         fetchDogs();
         fetchBreeds();
-    }, [filterGender, filterColor, filterMinPrice, filterMaxPrice, filterSize, filterBreed]);
+    }, [
+        filterGender,
+        filterColor,
+        filterMinPrice,
+        filterMaxPrice,
+        filterSize,
+        filterBreed,
+        currentPage,
+        limit
+    ]);
 
     const fetchDogs = async () => {
         try {
@@ -75,6 +87,9 @@ const ManageDogs: React.FC = () => {
             const token = localStorage.getItem('token');
 
             let params = new URLSearchParams();
+
+            params.append('page', currentPage.toString());
+            params.append('limit', limit.toString());
 
             if (filterGender) {
                 params.append('gender', filterGender);
@@ -112,7 +127,15 @@ const ManageDogs: React.FC = () => {
             }
 
             const data = await response.json();
-            setDogs(data.data || data);
+
+            // Handle API response for pagination
+            if (data.data && Array.isArray(data.data)) {
+                setDogs(data.data);
+                setTotalPages(data.pagination?.totalPages || 1);
+            } else if (Array.isArray(data)) {
+                setDogs(data);
+                setTotalPages(1);
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error');
             console.error(err);
@@ -128,6 +151,7 @@ const ManageDogs: React.FC = () => {
         setFilterMaxPrice('');
         setFilterSize('');
         setFilterBreed('');
+        setCurrentPage(1);
     };
 
     const fetchBreeds = async () => {
@@ -147,7 +171,6 @@ const ManageDogs: React.FC = () => {
             setBreeds(data);
         } catch (err) {
             console.error("Error fetching breeds:", err);
-            // We don't set the main error state for breeds to avoid blocking the UI
         }
     };
 
@@ -217,7 +240,6 @@ const ManageDogs: React.FC = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
 
-        // Handle different input types
         if (type === 'checkbox') {
             const checked = (e.target as HTMLInputElement).checked;
             setFormData(prev => ({
@@ -304,6 +326,13 @@ const ManageDogs: React.FC = () => {
             return `${years}y ${remainingMonths}m`;
         }
         return `${months}m`;
+    };
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+            window.scrollTo(0, 0);
+        }
     };
 
     return (
@@ -602,55 +631,77 @@ const ManageDogs: React.FC = () => {
                     ) : dogs.length === 0 ? (
                         <p className="md-no-items">No dogs found matching the filters.</p>
                     ) : (
-                        <table className="md-dogs-table">
-                            <thead>
-                                <tr>
-                                    <th>SKU</th>
-                                    <th>Breed</th>
-                                    <th>Gender</th>
-                                    <th>Age</th>
-                                    <th>Size</th>
-                                    <th>Color</th>
-                                    <th>Price</th>
-                                    <th>Health</th>
-                                    <th>Location</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {dogs.map(dog => (
-                                    <tr key={dog.id}>
-                                        <td>{dog.sku}</td>
-                                        <td>{dog.breed.name}</td>
-                                        <td>{dog.gender}</td>
-                                        <td>{calculateAge(dog.ageInMonths)}</td>
-                                        <td>{dog.size}</td>
-                                        <td>{dog.color}</td>
-                                        <td>{formatPrice(dog.price)}</td>
-                                        <td className="md-health-cell">
-                                            {dog.vaccinated ? '💉' : ''}
-                                            {dog.dewormed ? '🪱' : ''}
-                                            {dog.microchip ? '🔍' : ''}
-                                        </td>
-                                        <td>{dog.location || 'N/A'}</td>
-                                        <td className="md-actions-cell">
-                                            <button
-                                                onClick={() => handleEdit(dog)}
-                                                className="md-edit-button"
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                onClick={() => handleDelete(dog.id)}
-                                                className="md-delete-button"
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
+                        <>
+                            <table className="md-dogs-table">
+                                <thead>
+                                    <tr>
+                                        <th>SKU</th>
+                                        <th>Breed</th>
+                                        <th>Gender</th>
+                                        <th>Age</th>
+                                        <th>Size</th>
+                                        <th>Color</th>
+                                        <th>Price</th>
+                                        <th>Health</th>
+                                        <th>Location</th>
+                                        <th>Actions</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {dogs.map(dog => (
+                                        <tr key={dog.id}>
+                                            <td>{dog.sku}</td>
+                                            <td>{dog.breed.name}</td>
+                                            <td>{dog.gender}</td>
+                                            <td>{calculateAge(dog.ageInMonths)}</td>
+                                            <td>{dog.size}</td>
+                                            <td>{dog.color}</td>
+                                            <td>{formatPrice(dog.price)}</td>
+                                            <td className="md-health-cell">
+                                                {dog.vaccinated ? '💉' : ''}
+                                                {dog.dewormed ? '🪱' : ''}
+                                                {dog.microchip ? '🔍' : ''}
+                                            </td>
+                                            <td>{dog.location || 'N/A'}</td>
+                                            <td className="md-actions-cell">
+                                                <button
+                                                    onClick={() => handleEdit(dog)}
+                                                    className="md-edit-button"
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(dog.id)}
+                                                    className="md-delete-button"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            {totalPages > 1 && (
+                                <div className="md-pagination">
+                                    <button
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                    >
+                                        Previous
+                                    </button>
+                                    <span>
+                                        Page {currentPage} of {totalPages}
+                                    </span>
+                                    <button
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
             )}
