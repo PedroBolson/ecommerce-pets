@@ -25,8 +25,8 @@ export default function Footer() {
             <div className="footer-nav-wrapper">
                 <div className="footer-nav-inner">
                     <nav className="footer-links">
-                        <Link to="/">Home</Link>
-                        <Link to="/category">Category</Link>
+                        <Link to="/" onClick={() => window.scrollTo(0, 0)}>Home</Link>
+                        <Link to="/dogs" onClick={() => window.scrollTo(0, 0)}>Category</Link>
                         <Link to="/about">About</Link>
                         <Link to="/contact">Contact</Link>
                     </nav>

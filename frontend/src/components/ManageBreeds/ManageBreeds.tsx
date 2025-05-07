@@ -27,6 +27,8 @@ const ManageBreeds: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
     const photosPerPage = 4;
+    const [currentPage, setCurrentPage] = useState(1);
+    const breedsPerPage = 6;
 
     // Form state
     const [formData, setFormData] = useState({
@@ -308,10 +310,31 @@ const ManageBreeds: React.FC = () => {
         }
     };
 
-    // Filter breeds based on search term
     const filteredBreeds = breeds.filter(breed =>
         breed.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const getPaginatedBreeds = (breeds: Breed[]) => {
+        const startIndex = (currentPage - 1) * breedsPerPage;
+        return breeds.slice(startIndex, startIndex + breedsPerPage);
+    };
+
+    const getBreedPageCount = (breeds: Breed[]) => {
+        return Math.ceil(breeds.length / breedsPerPage);
+    };
+
+    const handleNextBreedPage = () => {
+        const pageCount = getBreedPageCount(filteredBreeds);
+        if (currentPage < pageCount) {
+            setCurrentPage(prev => prev + 1);
+        }
+    };
+
+    const handlePrevBreedPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prev => prev - 1);
+        }
+    };
 
     if (loading) return <div className="mb-loading">Loading breeds...</div>;
     if (error) return <div className="mb-error">Error: {error}</div>;
@@ -329,7 +352,10 @@ const ManageBreeds: React.FC = () => {
                     className="mb-search-input"
                     placeholder="Search breeds by name..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(1);
+                    }}
                 />
             </div>
 
@@ -376,29 +402,53 @@ const ManageBreeds: React.FC = () => {
                             {breeds.length === 0 ? "No breeds registered." : "No breeds match your search."}
                         </p>
                     ) : (
-                        <div className="mb-breed-cards">
-                            {filteredBreeds.map(breed => (
-                                <div key={breed.id} className="mb-breed-card">
-                                    <div className="mb-breed-image">
-                                        {breed.images && breed.images.length > 0 ? (
-                                            <img src={breed.images[0].url} alt={breed.images[0].altText || breed.name} />
-                                        ) : (
-                                            <div className="mb-no-image">No image</div>
-                                        )}
+                        <>
+                            <div className="mb-breed-cards">
+                                {getPaginatedBreeds(filteredBreeds).map(breed => (
+                                    <div key={breed.id} className="mb-breed-card">
+                                        <div className="mb-breed-image">
+                                            {breed.images && breed.images.length > 0 ? (
+                                                <img src={breed.images[0].url} alt={breed.images[0].altText || breed.name} />
+                                            ) : (
+                                                <div className="mb-no-image">No image</div>
+                                            )}
+                                        </div>
+                                        <h3>{breed.name}</h3>
+                                        <p>{breed.description.length > 100 ?
+                                            `${breed.description.substring(0, 100)}...` :
+                                            breed.description}
+                                        </p>
+                                        <div className="mb-card-actions">
+                                            <button onClick={() => handleEdit(breed)}>Edit</button>
+                                            <button onClick={() => handleManagePhotos(breed)}>Photos</button>
+                                            <button onClick={() => handleDelete(breed.id)}>Delete</button>
+                                        </div>
                                     </div>
-                                    <h3>{breed.name}</h3>
-                                    <p>{breed.description.length > 100 ?
-                                        `${breed.description.substring(0, 100)}...` :
-                                        breed.description}
-                                    </p>
-                                    <div className="mb-card-actions">
-                                        <button onClick={() => handleEdit(breed)}>Edit</button>
-                                        <button onClick={() => handleManagePhotos(breed)}>Photos</button>
-                                        <button onClick={() => handleDelete(breed.id)}>Delete</button>
-                                    </div>
+                                ))}
+                            </div>
+
+                            {filteredBreeds.length > breedsPerPage && (
+                                <div className="mb-pagination-controls">
+                                    <button
+                                        className="mb-pagination-button"
+                                        onClick={handlePrevBreedPage}
+                                        disabled={currentPage === 1}
+                                    >
+                                        Previous
+                                    </button>
+                                    <span className="mb-pagination-info">
+                                        Page {currentPage} of {getBreedPageCount(filteredBreeds)}
+                                    </span>
+                                    <button
+                                        className="mb-pagination-button"
+                                        onClick={handleNextBreedPage}
+                                        disabled={currentPage === getBreedPageCount(filteredBreeds)}
+                                    >
+                                        Next
+                                    </button>
                                 </div>
-                            ))}
-                        </div>
+                            )}
+                        </>
                     )}
                 </div>
             )}
@@ -428,7 +478,6 @@ const ManageBreeds: React.FC = () => {
                                         ))}
                                     </div>
 
-                                    {/* Pagination controls - only show if more than one page */}
                                     {breedForPhotos.images.length > photosPerPage && (
                                         <div className="mb-pagination-controls">
                                             <button

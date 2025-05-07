@@ -34,6 +34,8 @@ const ManageAdoptionPhotos: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [currentPhotoPage, setCurrentPhotoPage] = useState(1);
     const photosPerPage = 4;
+    const [currentBreedPage, setCurrentBreedPage] = useState(1);
+    const breedsPerPage = 6;
 
     const [imageFormData, setImageFormData] = useState<ImageFormData>({
         url: '',
@@ -111,6 +113,28 @@ const ManageAdoptionPhotos: React.FC = () => {
     const getPageCount = (photos: AdoptionPhoto[] | undefined) => {
         if (!photos) return 0;
         return Math.ceil(photos.length / photosPerPage);
+    };
+
+    const getPaginatedBreeds = (breeds: Breed[]) => {
+        const startIndex = (currentBreedPage - 1) * breedsPerPage;
+        return breeds.slice(startIndex, startIndex + breedsPerPage);
+    };
+
+    const getBreedPageCount = (breeds: Breed[]) => {
+        return Math.ceil(breeds.length / breedsPerPage);
+    };
+
+    const handleNextBreedPage = () => {
+        const pageCount = getBreedPageCount(filteredBreeds);
+        if (currentBreedPage < pageCount) {
+            setCurrentBreedPage(prev => prev + 1);
+        }
+    };
+
+    const handlePrevBreedPage = () => {
+        if (currentBreedPage > 1) {
+            setCurrentBreedPage(prev => prev - 1);
+        }
     };
 
     const handleNextPage = () => {
@@ -231,7 +255,10 @@ const ManageAdoptionPhotos: React.FC = () => {
                     className="map-search-input"
                     placeholder="Search breeds by name..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentBreedPage(1);
+                    }}
                 />
             </div>
 
@@ -241,35 +268,59 @@ const ManageAdoptionPhotos: React.FC = () => {
                         {breeds.length === 0 ? "No breeds registered." : "No breeds match your search."}
                     </p>
                 ) : (
-                    <div className="map-breed-cards">
-                        {filteredBreeds.map(breed => (
-                            <div key={breed.id} className="map-breed-card">
-                                <div className="map-breed-image">
-                                    {breed.images && breed.images.length > 0 ? (
-                                        <img src={breed.images[0].url} alt={breed.images[0].altText || breed.name} />
-                                    ) : (
-                                        <div className="map-no-image">No image</div>
-                                    )}
-                                </div>
-                                <h3>{breed.name}</h3>
+                    <>
+                        <div className="map-breed-cards">
+                            {getPaginatedBreeds(filteredBreeds).map(breed => (
+                                <div key={breed.id} className="map-breed-card">
+                                    <div className="map-breed-image">
+                                        {breed.images && breed.images.length > 0 ? (
+                                            <img src={breed.images[0].url} alt={breed.images[0].altText || breed.name} />
+                                        ) : (
+                                            <div className="map-no-image">No image</div>
+                                        )}
+                                    </div>
+                                    <h3>{breed.name}</h3>
 
-                                <div className="map-adoption-photos-count">
-                                    <span>
-                                        {adoptionPhotos[breed.id]?.length || 0} adoption photos
-                                    </span>
-                                </div>
+                                    <div className="map-adoption-photos-count">
+                                        <span>
+                                            {adoptionPhotos[breed.id]?.length || 0} adoption photos
+                                        </span>
+                                    </div>
 
-                                <div className="map-card-actions">
-                                    <button
-                                        className="map-manage-photos-button"
-                                        onClick={() => handleManagePhotos(breed)}
-                                    >
-                                        Manage Photos
-                                    </button>
+                                    <div className="map-card-actions">
+                                        <button
+                                            className="map-manage-photos-button"
+                                            onClick={() => handleManagePhotos(breed)}
+                                        >
+                                            Manage Photos
+                                        </button>
+                                    </div>
                                 </div>
+                            ))}
+                        </div>
+
+                        {filteredBreeds.length > breedsPerPage && (
+                            <div className="map-pagination-controls">
+                                <button
+                                    className="map-pagination-button"
+                                    onClick={handlePrevBreedPage}
+                                    disabled={currentBreedPage === 1}
+                                >
+                                    Previous
+                                </button>
+                                <span className="map-pagination-info">
+                                    Page {currentBreedPage} of {getBreedPageCount(filteredBreeds)}
+                                </span>
+                                <button
+                                    className="map-pagination-button"
+                                    onClick={handleNextBreedPage}
+                                    disabled={currentBreedPage === getBreedPageCount(filteredBreeds)}
+                                >
+                                    Next
+                                </button>
                             </div>
-                        ))}
-                    </div>
+                        )}
+                    </>
                 )}
             </div>
 
