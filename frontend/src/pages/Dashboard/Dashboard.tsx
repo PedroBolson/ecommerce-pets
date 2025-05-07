@@ -11,6 +11,7 @@ import ManagePetKnowledge from "../../components/ManagePetKnowledge/ManagePetKno
 import ManageContacts from "../../components/ManageContacts/ManageContacts";
 import ManageAdoptionPhotos from "../../components/ManageAdoptionPhotos/ManageAdoptionPhotos";
 import ManageUsers from "../../components/ManageUsers/ManageUsers";
+import { API_CONFIG } from '../../config/api.config';
 
 interface UserData {
     id: string;
@@ -56,7 +57,7 @@ const Dashboard: React.FC = () => {
 
     const handleStatus = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/health`);
+            const response = await fetch(`${API_CONFIG.baseUrl}/api/health`);
             if (response.ok) {
                 setServerStatus('online');
             } else {

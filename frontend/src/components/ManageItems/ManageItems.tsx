@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManageItems.css';
+import { API_CONFIG } from '../../config/api.config';
 
 interface StoreCategory {
     id: string;
@@ -100,7 +101,7 @@ const ManageItems: React.FC = () => {
                 params.append('inStock', filterInStock);
             }
 
-            const url = `http://localhost:3000/store-item?${params.toString()}`;
+            const url = `${API_CONFIG.baseUrl}/store-item?${params.toString()}`;
             const response = await fetch(url, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -146,7 +147,7 @@ const ManageItems: React.FC = () => {
     const fetchCategories = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/store-category', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/store-category`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -194,7 +195,7 @@ const ManageItems: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/store-item/${id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/store-item/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -248,7 +249,7 @@ const ManageItems: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             if (formMode === 'create') {
-                const response = await fetch('http://localhost:3000/store-item', {
+                const response = await fetch(`${API_CONFIG.baseUrl}/store-item`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -264,7 +265,7 @@ const ManageItems: React.FC = () => {
                 const newItem = await response.json();
                 setItems([...items, newItem]);
             } else if (formMode === 'edit' && selectedItem) {
-                const response = await fetch(`http://localhost:3000/store-item/${selectedItem.id}`, {
+                const response = await fetch(`${API_CONFIG.baseUrl}/store-item/${selectedItem.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -321,7 +322,7 @@ const ManageItems: React.FC = () => {
                 itemId: itemForPhotos.id
             };
 
-            const response = await fetch('http://localhost:3000/store-item-image', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/store-item-image`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -334,7 +335,7 @@ const ManageItems: React.FC = () => {
                 throw new Error(`Error adding image: ${response.status}`);
             }
 
-            const itemResponse = await fetch(`http://localhost:3000/store-item/${itemForPhotos.id}`, {
+            const itemResponse = await fetch(`${API_CONFIG.baseUrl}/store-item/${itemForPhotos.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -371,7 +372,7 @@ const ManageItems: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/store-item-image/${imageId}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/store-item-image/${imageId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -384,7 +385,7 @@ const ManageItems: React.FC = () => {
 
             const itemId = itemForPhotos?.id;
             if (itemId) {
-                const itemResponse = await fetch(`http://localhost:3000/store-item/${itemId}`, {
+                const itemResponse = await fetch(`${API_CONFIG.baseUrl}/store-item/${itemId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

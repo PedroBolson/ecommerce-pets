@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManageItemCategories.css';
+import { API_CONFIG } from '../../config/api.config';
 
 interface StoreCategory {
     id: string;
@@ -29,7 +30,7 @@ const ManageItemCategory: React.FC = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/store-category', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/store-category`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -72,7 +73,7 @@ const ManageItemCategory: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/store-category/${id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/store-category/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -104,7 +105,7 @@ const ManageItemCategory: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             if (formMode === 'create') {
-                const response = await fetch('http://localhost:3000/store-category', {
+                const response = await fetch(`${API_CONFIG.baseUrl}/store-category`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -120,7 +121,7 @@ const ManageItemCategory: React.FC = () => {
                 const newCategory = await response.json();
                 setCategories([...categories, newCategory]);
             } else if (formMode === 'edit' && selectedCategory) {
-                const response = await fetch(`http://localhost:3000/store-category/${selectedCategory.id}`, {
+                const response = await fetch(`${API_CONFIG.baseUrl}/store-category/${selectedCategory.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

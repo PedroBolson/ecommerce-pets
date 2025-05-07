@@ -6,6 +6,7 @@ import './DogsPage.css';
 import Header from '../../../storecomponents/Header/Header';
 import { useCurrency } from '../../../context/CurrencyContext';
 import Footer from '../../../storecomponents/Footer/Footer';
+import { API_CONFIG } from '../../../config/api.config';
 
 interface ApiDog {
     id: string;
@@ -177,7 +178,7 @@ const DogsPage: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch('http://localhost:3000/breed-image');
+            const res = await fetch(`${API_CONFIG.baseUrl}/breed-image`);
             if (!res.ok) throw new Error(`Error ${res.status}`);
             const imgs: BreedImage[] = await res.json();
             const map = new Map<string, string[]>();
@@ -191,7 +192,7 @@ const DogsPage: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            const res = await fetch('http://localhost:3000/breed');
+            const res = await fetch(`${API_CONFIG.baseUrl}/breed`);
             if (!res.ok) throw new Error(`Error ${res.status}`);
             setBreeds(await res.json());
         })();
@@ -211,7 +212,7 @@ const DogsPage: React.FC = () => {
             if (currentMin) p.set('minPrice', currentMin);
             if (currentMax) p.set('maxPrice', currentMax);
 
-            const res = await fetch(`http://localhost:3000/dog?${p.toString()}`);
+            const res = await fetch(`${API_CONFIG.baseUrl}/dog?${p.toString()}`);
             if (!res.ok) throw new Error(`Error ${res.status}`);
             const api: ApiResponse = await res.json();
             setTotalPages(api.pagination.totalPages);

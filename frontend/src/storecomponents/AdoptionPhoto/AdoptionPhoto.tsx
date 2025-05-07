@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { API_CONFIG } from '../../config/api.config';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/pagination';
@@ -18,6 +19,16 @@ interface PhotoItem {
     displayOrder?: number;
 }
 
+const fetchAdoptionPhotos = async (breedId?: string) => {
+    const url = breedId
+        ? `${API_CONFIG.baseUrl}/adoption-photos/breed/${breedId}`
+        : `${API_CONFIG.baseUrl}/adoption-photos`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return data;
+};
+
 const AdoptionPhoto: React.FC<AdoptionPhotoProps> = ({
     title = "Our lovely customer",
     breedId
@@ -30,12 +41,7 @@ const AdoptionPhoto: React.FC<AdoptionPhotoProps> = ({
         (async () => {
             try {
                 setLoading(true);
-                const endpoint = breedId
-                    ? `http://localhost:3000/adoption-photos/breed/${breedId}`
-                    : 'http://localhost:3000/adoption-photos';
-                const res = await fetch(endpoint);
-                if (!res.ok) throw new Error(res.statusText);
-                const data = await res.json();
+                const data = await fetchAdoptionPhotos(breedId);
                 setPhotos(data.sort((a: any, b: any) => (a.displayOrder || 0) - (b.displayOrder || 0)));
             } catch (e: any) {
                 setError(e.message);

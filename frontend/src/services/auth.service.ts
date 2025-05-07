@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { AuthResponse, LoginCredentials } from '../types/auth';
+import { API_CONFIG } from '../config/api.config';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = API_CONFIG.baseUrl;
 
 const decodeToken = (token: string) => {
     try {

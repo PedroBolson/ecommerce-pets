@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DogCardGrid from '../DogCardGrid/DogCardGrid';
+import { API_CONFIG } from '../../config/api.config';
 import './SimilarDogs.css';
 
 interface DogCardData {
@@ -67,7 +68,7 @@ const SimilarDogs: React.FC<SimilarDogsProps> = ({ currentDogId, dogSize }) => {
     useEffect(() => {
         const fetchBreedImages = async () => {
             try {
-                const res = await fetch('http://localhost:3000/breed-image');
+                const res = await fetch(`${API_CONFIG.baseUrl}/breed-image`);
                 if (!res.ok) throw new Error(`Erro: ${res.status}`);
                 const images: BreedImage[] = await res.json();
                 const map = new Map<string, string[]>();
@@ -89,15 +90,23 @@ const SimilarDogs: React.FC<SimilarDogsProps> = ({ currentDogId, dogSize }) => {
             if (!breedImages.size) return;
             try {
                 setLoading(true);
-                const res = await fetch(`http://localhost:3000/dog?size=${dogSize}`);
-                if (!res.ok) throw new Error(`Erro: ${res.status}`);
-                const body: ApiResponse = await res.json();
+                const fetchDogsBySize = async (dogSize: string) => {
+                    const res = await fetch(`${API_CONFIG.baseUrl}/dog?size=${dogSize}`);
+                    if (!res.ok) throw new Error(`Erro: ${res.status}`);
+                    return res.json();
+                };
+
+                const fetchAllDogs = async () => {
+                    const allRes = await fetch(`${API_CONFIG.baseUrl}/dog`);
+                    if (!allRes.ok) throw new Error(`Erro: ${allRes.status}`);
+                    return allRes.json();
+                };
+
+                const body: ApiResponse = await fetchDogsBySize(dogSize);
                 let list = body.data.filter(d => d.id !== currentDogId);
 
                 if (list.length < 4) {
-                    const allRes = await fetch('http://localhost:3000/dog');
-                    if (!allRes.ok) throw new Error(`Erro: ${allRes.status}`);
-                    const allBody: ApiResponse = await allRes.json();
+                    const allBody: ApiResponse = await fetchAllDogs();
                     const extra = allBody.data.filter(d =>
                         d.id !== currentDogId && !list.some(x => x.id === d.id)
                     );

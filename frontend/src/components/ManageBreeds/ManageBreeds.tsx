@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManageBreeds.css';
+import { API_CONFIG } from '../../config/api.config';
 
 interface Breed {
     id: string;
@@ -48,7 +49,7 @@ const ManageBreeds: React.FC = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/breed', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/breed`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -91,7 +92,7 @@ const ManageBreeds: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/breed/${id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/breed/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -123,7 +124,7 @@ const ManageBreeds: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             if (formMode === 'create') {
-                const response = await fetch('http://localhost:3000/breed', {
+                const response = await fetch(`${API_CONFIG.baseUrl}/breed`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -139,7 +140,7 @@ const ManageBreeds: React.FC = () => {
                 const newBreed = await response.json();
                 setBreeds([...breeds, newBreed]);
             } else if (formMode === 'edit' && selectedBreed) {
-                const response = await fetch(`http://localhost:3000/breed/${selectedBreed.id}`, {
+                const response = await fetch(`${API_CONFIG.baseUrl}/breed/${selectedBreed.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -219,7 +220,7 @@ const ManageBreeds: React.FC = () => {
                 breedId: breedForPhotos.id
             };
 
-            const response = await fetch('http://localhost:3000/breed-image', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/breed-image`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -232,7 +233,7 @@ const ManageBreeds: React.FC = () => {
                 throw new Error(`Error adding image: ${response.status}`);
             }
 
-            const breedResponse = await fetch(`http://localhost:3000/breed/${breedForPhotos.id}`, {
+            const breedResponse = await fetch(`${API_CONFIG.baseUrl}/breed/${breedForPhotos.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -269,7 +270,7 @@ const ManageBreeds: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/breed-image/${imageId}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/breed-image/${imageId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -282,7 +283,7 @@ const ManageBreeds: React.FC = () => {
 
             const breedId = breedForPhotos?.id;
             if (breedId) {
-                const breedResponse = await fetch(`http://localhost:3000/breed/${breedId}`, {
+                const breedResponse = await fetch(`${API_CONFIG.baseUrl}/breed/${breedId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

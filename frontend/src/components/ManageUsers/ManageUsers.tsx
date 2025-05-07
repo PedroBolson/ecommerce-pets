@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ManageUsers.css';
 import { authService } from '../../services/auth.service';
+import { API_CONFIG } from '../../config/api.config';
 
 interface User {
     id: string;
@@ -54,7 +55,8 @@ const ManageUsers: React.FC = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/users?page=${currentPage}&limit=${limit}`, {
+            const url = `${API_CONFIG.baseUrl}/users?page=${currentPage}&limit=${limit}`;
+            const response = await fetch(url, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -128,7 +130,7 @@ const ManageUsers: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/users/${id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/users/${id}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -195,7 +197,7 @@ const ManageUsers: React.FC = () => {
 
         try {
             if (formMode === 'create') {
-                const response = await fetch('http://localhost:3000/users', {
+                const response = await fetch(`${API_CONFIG.baseUrl}/users`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -213,7 +215,7 @@ const ManageUsers: React.FC = () => {
             } else if (formMode === 'edit' && selectedUser) {
                 const { password, confirmPassword, ...updateData } = formData;
 
-                const response = await fetch(`http://localhost:3000/users/${selectedUser.id}`, {
+                const response = await fetch(`${API_CONFIG.baseUrl}/users/${selectedUser.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -229,7 +231,7 @@ const ManageUsers: React.FC = () => {
 
                 alert('User updated successfully');
             } else if (formMode === 'password' && selectedUser) {
-                const response = await fetch('http://localhost:3000/users/reset-password', {
+                const response = await fetch(`${API_CONFIG.baseUrl}/users/reset-password`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManagePetKnowledge.css';
+import { API_CONFIG } from '../../config/api.config';
 
 interface Breed {
     id: string;
@@ -52,7 +53,7 @@ const ManagePetKnowledge: React.FC = () => {
             setLoading(true);
             const token = localStorage.getItem('token');
 
-            let url = `http://localhost:3000/pet-knowledge?page=${currentPage}&limit=6`;
+            let url = `${API_CONFIG.baseUrl}/pet-knowledge?page=${currentPage}&limit=6`;
 
             if (filterCategory) {
                 url += `&category=${encodeURIComponent(filterCategory)}`;
@@ -95,7 +96,7 @@ const ManagePetKnowledge: React.FC = () => {
     const fetchBreeds = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/breed', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/breed`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -149,7 +150,7 @@ const ManagePetKnowledge: React.FC = () => {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`http://localhost:3000/pet-knowledge/${id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/pet-knowledge/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -218,7 +219,7 @@ const ManagePetKnowledge: React.FC = () => {
 
         try {
             if (formMode === 'create') {
-                const response = await fetch('http://localhost:3000/pet-knowledge', {
+                const response = await fetch(`${API_CONFIG.baseUrl}/pet-knowledge`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -231,7 +232,7 @@ const ManagePetKnowledge: React.FC = () => {
                     throw new Error(`Error creating: ${response.status}`);
                 }
             } else if (formMode === 'edit' && selectedArticle) {
-                const response = await fetch(`http://localhost:3000/pet-knowledge/${selectedArticle.id}`, {
+                const response = await fetch(`${API_CONFIG.baseUrl}/pet-knowledge/${selectedArticle.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -263,7 +264,7 @@ const ManagePetKnowledge: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/pet-knowledge/${article.id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/pet-knowledge/${article.id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

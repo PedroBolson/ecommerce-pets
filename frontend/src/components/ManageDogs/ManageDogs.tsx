@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManageDogs.css';
+import { API_CONFIG } from '../../config/api.config';
 
 interface Breed {
     id: string;
@@ -115,7 +116,7 @@ const ManageDogs: React.FC = () => {
                 params.append('breedId', filterBreed);
             }
 
-            const url = `http://localhost:3000/dog?${params.toString()}`;
+            const url = `${API_CONFIG.baseUrl}/dog?${params.toString()}`;
             const response = await fetch(url, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -157,7 +158,8 @@ const ManageDogs: React.FC = () => {
     const fetchBreeds = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/breed', {
+            const url = `${API_CONFIG.baseUrl}/breed`;
+            const response = await fetch(url, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -219,7 +221,7 @@ const ManageDogs: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/dog/${id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/dog/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -265,7 +267,7 @@ const ManageDogs: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             if (formMode === 'create') {
-                const response = await fetch('http://localhost:3000/dog', {
+                const response = await fetch(`${API_CONFIG.baseUrl}/dog`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -280,7 +282,7 @@ const ManageDogs: React.FC = () => {
 
                 await fetchDogs(); // Refresh the dogs list
             } else if (formMode === 'edit' && selectedDog) {
-                const response = await fetch(`http://localhost:3000/dog/${selectedDog.id}`, {
+                const response = await fetch(`${API_CONFIG.baseUrl}/dog/${selectedDog.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',

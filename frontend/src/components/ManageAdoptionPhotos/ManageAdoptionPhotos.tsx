@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManageAdoptionPhotos.css';
+import { API_CONFIG } from '../../config/api.config';
 
 interface Breed {
     id: string;
@@ -48,7 +49,7 @@ const ManageAdoptionPhotos: React.FC = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/breed', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/breed`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -73,7 +74,7 @@ const ManageAdoptionPhotos: React.FC = () => {
     const fetchAllAdoptionPhotos = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/adoption-photos', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/adoption-photos`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -157,7 +158,7 @@ const ManageAdoptionPhotos: React.FC = () => {
                 breedId: selectedBreed.id
             };
 
-            const response = await fetch('http://localhost:3000/adoption-photos', {
+            const response = await fetch(`${API_CONFIG.baseUrl}/adoption-photos`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -192,7 +193,7 @@ const ManageAdoptionPhotos: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/adoption-photos/${photoId}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/adoption-photos/${photoId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

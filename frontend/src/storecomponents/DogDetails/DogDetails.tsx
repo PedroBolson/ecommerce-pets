@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import DogImagesCarousel from './DogImagesCarousel';
 import './DogDetails.css';
 import { useCurrency } from '../../context/CurrencyContext';
+import { API_CONFIG } from '../../config/api.config';
 
 interface Dog {
     id: string;
@@ -39,7 +40,7 @@ const DogDetails: React.FC<{ dog: Dog }> = ({ dog }) => {
         (async () => {
             try {
                 setLoadingImgs(true);
-                const res = await fetch(`http://localhost:3000/breed/${dog.breed.id}`, {
+                const res = await fetch(`${API_CONFIG.baseUrl}/breed/${dog.breed.id}`, {
                     headers: { 'Content-Type': 'application/json' },
                 });
                 if (!res.ok) throw new Error(`Fetch images failed: ${res.status}`);

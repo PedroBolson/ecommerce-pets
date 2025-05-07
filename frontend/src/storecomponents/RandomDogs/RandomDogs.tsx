@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { API_CONFIG } from '../../config/api.config';
 import DogCardGrid from '../DogCardGrid/DogCardGrid';
 import './RandomDogs.css';
 
@@ -61,7 +62,7 @@ const RandomDogs: React.FC = () => {
     useEffect(() => {
         const fetchBreedImages = async () => {
             try {
-                const res = await fetch('http://localhost:3000/breed-image');
+                const res = await fetch(`${API_CONFIG.baseUrl}/breed-image`);
                 if (!res.ok) throw new Error(`Error: ${res.status}`);
                 const images: BreedImage[] = await res.json();
                 const map = new Map<string, string[]>();
@@ -83,7 +84,7 @@ const RandomDogs: React.FC = () => {
             if (!breedImages.size) return;
             try {
                 setLoading(true);
-                const res = await fetch('http://localhost:3000/dog');
+                const res = await fetch(`${API_CONFIG.baseUrl}/dog`);
                 if (!res.ok) throw new Error(`Error: ${res.status}`);
                 const body: ApiResponse = await res.json();
 

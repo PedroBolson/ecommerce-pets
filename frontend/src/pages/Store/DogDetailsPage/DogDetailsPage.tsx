@@ -6,6 +6,7 @@ import Header from '../../../storecomponents/Header/Header';
 import AdoptionPhoto from '../../../storecomponents/AdoptionPhoto/AdoptionPhoto';
 import SimilarDogs from '../../../storecomponents/SimilarDogs/SimilarDogs';
 import Footer from '../../../storecomponents/Footer/Footer';
+import { API_CONFIG } from '../../../config/api.config';
 
 interface Dog {
     id: string;
@@ -35,7 +36,7 @@ const DogDetailsPage: React.FC = () => {
         (async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`http://localhost:3000/dog/${id}`, {
+                const res = await fetch(`${API_CONFIG.baseUrl}/dog/${id}`, {
                     headers: { 'Content-Type': 'application/json' },
                 });
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);

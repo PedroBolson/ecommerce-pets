@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ManageContacts.css';
+import { API_CONFIG } from '../../config/api.config';
 
 interface Contact {
     id: string;
@@ -80,7 +81,7 @@ const ManageContacts: React.FC = () => {
             setLoading(true);
             const token = localStorage.getItem('token');
 
-            let url = `http://localhost:3000/contacts?page=${currentPage}&limit=10`;
+            let url = `${API_CONFIG.baseUrl}/contacts?page=${currentPage}&limit=10`;
 
             const response = await fetch(url, {
                 headers: {
@@ -136,7 +137,7 @@ const ManageContacts: React.FC = () => {
 
             if (isDog) {
                 const dog = await safeFetch<Dog>(
-                    `http://localhost:3000/dog/${uuid}`,
+                    `${API_CONFIG.baseUrl}/dog/${uuid}`,
                     token
                 );
 
@@ -163,7 +164,7 @@ const ManageContacts: React.FC = () => {
                 }
             } else {
                 const storeItem = await safeFetch<StoreItem>(
-                    `http://localhost:3000/store-item/${uuid}`,
+                    `${API_CONFIG.baseUrl}/store-item/${uuid}`,
                     token
                 );
 
@@ -198,7 +199,7 @@ const ManageContacts: React.FC = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:3000/contacts/${id}`, {
+            const response = await fetch(`${API_CONFIG.baseUrl}/contacts/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
