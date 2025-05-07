@@ -105,7 +105,7 @@ describe('ContactController', () => {
             };
             mockService.findAll.mockResolvedValue(paginatedResponse);
 
-            const result = await controller.findAll(1, 5, true);
+            const result = await controller.findAll(1, 5, "true");
 
             expect(service.findAll).toHaveBeenCalledWith({
                 page: 1,

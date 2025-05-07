@@ -63,7 +63,6 @@ const ManageContacts: React.FC = () => {
     const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
     const [showDetails, setShowDetails] = useState(false);
 
-    const [filterActive, setFilterActive] = useState<boolean | undefined>(undefined);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -74,7 +73,36 @@ const ManageContacts: React.FC = () => {
 
     useEffect(() => {
         fetchContacts();
-    }, [filterActive, currentPage]);
+    }, [currentPage, searchTerm]);
+
+    useEffect(() => {
+        fetchActiveCount();
+    }, []);
+
+    const fetchActiveCount = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const countUrl = `${API_CONFIG.baseUrl}/contacts/count/active`;
+            const response = await fetch(countUrl, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error loading active count: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data && typeof data.count === 'number') {
+                setActiveCount(data.count);
+            } else {
+                console.error("Unexpected response format:", data);
+            }
+        } catch (err) {
+            console.error("Error fetching active count:", err);
+        }
+    };
 
     const fetchContacts = async () => {
         try {
@@ -82,6 +110,10 @@ const ManageContacts: React.FC = () => {
             const token = localStorage.getItem('token');
 
             let url = `${API_CONFIG.baseUrl}/contacts?page=${currentPage}&limit=10`;
+
+            if (searchTerm) {
+                url += `&search=${encodeURIComponent(searchTerm)}`;
+            }
 
             const response = await fetch(url, {
                 headers: {
@@ -94,12 +126,15 @@ const ManageContacts: React.FC = () => {
             }
 
             const data = await response.json();
-            setContacts(data.data || []);
-            setTotalPages(data.pagination?.totalPages || 1);
+            const contactsData = data.data || [];
+            const pagination = data.pagination || {};
+            setTotalPages(pagination.totalPages || 1);
 
-            const activeMessages = (data.data || []).filter((contact: Contact) => contact.isActive).length;
-            setActiveCount(activeMessages);
-
+            if (contactsData.length === 0 && pagination.total > 0 && currentPage > 1) {
+                setCurrentPage(prev => prev - 1);
+            } else {
+                setContacts(contactsData);
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Unknown error');
             console.error(err);
@@ -178,7 +213,8 @@ const ManageContacts: React.FC = () => {
                         name: String(storeItem.name || ''),
                         category: typeof storeItem.category === 'object' && storeItem.category?.name
                             ? storeItem.category.name
-                            : String(storeItem.category || ''), price: priceNumber,
+                            : String(storeItem.category || ''),
+                        price: priceNumber,
                         description: storeItem.description ? String(storeItem.description) : '',
                         imageUrl: storeItem.imageUrl || undefined
                     };
@@ -193,7 +229,7 @@ const ManageContacts: React.FC = () => {
     };
 
     const handleMarkResolved = async (id: string) => {
-        if (!window.confirm('Mark this contact as resolved? This will move it to the archived list.')) {
+        if (!window.confirm('Mark this contact as resolved? This will archive it.')) {
             return;
         }
 
@@ -212,20 +248,28 @@ const ManageContacts: React.FC = () => {
                 throw new Error(`Error updating contact: ${response.status}`);
             }
 
-            if (filterActive === true || filterActive === undefined) {
-                setContacts(prevContacts => prevContacts.filter(contact => contact.id !== id));
-
-                if (filterActive === undefined) {
-                    setActiveCount(prevCount => Math.max(0, prevCount - 1));
-                }
-            } else {
-                fetchContacts();
-            }
-
             if (selectedContact?.id === id) {
                 setSelectedContact(null);
                 setShowDetails(false);
                 setInterestItem(null);
+            }
+
+            setContacts(prevContacts =>
+                prevContacts.map(contact =>
+                    contact.id === id
+                        ? { ...contact, isActive: false }
+                        : contact
+                )
+            );
+
+            fetchActiveCount();
+
+            const activeContactsLeft = contacts.filter(c =>
+                c.id !== id && c.isActive
+            ).length;
+
+            if (activeContactsLeft === 0 && contacts.length === 1) {
+                fetchContacts();
             }
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Error marking as resolved');
@@ -258,15 +302,14 @@ const ManageContacts: React.FC = () => {
     const handlePageChange = (newPage: number) => {
         if (newPage > 0 && newPage <= totalPages) {
             setCurrentPage(newPage);
+
+            if (searchTerm) {
+                fetchContacts();
+            }
         }
     };
 
     const filteredContacts = contacts
-        .filter(contact => {
-            if (filterActive === undefined) return contact.isActive;
-            if (filterActive === false) return !contact.isActive;
-            return true;
-        })
         .filter(contact => {
             if (!searchTerm) return true;
 
@@ -276,33 +319,25 @@ const ManageContacts: React.FC = () => {
                 contact.email.toLowerCase().includes(searchLower) ||
                 (contact.phone && contact.phone.toLowerCase().includes(searchLower))
             );
+        })
+        .sort((a, b) => {
+            if (a.isActive && !b.isActive) return -1;
+            if (!a.isActive && b.isActive) return 1;
+
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
 
     return (
         <div className="manage-contacts">
             <div className="mc-section-header">
                 <h2>Contact Management</h2>
-                <div className="mc-filter-tabs">
-                    <button
-                        className={`mc-tab-button ${filterActive === undefined ? 'active' : ''}`}
-                        onClick={() => {
-                            setFilterActive(undefined);
-                            setCurrentPage(1);
-                        }}
-                    >
-                        Messages
-                        {activeCount > 0 && <span className="mc-notification-badge">{activeCount}</span>}
-                    </button>
-                    <button
-                        className={`mc-tab-button ${filterActive === false ? 'false' : ''}`}
-                        onClick={() => {
-                            setFilterActive(false);
-                            setCurrentPage(1);
-                        }}
-                    >
-                        Resolved
-                    </button>
-                </div>
+                {activeCount > 0 && (
+                    <div className="mc-notification-summary">
+                        <span className="mc-active-count">
+                            {activeCount} active message{activeCount !== 1 ? 's' : ''}
+                        </span>
+                    </div>
+                )}
             </div>
 
             <div className="mc-search-bar">
@@ -310,7 +345,10 @@ const ManageContacts: React.FC = () => {
                     type="text"
                     placeholder="Search by name, email or phone..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setCurrentPage(1);
+                    }}
                 />
             </div>
 
@@ -320,9 +358,7 @@ const ManageContacts: React.FC = () => {
                 <div className="mc-loading">Loading contacts...</div>
             ) : filteredContacts.length === 0 ? (
                 <p className="mc-no-contacts">
-                    {filterActive === false
-                        ? "No resolved contacts found."
-                        : "No messages found."}
+                    {searchTerm ? "No contacts match your search." : "No contacts found."}
                 </p>
             ) : (
                 <div className="mc-contacts-container">

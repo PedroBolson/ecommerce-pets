@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { API_CONFIG } from '../../config/api.config';
 import DogCardGrid from '../DogCardGrid/DogCardGrid';
 import './RandomDogs.css';
@@ -130,15 +131,12 @@ const RandomDogs: React.FC = () => {
                     <h2>Take A Look At Some Of Our Pets</h2>
                 </div>
                 <div className='random-dogs-header-right'>
-                    <button
-                        className="random-dogs-button"
-                        onClick={() => window.location.href = '/dogs'}
-                    >
+                    <Link to="/dogs" className="random-dogs-button">
                         <p>View More</p>
                         <svg width="15" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8.33337 6.66666L11.6667 9.99999L8.33337 13.3333" stroke="#003459" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
-                    </button>
+                    </Link>
                 </div>
             </div>
             {loading ? (

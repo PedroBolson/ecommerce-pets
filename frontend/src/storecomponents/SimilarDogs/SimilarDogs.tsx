@@ -148,7 +148,7 @@ const SimilarDogs: React.FC<SimilarDogsProps> = ({ currentDogId, dogSize }) => {
         <div className="similar-dogs-section">
             <div className="similar-dogs-header">
                 <h2>What's new?</h2>
-                <Link to="/puppies" className="see-more-link">See More Puppies</Link>
+                <Link to="/dogs" className="see-more-link">See More Puppies</Link>
             </div>
             {loading ? (
                 <div className="similar-dogs-loading">Loading similar puppies...</div>

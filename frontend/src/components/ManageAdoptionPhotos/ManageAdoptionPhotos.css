@@ -30,12 +30,15 @@
 
 .map-breeds-grid {
     width: 100%;
+    min-width: 800px;
 }
 
 .map-breed-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .map-breed-card {
@@ -48,6 +51,9 @@
     overflow: hidden;
     transition: transform 0.2s ease;
     background-color: #fff;
+    width: 100%;
+    min-width: 230px;
+    max-width: 300px;
 }
 
 .map-breed-card:hover {
@@ -153,9 +159,10 @@
     border-radius: 8px;
     padding: 20px;
     width: 80%;
-    max-width: 900px;
+    max-width: 1200px;
     max-height: 80vh;
     overflow-y: auto;
+    min-width: 800px;
 }
 
 .map-photo-grid {
@@ -163,6 +170,8 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 15px;
     margin-bottom: 20px;
+    width: 100%;
+    min-width: 600px;
 }
 
 .map-photo-item {
@@ -271,6 +280,9 @@
     text-align: center;
     color: #888;
     padding: 20px;
+    width: 100%;
+    min-width: 800px;
+    padding: 40px 0;
 }
 
 .map-loading,
@@ -309,6 +321,12 @@
 .map-pagination-info {
     font-size: 14px;
     color: #666;
+}
+
+.map-empty-space {
+    width: 100%;
+    min-width: 800px;
+    height: 1px;
 }
 
 #root>div>div.dashboard-content>div>div.breeds-grid>div>div>div.card-actions>button {

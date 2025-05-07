@@ -68,12 +68,16 @@ export class ContactController {
   findAll(
     @Query('page') page?: number,
     @Query('limit') limit?: number,
-    @Query('isActive') isActive?: boolean,
+    @Query('isActive') isActiveRaw?: string,
   ) {
+    const isActive = isActiveRaw === 'true' ? true
+      : isActiveRaw === 'false' ? false
+        : undefined;
+
     return this.contactService.findAll({
       page: page ? Number(page) : undefined,
       limit: limit ? Number(limit) : undefined,
-      isActive: isActive !== undefined ? isActive === true || isActive === false : undefined,
+      isActive,
     });
   }
 

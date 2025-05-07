@@ -21,7 +21,7 @@ export class User {
     @ApiProperty({
         description: 'The hashed password of the user',
         example: 'hashedpassword',
-        writeOnly: true // Indica que este campo só deve ser usado para escrita, não para leitura
+        writeOnly: true
     })
     @Column()
     password: string;
