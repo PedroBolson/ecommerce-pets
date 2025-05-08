@@ -109,7 +109,7 @@ const ProductPage: React.FC = () => {
     useEffect(() => {
         (async () => {
             try {
-                const res = await fetch(`${API_CONFIG.baseUrl}/category`);
+                const res = await fetch(`${API_CONFIG.baseUrl}/store-category`);
                 if (!res.ok) throw new Error(`Error ${res.status}`);
                 const data = await res.json();
                 setCategories(data);
