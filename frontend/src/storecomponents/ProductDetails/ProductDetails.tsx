@@ -26,10 +26,12 @@ interface Product {
     stockQuantity?: number;
 }
 
-const ProductDetails: React.FC<{ product: Product, preloadedImages?: ProductImage[] }> = ({ product, preloadedImages = [] }) => {
+const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImage[] }> = ({
+    product,
+    preloadedImages = []
+}) => {
     const [images, setImages] = useState<ProductImage[]>(preloadedImages);
     const [loadingImgs, setLoadingImgs] = useState(preloadedImages.length === 0);
-
     const { formatPrice } = useCurrency();
 
     useEffect(() => {
@@ -42,9 +44,10 @@ const ProductDetails: React.FC<{ product: Product, preloadedImages?: ProductImag
         (async () => {
             try {
                 setLoadingImgs(true);
-                const res = await fetch(`${API_CONFIG.baseUrl}/store-item/${product.id}/images`, {
-                    headers: { 'Content-Type': 'application/json' },
-                });
+                const res = await fetch(
+                    `${API_CONFIG.baseUrl}/store-item/${product.id}/images`,
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
                 if (!res.ok) throw new Error(`Fetch images failed: ${res.status}`);
                 const productData: { images: ProductImage[] } = await res.json();
                 setImages(productData.images || []);
@@ -57,44 +60,55 @@ const ProductDetails: React.FC<{ product: Product, preloadedImages?: ProductImag
     }, [product.id, preloadedImages]);
 
     const sortedImages = useMemo(
-        () =>
-            [...images].sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)),
+        () => [...images].sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)),
         [images]
     );
 
     return (
         <>
-            <div className="product-details">
-                <div className="product-details-grid">
-                    <div className="product-images-section">
+            <div className="product-detail-product-details">
+                <div className="product-detail-product-details-grid">
+                    <div className="product-detail-product-images-section">
                         {loadingImgs ? (
                             <div>Loading images…</div>
                         ) : (
-                            <ProductImagesCarousel images={sortedImages} productName={product.name} />
+                            <ProductImagesCarousel
+                                images={sortedImages}
+                                productName={product.name}
+                            />
                         )}
 
-                        <div className="product-guarantee">
-                            <div className="product-guarantee-badge">
-                                <img width="25" height="25" src="https://img.icons8.com/color/48/guarantee.png" alt="guarantee" />
+                        <div className="product-detail-product-guarantee">
+                            <div className="product-detail-product-guarantee-badge">
+                                <img
+                                    width="25"
+                                    height="25"
+                                    src="https://img.icons8.com/color/48/guarantee.png"
+                                    alt="guarantee"
+                                />
                                 <span>100% quality guarantee</span>
                             </div>
-                            <div className="product-guarantee-badge">
-                                <img width="25" height="25" src="https://img.icons8.com/fluency/48/in-transit.png" alt="in-transit" />
+                            <div className="product-detail-product-guarantee-badge">
+                                <img
+                                    width="25"
+                                    height="25"
+                                    src="https://img.icons8.com/fluency/48/in-transit.png"
+                                    alt="in-transit"
+                                />
                                 <span>Fast shipping</span>
                             </div>
                         </div>
 
-                        <div className="product-share">
+                        <div className="product-detail-product-share">
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
                                 <path fill="#d11c1c" d="M12,31c-3.9,0-7-3.1-7-7c0-3.9,3.1-7,7-7s7,3.1,7,7C19,27.9,15.9,31,12,31z M12,20c-2.2,0-4,1.8-4,4 c0,2.2,1.8,4,4,4s4-1.8,4-4C16,21.8,14.2,20,12,20z"></path><path fill="#d11c1c" d="M36,19c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7S39.9,19,36,19z M36,8c-2.2,0-4,1.8-4,4s1.8,4,4,4s4-1.8,4-4 S38.2,8,36,8z"></path><path fill="#d11c1c" d="M36,43c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7S39.9,43,36,43z M36,32c-2.2,0-4,1.8-4,4s1.8,4,4,4s4-1.8,4-4 S38.2,32,36,32z"></path><circle cx="12" cy="24" r="5.5" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="3"></circle><circle cx="36" cy="12" r="5.5" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="3"></circle><circle cx="36" cy="36" r="5.5" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="3"></circle><line x1="16.9" x2="31.1" y1="21.5" y2="14.5" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="3"></line><line x1="16.9" x2="31.1" y1="26.5" y2="33.5" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="3"></line>
                             </svg>
                             <span>Share:</span>
-                            <div className="product-share-icons">
+                            <div className="product-detail-product-share-icons">
                                 <button aria-label="Share on Facebook">
                                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 30 30">
                                         <path d="M15,3C8.373,3,3,8.373,3,15c0,6.016,4.432,10.984,10.206,11.852V18.18h-2.969v-3.154h2.969v-2.099c0-3.475,1.693-5,4.581-5 c1.383,0,2.115,0.103,2.461,0.149v2.753h-1.97c-1.226,0-1.654,1.163-1.654,2.473v1.724h3.593L19.73,18.18h-3.106v8.697 C22.481,26.083,27,21.075,27,15C27,8.373,21.627,3,15,3z"></path>
                                     </svg>
-
                                 </button>
                                 <button aria-label="Share on Twitter">
                                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 30 30">
@@ -115,23 +129,29 @@ const ProductDetails: React.FC<{ product: Product, preloadedImages?: ProductImag
                         </div>
                     </div>
 
-                    <div className="product-info-section">
-                        <div className="product-header">
-                            <div className="product-breadcrumb">
+                    <div className="product-detail-product-info-section">
+                        <div className="product-detail-product-header">
+                            <div className="product-detail-product-breadcrumb">
                                 <Link to="/">Home</Link>
-                                <span className="breadcrumb-separator">&gt;</span>
+                                <span className="product-detail-breadcrumb-separator">&gt;</span>
                                 <Link to="/products">Products</Link>
-                                <span className="breadcrumb-separator">&gt;</span>
-                                <Link to={`/products?category=${product.category.id}`}>{product.category.name}</Link>
-                                <span className="breadcrumb-separator">&gt;</span>
-                                <span className="breadcrumb-current">{product.name}</span>
+                                <span className="product-detail-breadcrumb-separator">&gt;</span>
+                                <Link to={`/products?category=${product.category.id}`}>            {product.category.name}</Link>
+                                <span className="product-detail-breadcrumb-separator">&gt;</span>
+                                <span className="product-detail-breadcrumb-current">
+                                    {product.name}
+                                </span>
                             </div>
-                            <div className="product-sku">SKU: #{product.sku}</div>
-                            <h1 className="product-name">{product.name}</h1>
-                            <div className="product-price">{formatPrice(product.price)}</div>
-                            <div className="product-actions">
-                                <button className="product-btn-contact">Contact us</button>
-                                <button className="product-btn-chat">
+                            <div className="product-detail-product-sku">SKU: #{product.sku}</div>
+                            <h1 className="product-detail-product-name">{product.name}</h1>
+                            <div className="product-detail-product-price">
+                                {formatPrice(product.price)}
+                            </div>
+                            <div className="product-detail-product-actions">
+                                <button className="product-detail-product-btn-contact">
+                                    Contact us
+                                </button>
+                                <button className="product-detail-product-btn-chat">
                                     <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M21 14.8V7.19995V7.19666C21 6.07875 21 5.51945 20.7822 5.09204C20.5905 4.71572 20.2841 4.40973 19.9078 4.21799C19.48 4 18.9203 4 17.8002 4H6.2002C5.08009 4 4.51962 4 4.0918 4.21799C3.71547 4.40973 3.40973 4.71572 3.21799 5.09204C3 5.51986 3 6.07985 3 7.19995V18.671C3 19.7367 3 20.2696 3.21846 20.5432C3.40845 20.7813 3.69644 20.9197 4.00098 20.9194C4.35115 20.919 4.76744 20.5861 5.59961 19.9203L7.12357 18.7012C7.44844 18.4413 7.61084 18.3114 7.79172 18.219C7.95219 18.137 8.12279 18.0771 8.29932 18.0408C8.49829 18 8.70652 18 9.12256 18H17.8001C18.9202 18 19.48 18 19.9078 17.782C20.2841 17.5902 20.5905 17.2844 20.7822 16.908C21 16.4806 21 15.9212 21 14.8032V14.8Z" stroke="#002A48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
@@ -140,23 +160,27 @@ const ProductDetails: React.FC<{ product: Product, preloadedImages?: ProductImag
                             </div>
                         </div>
 
-                        <div className="product-specifications">
-                            <div className="spec-item">
-                                <span className="spec-label">SKU</span>
-                                <span className="spec-value">: #{product.sku}</span>
+                        <div className="product-detail-product-specifications">
+                            <div className="product-detail-spec-item">
+                                <span className="product-detail-spec-label">SKU</span>
+                                <span className="product-detail-spec-value">: #{product.sku}</span>
                             </div>
-                            <div className="spec-item">
-                                <span className="spec-label">In Stock</span>
-                                <span className="spec-value">: {product.inStock ? 'Yes' : 'No'}</span>
+                            <div className="product-detail-spec-item">
+                                <span className="product-detail-spec-label">In Stock</span>
+                                <span className="product-detail-spec-value">
+                                    : {product.inStock ? 'Yes' : 'No'}
+                                </span>
                             </div>
-                            <div className="spec-item">
-                                <span className="spec-label">Category</span>
-                                <span className="spec-value">: {product.category.name}</span>
+                            <div className="product-detail-spec-item">
+                                <span className="product-detail-spec-label">Category</span>
+                                <span className="product-detail-spec-value">
+                                    : {product.category.name}
+                                </span>
                             </div>
                         </div>
 
                         {product.description && (
-                            <div className="product-description">
+                            <div className="product-detail-product-description">
                                 <h3>Description</h3>
                                 <p>{product.description}</p>
                             </div>

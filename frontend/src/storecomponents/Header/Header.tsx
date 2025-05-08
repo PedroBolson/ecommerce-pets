@@ -35,10 +35,10 @@ const Header: React.FC = () => {
                     <ul>
                         <li><Link to="/">Home</Link></li>
                         <li className="dropdown">
-                            <Link to="/">Category</Link>
+                            <Link to="">Category</Link>
                             <div className="dropdown-menu">
                                 <Link to="/dogs">Dogs</Link>
-                                <Link to="/category/products">Products</Link>
+                                <Link to="/products">Products</Link>
                             </div>
                         </li>
                         <li><Link to="/about">About</Link></li>
