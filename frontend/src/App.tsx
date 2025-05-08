@@ -7,8 +7,7 @@ import DogsPage from './pages/Store/DogsPage/DogsPage';
 import DogDetailsPage from './pages/Store/DogDetailsPage/DogDetailsPage';
 import { CurrencyProvider } from './context/CurrencyContext';
 // import ProductsPage from './pages/Store/ProductsPage';
-// import ProductDetailsPage from './pages/Store/ProductDetailsPage';
-// import ArticlesPage from './pages/Store/ArticlesPage';
+import ProductDetailsPage from './pages/Store/ProductDetailsPage/ProductDetailsPage';// import ArticlesPage from './pages/Store/ArticlesPage';
 // import ArticleDetailsPage from './pages/Store/ArticleDetailsPage';
 
 const App: React.FC = () => {
@@ -31,7 +30,7 @@ const App: React.FC = () => {
           <Route path="/dogs" element={<DogsPage />} />
           <Route path="/dogs/:id" element={<DogDetailsPage />} />
           {/* <Route path="/products" element={<ProductsPage />} /> */}
-          {/* <Route path="/products/:id" element={<ProductDetailsPage />} /> */}
+          <Route path="/products/:id" element={<ProductDetailsPage />} />
           {/* <Route path="/articles" element={<ArticlesPage />} /> */}
           {/* <Route path="/articles/:id" element={<ArticleDetailsPage />} /> */}
 

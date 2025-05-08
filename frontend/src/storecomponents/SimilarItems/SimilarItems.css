@@ -1,0 +1,34 @@
+.similar-items-section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.similar-items-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 8px;
+}
+
+
+.similar-items-header h2 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.similar-items-loading,
+.similar-items-error,
+.similar-items-empty {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+.similar-items-error {
+    color: #cc0000;
+}
