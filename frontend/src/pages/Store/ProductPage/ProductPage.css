@@ -125,16 +125,22 @@
 
 .product-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     margin-bottom: 20px;
+    align-items: flex-start;
 }
 
 .product-header h1 {
-    font-size: 24px;
-    margin: 0;
-    color: #103559;
-    font-weight: 700;
+    margin-bottom: 5px;
+    font-size: 2em;
+}
+
+.product-info-bar {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    color: #555;
+    gap: 5px;
 }
 
 .product-count {
@@ -215,12 +221,10 @@
 }
 
 .product-current-price-range {
-    background-color: #f0f7ff;
     padding: 10px 15px;
     border-radius: 8px;
     font-size: 14px;
     color: #103559;
-    margin-bottom: 20px;
     display: inline-block;
 }
 

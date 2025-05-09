@@ -244,19 +244,20 @@ const ProductPage: React.FC = () => {
                 <section className="product-content">
                     <header className="product-header">
                         <h1>{getFilterHeading()}</h1>
-                        <div className="product-count">
-                            {loading ? '...' : `${products.length} products found`}
+                        <div className="product-info-bar">
+                            <div className="product-count">
+                                {loading ? '...' : `${products.length} products found`}
+                            </div>
+                            {(currentMin || currentMax) && (
+                                <div className="product-current-price-range">
+                                    Price range:&nbsp;
+                                    {currentMin && formatPrice(currentMin)}
+                                    {currentMin && currentMax && ' – '}
+                                    {currentMax && formatPrice(currentMax)}
+                                </div>
+                            )}
                         </div>
                     </header>
-
-                    {(currentMin || currentMax) && (
-                        <div className="product-current-price-range">
-                            Price range:&nbsp;
-                            {currentMin && formatPrice(currentMin)}
-                            {currentMin && currentMax && ' – '}
-                            {currentMax && formatPrice(currentMax)}
-                        </div>
-                    )}
 
                     {loading ? (
                         <div className="product-loading">Loading products…</div>

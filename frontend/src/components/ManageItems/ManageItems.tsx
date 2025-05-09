@@ -505,7 +505,7 @@ const ManageItems: React.FC = () => {
 
                     <div className="mi-filter-group">
                         <label>Price Range:</label>
-                        <div className="price-inputs">
+                        <div className="mi-price-inputs">
                             <input
                                 type="number"
                                 placeholder="Min ₫"
@@ -601,7 +601,7 @@ const ManageItems: React.FC = () => {
                                     onChange={handleInputChange}
                                     required
                                 />
-                                <small className="price-preview">
+                                <small className="mi-price-preview">
                                     {formData.price > 0 ? `Formatted: ${formatNumberWithSeparators(formData.price)} ₫` : ''}
                                 </small>
                             </div>

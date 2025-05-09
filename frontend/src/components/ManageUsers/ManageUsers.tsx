@@ -374,22 +374,6 @@ const ManageUsers: React.FC = () => {
                             </>
                         )}
 
-                        {(formMode === 'create' || formMode === 'edit') && (
-                            <div className="mu-form-group">
-                                <label htmlFor="role">Role:</label>
-                                <select
-                                    id="role"
-                                    name="role"
-                                    value={formData.role}
-                                    onChange={handleInputChange}
-                                    required
-                                >
-                                    <option value="user">User</option>
-                                    <option value="admin">Administrator</option>
-                                </select>
-                            </div>
-                        )}
-
                         <div className="mu-form-actions">
                             <button type="submit" className="mu-save-button">
                                 {formMode === 'create'
