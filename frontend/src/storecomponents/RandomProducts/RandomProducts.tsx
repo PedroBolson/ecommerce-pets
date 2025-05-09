@@ -124,8 +124,8 @@ const RandomProducts: React.FC = () => {
         <div className="random-products-section">
             <div className="random-products-header">
                 <div className='random-products-header-left'>
-                    <p className="random-products-description">What's new?</p>
-                    <h2>Check Out Our Featured Products</h2>
+                    <p className="random-products-description">Hard to choose right products for your pets?</p>
+                    <h2>Our Products</h2>
                 </div>
                 <div className='random-products-header-right'>
                     <Link to="/products" className="random-products-button">

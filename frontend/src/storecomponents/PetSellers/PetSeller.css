@@ -1,0 +1,108 @@
+.pet-sellers {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: transparent;
+}
+
+.pet-sellers-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.pet-sellers-header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.pet-sellers-header-left .pet-seller-p {
+    font-weight: 600;
+    color: #000;
+    font-size: 16px;
+    margin: 0 0 4px 0;
+}
+
+.pet-sellers-header-left .pet-seller-title {
+    font-size: 28px;
+    margin: 0;
+    font-weight: 700;
+    color: #103559;
+}
+
+.pet-sellers-header .pet-seller-link {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: 1.5px solid #003459;
+    border-radius: 57px;
+    background-color: transparent;
+    color: #003459;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.pet-sellers-header .pet-seller-link:hover {
+    background-color: rgba(0, 52, 89, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Logos: bloco separado abaixo do header */
+.pet-sellers .pet-seller-logos {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 24px;
+    padding: 32px 0 40px;
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+
+.pet-sellers .pet-seller-logos svg {
+    height: 56px;
+    flex-shrink: 0;
+    width: auto;
+    display: block;
+}
+
+.pet-sellers .pet-seller-logos::-webkit-scrollbar {
+    display: none;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .pet-sellers-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .pet-sellers-header-left .pet-seller-title {
+        font-size: 28px;
+    }
+
+    .pet-sellers-header .pet-seller-link {
+        padding: 12px 24px;
+    }
+
+    .pet-sellers .pet-seller-logos {
+        justify-content: center;
+        gap: 32px;
+    }
+
+    .pet-sellers .pet-seller-logos svg {
+        height: 48px;
+    }
+}

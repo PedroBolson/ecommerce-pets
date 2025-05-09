@@ -5,6 +5,7 @@ import MainPageFirstBanner from "../../../storecomponents/MainPageFirstBanner/Ma
 import "./MainPage.css";
 import Footer from "../../../storecomponents/Footer/Footer";
 import RandomProducts from "../../../storecomponents/RandomProducts/RandomProducts";
+import PetSellers from "../../../storecomponents/PetSellers/PetSellers";
 
 function MainPage() {
     return (
@@ -14,6 +15,7 @@ function MainPage() {
             <RandomDogs />
             <MainPageFirstBanner />
             <RandomProducts />
+            <PetSellers />
             <Footer />
         </>
     );
