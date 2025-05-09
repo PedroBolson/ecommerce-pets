@@ -60,8 +60,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                                     ? `${(product.size / 1000).toFixed(1).replace(/\.0$/, '')}kg`
                                     : `${product.size}g`)
                                 : ''}
-                        </span>
-                    </p>
+                        </span>                    </p>
                     <p className="product-stock-status">
                         {product.inStock ? (
                             <><span className="product-stock-pill"></span> In stock</>

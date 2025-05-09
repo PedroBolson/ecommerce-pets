@@ -53,7 +53,7 @@
     padding: 13px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 3px;
 }
 
 .product-code-name {
@@ -95,7 +95,7 @@
     font-size: 24px;
     font-weight: 700;
     color: #003459;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
 }
@@ -104,7 +104,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
 }
 
 .product-category-size {
