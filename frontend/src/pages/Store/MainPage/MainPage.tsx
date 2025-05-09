@@ -4,6 +4,7 @@ import SectionHero from "../../../storecomponents/SectionHero/SectionHero";
 import MainPageFirstBanner from "../../../storecomponents/MainPageFirstBanner/MainPageFirstBanner";
 import "./MainPage.css";
 import Footer from "../../../storecomponents/Footer/Footer";
+import RandomProducts from "../../../storecomponents/RandomProducts/RandomProducts";
 
 function MainPage() {
     return (
@@ -12,6 +13,7 @@ function MainPage() {
             <SectionHero />
             <RandomDogs />
             <MainPageFirstBanner />
+            <RandomProducts />
             <Footer />
         </>
     );
