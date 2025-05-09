@@ -7,9 +7,9 @@ import DogsPage from './pages/Store/DogsPage/DogsPage';
 import DogDetailsPage from './pages/Store/DogDetailsPage/DogDetailsPage';
 import { CurrencyProvider } from './context/CurrencyContext';
 import ProductPage from './pages/Store/ProductPage/ProductPage';
-import ProductDetailsPage from './pages/Store/ProductDetailsPage/ProductDetailsPage';// import ArticlesPage from './pages/Store/ArticlesPage';
-// import ArticleDetailsPage from './pages/Store/ArticleDetailsPage';
-
+import ProductDetailsPage from './pages/Store/ProductDetailsPage/ProductDetailsPage';
+// import ArticlesPage from './pages/Store/ArticlesPage';
+import PetKnowledge from './pages/Store/PetKnowledge/PetKnowledge';
 const App: React.FC = () => {
   const isAuthenticated = (): boolean => {
     return localStorage.getItem('token') !== null;
@@ -31,8 +31,7 @@ const App: React.FC = () => {
           <Route path="/dogs/:id" element={<DogDetailsPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/products/:id" element={<ProductDetailsPage />} />
-          {/* <Route path="/articles" element={<ArticlesPage />} /> */}
-          {/* <Route path="/articles/:id" element={<ArticleDetailsPage />} /> */}
+          <Route path="/articles/:id" element={<PetKnowledge />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={
