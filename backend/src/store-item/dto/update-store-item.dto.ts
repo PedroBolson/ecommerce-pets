@@ -47,6 +47,15 @@ export class UpdateStoreItemDto extends PartialType(CreateStoreItemDto) {
     stock?: number;
 
     @ApiProperty({
+        description: 'Size of the product in grams',
+        required: false,
+        minimum: 0,
+        example: 750
+    })
+    @IsOptional()
+    size?: number;
+
+    @ApiProperty({
         description: 'ID of the category this item belongs to',
         required: false,
         example: '550e8400-e29b-41d4-a716-446655440001'

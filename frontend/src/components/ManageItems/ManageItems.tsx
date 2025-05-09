@@ -21,6 +21,7 @@ interface StoreItem {
     description: string;
     price: number;
     stock: number;
+    size: number;
     sku: string;
     category: StoreCategory;
     categoryId?: string;
@@ -57,6 +58,7 @@ const ManageItems: React.FC = () => {
         description: '',
         price: 0,
         stock: 0,
+        size: 0,
         categoryId: '',
         sku: ''
     });
@@ -172,6 +174,7 @@ const ManageItems: React.FC = () => {
             description: '',
             price: 0,
             stock: 0,
+            size: 0,
             categoryId: categories.length > 0 ? categories[0].id : '',
             sku: ''
         });
@@ -185,6 +188,7 @@ const ManageItems: React.FC = () => {
             description: item.description || '',
             price: item.price || 0,
             stock: item.stock || 0,
+            size: item.size || 0,
             categoryId: item.category?.id || '',
             sku: item.sku || ''
         });
@@ -242,6 +246,7 @@ const ManageItems: React.FC = () => {
             description: formData.description,
             price: formData.price,
             stock: formData.stock,
+            size: formData.size,
             categoryId: formData.categoryId,
             sku: formData.sku,
         };
@@ -271,7 +276,7 @@ const ManageItems: React.FC = () => {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(apiData)
                 });
 
                 if (!response.ok) {
@@ -618,6 +623,19 @@ const ManageItems: React.FC = () => {
                                     required
                                 />
                             </div>
+
+                            <div className="mi-form-group">
+                                <label htmlFor="size">Size (g):</label>
+                                <input
+                                    type="number"
+                                    id="size"
+                                    name="size"
+                                    min="0"
+                                    value={formData.size}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div className="mi-form-group">
@@ -679,10 +697,19 @@ const ManageItems: React.FC = () => {
                                             item.description}
                                         </p>
                                         <div className="mi-stock-info">
-                                            <span className={`mi-stock-level ${item.stock < 5 ? 'low-stock' : ''}`}>
-                                                {item.stock === 0 ? 'Out of stock' :
-                                                    item.stock < 5 ? 'Low stock' : 'In stock'}
-                                            </span>
+                                            <div>
+                                                <span className={`mi-stock-level ${item.stock < 5 ? 'low-stock' : ''}`}>
+                                                    {item.stock === 0 ? 'Out of stock' :
+                                                        item.stock < 5 ? 'Low stock' : 'In stock'}
+                                                </span>
+                                                {item.size > 0 && (
+                                                    <span className="mi-item-size">
+                                                        {" • "}
+                                                        {item.size >= 1000
+                                                            ? `${(item.size / 1000).toFixed(1).replace(/\.0$/, '')}kg`
+                                                            : `${item.size}g`}
+                                                    </span>
+                                                )}                                            </div>
                                             <span className="mi-quantity">Qty: {item.stock}</span>
                                         </div>
                                         <div className="mi-card-actions">

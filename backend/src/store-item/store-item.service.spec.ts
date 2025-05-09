@@ -55,9 +55,9 @@ describe('StoreItemService', () => {
 
     describe('create', () => {
         it('should create a new item when category exists', async () => {
-            const dto: CreateStoreItemDto = { sku: 'X1', name: 'Item1', price: 10, categoryId: 'c1' };
+            const dto: CreateStoreItemDto = { sku: 'X1', name: 'Item1', price: 10, size: 200, categoryId: 'c1' };
             const category = { id: 'c1' } as StoreCategory;
-            const item = { id: 'i1', ...dto, stock: 0, category, images: [] } as StoreItem;
+            const item = { id: 'i1', ...dto, stock: 0, size: 200, category, images: [] } as StoreItem;
 
             jest.spyOn(categoryRepo, 'findOneBy').mockResolvedValue(category);
             jest.spyOn(itemRepo, 'create').mockReturnValue(item as any);
@@ -72,6 +72,7 @@ describe('StoreItemService', () => {
                 description: undefined,
                 price: dto.price,
                 stock: 0,
+                size: 200,
                 category,
             });
             expect(itemRepo.save).toHaveBeenCalledWith(item);
@@ -205,27 +206,28 @@ describe('StoreItemService', () => {
 
     describe('update', () => {
         it('should update item properties and save', async () => {
-            const existing = { id: 'u1', sku: 'old', name: 'old', description: 'old', price: 10, stock: 1, category: { id: 'c1' } } as StoreItem;
+            const existing = { id: 'u1', sku: 'old', name: 'old', description: 'old', price: 10, stock: 1, size: 100, category: { id: 'c1' } } as StoreItem;
             jest.spyOn(service, 'findOne').mockResolvedValue(existing);
-            const dto: UpdateStoreItemDto = { name: 'new', price: 15, stock: 5 };
+            const dto: UpdateStoreItemDto = { name: 'new', price: 15, stock: 5, size: 300 };
             jest.spyOn(itemRepo, 'save').mockResolvedValue({ ...existing, ...dto } as StoreItem);
 
             const result = await service.update('u1', dto);
             expect(service.findOne).toHaveBeenCalledWith('u1');
             expect(itemRepo.save).toHaveBeenCalledWith({ ...existing, ...dto });
             expect(result.name).toBe('new');
+            expect(result.size).toBe(300);
         });
 
         it('should change category if categoryId provided', async () => {
-            const existing = { id: 'u2', sku: '', name: '', description: '', price: 0, stock: 0, category: { id: 'c1' } } as StoreItem;
+            const existing = { id: 'u2', sku: '', name: '', description: '', price: 0, stock: 0, size: 0, category: { id: 'c1' } } as StoreItem;
             jest.spyOn(service, 'findOne').mockResolvedValue(existing);
             const newCategory = { id: 'c2' } as StoreCategory;
             jest.spyOn(categoryRepo, 'findOneBy').mockResolvedValue(newCategory);
-            jest.spyOn(itemRepo, 'save').mockResolvedValue({ ...existing, category: newCategory } as StoreItem);
+            jest.spyOn(itemRepo, 'save').mockResolvedValue({ ...existing, category: newCategory, size: 0 } as StoreItem);
 
             const result = await service.update('u2', { categoryId: 'c2' });
             expect(categoryRepo.findOneBy).toHaveBeenCalledWith({ id: 'c2' });
-            expect(itemRepo.save).toHaveBeenCalledWith({ ...existing, category: newCategory });
+            expect(itemRepo.save).toHaveBeenCalledWith({ ...existing, category: newCategory, size: 0 });
             expect(result.category).toEqual(newCategory);
         });
 

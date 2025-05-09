@@ -185,6 +185,11 @@
     font-size: 13px;
 }
 
+.mi-stock-info div {
+    display: flex;
+    align-items: center;
+}
+
 .mi-stock-level {
     font-weight: bold;
     color: #4CAF50;
@@ -196,6 +201,12 @@
 
 .mi-quantity {
     color: #666;
+}
+
+.mi-item-size {
+    color: #666;
+    font-size: 12px;
+    margin-left: 8px;
 }
 
 .mi-card-actions {

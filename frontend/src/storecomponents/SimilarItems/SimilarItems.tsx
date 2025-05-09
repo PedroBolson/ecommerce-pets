@@ -12,6 +12,7 @@ interface ApiProduct {
     description?: string;
     price: string;
     stock: number;
+    size: number;
     category: {
         id: string;
         name: string;
@@ -88,6 +89,7 @@ const SimilarItems: React.FC<SimilarItemsProps> = ({
                     name: p.name,
                     price: parseFloat(p.price),
                     inStock: p.stock > 0,
+                    size: p.size,
                     images: p.images || [],
                     category: {
                         id: p.category.id,

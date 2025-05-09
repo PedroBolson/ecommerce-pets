@@ -30,6 +30,7 @@ export class StoreItemService {
       description: createStoreItemDto.description,
       price: createStoreItemDto.price,
       stock: createStoreItemDto.stock || 0,
+      size: createStoreItemDto.size || 0,
       category: category,
     });
 
@@ -136,6 +137,7 @@ export class StoreItemService {
     if (updateStoreItemDto.description !== undefined) item.description = updateStoreItemDto.description;
     if (updateStoreItemDto.price !== undefined) item.price = updateStoreItemDto.price;
     if (updateStoreItemDto.stock !== undefined) item.stock = updateStoreItemDto.stock;
+    if (updateStoreItemDto.size !== undefined) item.size = updateStoreItemDto.size;
 
     return this.storeItemRepository.save(item);
   }

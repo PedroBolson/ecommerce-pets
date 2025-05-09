@@ -9,6 +9,7 @@ export interface Product {
     name: string;
     price: number;
     inStock: boolean;
+    size: number;
     images?: {
         id: string;
         url: string;
@@ -50,13 +51,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 <h3 className="product-code-name">
                     {productCode} – <span className="product-card-name">{product.name}</span>
                 </h3>
-                <p className="product-stock-status">
-                    {product.inStock ? (
-                        <><span className="product-stock-pill"></span> In stock</>
-                    ) : (
-                        <><span className="product-stock-pill product-out-of-stock"></span> Out of stock</>
-                    )}
-                </p>
+                <div className="product-details">
+                    <p className="product-category-size">
+                        <span className="product-category">{product.category.name}</span>
+                        <span className="product-size">
+                            {product.size > 0
+                                ? (product.size >= 1000
+                                    ? `${(product.size / 1000).toFixed(1).replace(/\.0$/, '')}kg`
+                                    : `${product.size}g`)
+                                : ''}
+                        </span>
+                    </p>
+                    <p className="product-stock-status">
+                        {product.inStock ? (
+                            <><span className="product-stock-pill"></span> In stock</>
+                        ) : (
+                            <><span className="product-stock-pill product-out-of-stock"></span> Out of stock</>
+                        )}
+                    </p>
+                </div>
                 <p className="product-price">{formattedPrice}</p>
             </div>
         </Link>

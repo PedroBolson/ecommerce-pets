@@ -24,6 +24,7 @@ interface Product {
     price: number;
     inStock: boolean;
     stockQuantity?: number;
+    size: number;
 }
 
 const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImage[] }> = ({
@@ -160,6 +161,19 @@ const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImag
                             </div>
                         </div>
 
+                        <div className="product-detail-info-section">
+                            <div className="product-detail-category">
+                                <span className="product-category-tag">{product.category.name}</span>
+                                {product.size > 0 && (
+                                    <span className="product-size-tag">
+                                        {product.size >= 1000
+                                            ? `${(product.size / 1000).toFixed(1).replace(/\.0$/, '')}kg`
+                                            : `${product.size}g`}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="product-detail-product-specifications">
                             <div className="product-detail-spec-item">
                                 <span className="product-detail-spec-label">SKU</span>
@@ -175,6 +189,16 @@ const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImag
                                 <span className="product-detail-spec-label">Category</span>
                                 <span className="product-detail-spec-value">
                                     : {product.category.name}
+                                </span>
+                            </div>
+                            <div className="product-detail-spec-item">
+                                <span className="product-detail-spec-label">Size</span>
+                                <span className="product-detail-spec-value">
+                                    : {product.size > 0
+                                        ? product.size >= 1000
+                                            ? `${(product.size / 1000).toFixed(1).replace(/\.0$/, '')}kg`
+                                            : `${product.size}g`
+                                        : 'N/A'}
                                 </span>
                             </div>
                         </div>

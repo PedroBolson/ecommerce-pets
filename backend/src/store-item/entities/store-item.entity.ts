@@ -51,6 +51,14 @@ export class StoreItem {
     stock: number;
 
     @ApiProperty({
+        description: 'Size of the product in grams',
+        example: 500,
+        default: 0
+    })
+    @Column('int', { default: 0 })
+    size: number;
+
+    @ApiProperty({
         description: 'The category this item belongs to',
         type: () => StoreCategory
     })

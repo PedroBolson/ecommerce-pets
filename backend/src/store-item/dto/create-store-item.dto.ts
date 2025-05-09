@@ -49,6 +49,17 @@ export class CreateStoreItemDto {
     stock?: number;
 
     @ApiProperty({
+        description: 'Size of the product in grams',
+        required: false,
+        minimum: 0,
+        example: 500
+    })
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    size?: number;
+
+    @ApiProperty({
         description: 'ID of the category this item belongs to',
         example: '550e8400-e29b-41d4-a716-446655440000'
     })

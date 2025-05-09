@@ -14,6 +14,7 @@ interface ApiProduct {
     description?: string;
     price: string;
     stock: number;
+    size: number;
     category: {
         id: string;
         name: string;
@@ -32,6 +33,7 @@ interface Product {
     sku: string;
     name: string;
     description?: string;
+    size: number;
     category: {
         id: string;
         name: string;
@@ -67,6 +69,7 @@ const ProductDetailsPage: React.FC = () => {
                     sku: apiData.sku,
                     name: apiData.name,
                     description: apiData.description,
+                    size: apiData.size,
                     category: {
                         id: apiData.category.id,
                         name: apiData.category.name,

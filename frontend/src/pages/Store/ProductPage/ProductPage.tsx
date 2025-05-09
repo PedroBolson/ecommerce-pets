@@ -15,6 +15,7 @@ interface ApiProduct {
     description?: string;
     price: string;
     stock: number;
+    size: number;
     category: {
         id: string;
         name: string;
@@ -146,6 +147,7 @@ const ProductPage: React.FC = () => {
                     name: item.name,
                     price: parseFloat(item.price),
                     inStock: item.stock > 0,
+                    size: item.size || 0,
                     images: item.images || [],
                     category: {
                         id: item.category.id,
