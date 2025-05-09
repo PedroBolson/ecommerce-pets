@@ -30,11 +30,9 @@ const MainPageFirstBanner: React.FC<MainPageFirstBannerProps> = ({
                 <p className="banner__text">{description}</p>
                 <div className="banner__actions">
                     <button className="banner-btn btn--outline" onClick={onViewIntro}>
-                        View Intro <span className="btn__icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 9V15L15 12L10 9Z" fill="#003459" stroke="#003459" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
+                        View Intro
+                        <img className="btn__icon" src='/src/assets/Play-Circle.png' />
+
                     </button>
                     <button className="banner-btn btn--solid" onClick={() => {
                         if (onExplore) onExplore();

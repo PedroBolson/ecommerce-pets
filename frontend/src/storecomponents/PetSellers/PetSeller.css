@@ -70,7 +70,6 @@
 }
 
 .pet-sellers .pet-seller-logos svg {
-    height: 56px;
     flex-shrink: 0;
     width: auto;
     display: block;
