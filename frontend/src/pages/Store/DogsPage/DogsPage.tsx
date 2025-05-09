@@ -93,8 +93,9 @@ const DogsPage: React.FC = () => {
     const currentGender = searchParams.get('gender') || '';
     const currentMin = searchParams.get('minPrice') || '';
     const currentMax = searchParams.get('maxPrice') || '';
-    const currentColor = searchParams.get('color') || '';
-    const currentSize = searchParams.get('size') || '';
+
+    const currentColors = searchParams.getAll('color') || [];
+    const currentSizes = searchParams.getAll('size') || [];
 
     const [showAllColors, setShowAllColors] = useState(false);
     const VISIBLE_COLOR_COUNT = 8;
@@ -118,16 +119,26 @@ const DogsPage: React.FC = () => {
 
     const handleColorSelect = (col: string) => {
         const p = new URLSearchParams(searchParams);
-        if (currentColor === col) p.delete('color');
-        else p.set('color', col);
+        if (currentColors.includes(col)) {
+            const updatedColors = currentColors.filter(c => c !== col);
+            p.delete('color');
+            updatedColors.forEach(c => p.append('color', c));
+        } else {
+            p.append('color', col);
+        }
         p.set('page', '1');
         setSearchParams(p);
     };
 
     const handleSizeSelect = (sz: string) => {
         const p = new URLSearchParams(searchParams);
-        if (currentSize === sz) p.delete('size');
-        else p.set('size', sz);
+        if (currentSizes.includes(sz)) {
+            const updatedSizes = currentSizes.filter(s => s !== sz);
+            p.delete('size');
+            updatedSizes.forEach(s => p.append('size', s));
+        } else {
+            p.append('size', sz);
+        }
         p.set('page', '1');
         setSearchParams(p);
     };
@@ -152,12 +163,12 @@ const DogsPage: React.FC = () => {
             heading += `${currentGender} `;
         }
 
-        if (currentColor) {
-            heading += `${currentColor} `;
+        if (currentColors.length) {
+            heading += `${currentColors.join(', ')} `;
         }
 
-        if (currentSize) {
-            heading += `${currentSize} `;
+        if (currentSizes.length) {
+            heading += `${currentSizes.join(', ')} `;
         }
 
         if (currentBreed) {
@@ -205,8 +216,8 @@ const DogsPage: React.FC = () => {
             const p = new URLSearchParams();
             p.append('page', currentPage.toString());
             p.append('limit', '15');
-            if (currentColor) p.set('color', currentColor);
-            if (currentSize) p.set('size', currentSize);
+            currentColors.forEach(color => p.append('color', color));
+            currentSizes.forEach(size => p.append('size', size));
             if (currentBreed) p.set('breedId', currentBreed);
             if (currentGender) p.set('gender', currentGender);
             if (currentMin) p.set('minPrice', currentMin);
@@ -266,7 +277,7 @@ const DogsPage: React.FC = () => {
                                 <label key={col}
                                     className={
                                         'dogspage-color-label' +
-                                        (currentColor === col ? ' dogspage-color-label--selected' : '')
+                                        (currentColors.includes(col) ? ' dogspage-color-label--selected' : '')
                                     }
                                     onClick={() => handleColorSelect(col)}
                                 >
@@ -338,7 +349,7 @@ const DogsPage: React.FC = () => {
                                 <label key={sz}
                                     className={
                                         'dogspage-size-label' +
-                                        (currentSize === sz ? ' dogspage-size-label--selected' : '')
+                                        (currentSizes.includes(sz) ? ' dogspage-size-label--selected' : '')
                                     }
                                     onClick={() => handleSizeSelect(sz)}
                                 >
