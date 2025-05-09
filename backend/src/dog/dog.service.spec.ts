@@ -195,6 +195,26 @@ describe('DogService', () => {
             expect(queryBuilder.andWhere).toHaveBeenCalledWith('dog.size = :size', { size: 'Medium' });
         });
 
+        it('should apply size filter when provided as single value', async () => {
+            await service.findAll({ size: 'Medium' });
+            expect(queryBuilder.andWhere).toHaveBeenCalledWith('dog.size = :size', { size: 'Medium' });
+        });
+
+        it('should apply size filter when provided as array', async () => {
+            await service.findAll({ size: ['Small', 'Medium'] });
+            expect(queryBuilder.andWhere).toHaveBeenCalledWith('dog.size IN (:...size)', { size: ['Small', 'Medium'] });
+        });
+
+        it('should apply color filter when provided as single value', async () => {
+            await service.findAll({ color: 'Brown' });
+            expect(queryBuilder.andWhere).toHaveBeenCalledWith('dog.color = :color', { color: 'Brown' });
+        });
+
+        it('should apply color filter when provided as array', async () => {
+            await service.findAll({ color: ['Black', 'White', 'Brown'] });
+            expect(queryBuilder.andWhere).toHaveBeenCalledWith('dog.color IN (:...color)', { color: ['Black', 'White', 'Brown'] });
+        });
+
         it('should apply minAge filter when provided', async () => {
             await service.findAll({ minAge: 3 });
             expect(queryBuilder.andWhere).toHaveBeenCalledWith('dog.ageInMonths >= :minAge', { minAge: 3 });

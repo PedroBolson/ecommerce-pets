@@ -50,8 +50,8 @@ export class DogService {
     limit?: number,
     breedId?: string,
     gender?: 'Male' | 'Female',
-    size?: string,
-    color?: string,
+    size?: string | string[],
+    color?: string | string[],
     minAge?: number,
     maxAge?: number,
     minPrice?: number,
@@ -73,11 +73,19 @@ export class DogService {
     }
 
     if (filters.size) {
-      queryBuilder.andWhere('dog.size = :size', { size: filters.size });
+      if (Array.isArray(filters.size)) {
+        queryBuilder.andWhere('dog.size IN (:...size)', { size: filters.size });
+      } else {
+        queryBuilder.andWhere('dog.size = :size', { size: filters.size });
+      }
     }
 
     if (filters.color) {
-      queryBuilder.andWhere('dog.color = :color', { color: filters.color });
+      if (Array.isArray(filters.color)) {
+        queryBuilder.andWhere('dog.color IN (:...color)', { color: filters.color });
+      } else {
+        queryBuilder.andWhere('dog.color = :color', { color: filters.color });
+      }
     }
 
     if (filters.minAge !== undefined) {
