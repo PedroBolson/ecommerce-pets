@@ -7,6 +7,7 @@ import Footer from "../../../storecomponents/Footer/Footer";
 import RandomProducts from "../../../storecomponents/RandomProducts/RandomProducts";
 import PetSellers from "../../../storecomponents/PetSellers/PetSellers";
 import MainPageSecondBanner from "../../../storecomponents/MainPageSecondBanner/MainPageSecondBanner";
+import ActiveArticles from "../../../storecomponents/ActiveArticles/ActiveArticles";
 
 function MainPage() {
     return (
@@ -18,6 +19,7 @@ function MainPage() {
             <RandomProducts />
             <PetSellers />
             <MainPageSecondBanner />
+            <ActiveArticles />
             <Footer />
         </>
     );
