@@ -7,7 +7,7 @@ export default function Footer() {
             <div className="footer-subscribe-wrapper">
                 <div className="footer-subscribe-box">
                     <h2 className="footer-subscribe-title">
-                        Register Now So You Don’t Miss <br /> Our Programs
+                        Register Now So You Don't Miss <br /> Our Programs
                     </h2>
                     <form className="footer-subscribe-form">
                         <input
@@ -54,6 +54,20 @@ export default function Footer() {
                     </div>
                 </div>
                 <hr className="footer-divider" />
+
+                {/* Add the new bottom footer section */}
+                <div className="footer-bottom">
+                    <div className="footer-copyright">
+                        <p>© {new Date().getFullYear()} Monito. All rights reserved.</p>
+                    </div>
+                    <div className="footer-logo">
+                        <img src="/Monito-logo-complete.svg" alt="Monito Logo" className="footer-logo-img" />
+                    </div>
+                    <div className="footer-policies">
+                        <Link to="">Terms of Service</Link>
+                        <Link to="">Privacy Policy</Link>
+                    </div>
+                </div>
             </div>
         </footer>
     )

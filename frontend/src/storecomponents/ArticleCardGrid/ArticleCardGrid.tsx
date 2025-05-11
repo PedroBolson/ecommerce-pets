@@ -8,8 +8,8 @@ interface Article {
     title: string;
     summary: string;
     imageUrl?: string;
-    category: string;
-    createdAt: Date | string;
+    category?: string;
+    createdAt?: string | Date;
     breed?: {
         id: string;
         name: string;
@@ -22,6 +22,8 @@ interface ArticleCardGridProps {
     category?: string;
     excludeIds?: string[];
     title?: string;
+    showTitle?: boolean;
+    customArticles?: Article[];
 }
 
 const ArticleCardGrid: React.FC<ArticleCardGridProps> = ({
@@ -29,13 +31,21 @@ const ArticleCardGrid: React.FC<ArticleCardGridProps> = ({
     count = 3,
     category,
     excludeIds = [],
-    title = "Related Articles"
+    title = "Related Articles",
+    showTitle = true,
+    customArticles
 }) => {
     const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
+        if (customArticles) {
+            setArticles(customArticles);
+            setLoading(false);
+            return;
+        }
+
         const fetchArticles = async () => {
             try {
                 setLoading(true);
@@ -70,12 +80,12 @@ const ArticleCardGrid: React.FC<ArticleCardGridProps> = ({
         };
 
         fetchArticles();
-    }, [count, category, excludeIds]);
+    }, [count, category, excludeIds, customArticles]);
 
     if (loading) {
         return (
             <div className="article-grid-container">
-                {title && <h2 className="article-grid-title">{title}</h2>}
+                {showTitle && title && <h2 className="article-grid-title">{title}</h2>}
                 <div className="article-grid-loading">Loading articles...</div>
             </div>
         );
@@ -84,7 +94,7 @@ const ArticleCardGrid: React.FC<ArticleCardGridProps> = ({
     if (error) {
         return (
             <div className="article-grid-container">
-                {title && <h2 className="article-grid-title">{title}</h2>}
+                {showTitle && title && <h2 className="article-grid-title">{title}</h2>}
                 <div className="article-grid-error">Error loading articles: {error}</div>
             </div>
         );
@@ -96,7 +106,7 @@ const ArticleCardGrid: React.FC<ArticleCardGridProps> = ({
 
     return (
         <div className="article-grid-container">
-            {title && <h2 className="article-grid-title">{title}</h2>}
+            {showTitle && title && <h2 className="article-grid-title">{title}</h2>}
             <div
                 className="article-grid"
                 style={{
@@ -110,8 +120,8 @@ const ArticleCardGrid: React.FC<ArticleCardGridProps> = ({
                             title={article.title}
                             summary={article.summary}
                             imageUrl={article.imageUrl}
-                            category={article.category}
-                            createdAt={article.createdAt}
+                            category={article.category || 'Uncategorized'}
+                            createdAt={article.createdAt || new Date()}
                             breed={article.breed}
                         />
                     </div>

@@ -100,9 +100,9 @@ const PetKnowledgeArticle: React.FC = () => {
                 <div className="article-breadcrumb">
                     <Link to="/">Home</Link>
                     <span className="breadcrumb-separator">›</span>
-                    <Link to="/pet-knowledge">Pet Knowledge</Link>
+                    <Link to="/articles">Pet Knowledge</Link>
                     <span className="breadcrumb-separator">›</span>
-                    <Link to={`/pet-knowledge/category/${article.category.toLowerCase()}`}>{article.category}</Link>
+                    <Link to={`/articles?category=${article.category}`}>{article.category}</Link>
                     <span className="breadcrumb-separator">›</span>
                     <span className="breadcrumb-current">{article.title}</span>
                 </div>

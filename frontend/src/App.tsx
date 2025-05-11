@@ -8,7 +8,7 @@ import DogDetailsPage from './pages/Store/DogDetailsPage/DogDetailsPage';
 import { CurrencyProvider } from './context/CurrencyContext';
 import ProductPage from './pages/Store/ProductPage/ProductPage';
 import ProductDetailsPage from './pages/Store/ProductDetailsPage/ProductDetailsPage';
-// import ArticlesPage from './pages/Store/ArticlesPage';
+import ArticlesPage from './pages/Store/ArticlesPage/ArticlesPage';
 import PetKnowledge from './pages/Store/PetKnowledge/PetKnowledge';
 import './App.css';
 const App: React.FC = () => {
@@ -32,6 +32,7 @@ const App: React.FC = () => {
           <Route path="/dogs/:id" element={<DogDetailsPage />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/products/:id" element={<ProductDetailsPage />} />
+          <Route path="/articles" element={<ArticlesPage />} />
           <Route path="/articles/:id" element={<PetKnowledge />} />
 
           <Route path="/login" element={<Login />} />

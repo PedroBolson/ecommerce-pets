@@ -102,7 +102,7 @@ const ActiveArticles: React.FC = () => {
                         <p className="section-pretitle">You already know?</p>
                         <h2 className="section-title">Useful Pet Knowledge</h2>
                     </div>
-                    <Link to="/pet-knowledge" className="view-all-link">View more <span>→</span></Link>
+                    <Link to="/articles" className="view-all-link">View more <span>→</span></Link>
                 </div>
 
                 <div className="articles-grid">
