@@ -1,7 +1,7 @@
 .footer-subscribe-wrapper {
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
-    background-color: var(--secondary-mon-yellow);
+    background: linear-gradient(102.87deg, #FCEED5 6.43%, #FCEED5 78.33%, #FFE7BA 104.24%);
     padding: 60px 20px;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .footer-nav-wrapper {
-    background-color: var(--secondary-mon-yellow);
+    background: linear-gradient(102.87deg, #FCEED5 6.43%, #FCEED5 78.33%, #FFE7BA 104.24%);
     padding: 20px 0;
 }
 

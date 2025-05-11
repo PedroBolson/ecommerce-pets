@@ -60,7 +60,6 @@
     display: block;
     border-radius: 12px;
     transition: transform 0.3s ease;
-    background-color: var(--neutral-10);
 }
 
 .product-card:hover .product-card-image img {
