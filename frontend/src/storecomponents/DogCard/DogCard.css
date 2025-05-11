@@ -1,5 +1,5 @@
 .dog-card {
-    background: #fff;
+    background: var(--neutral-00);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     overflow: hidden;
@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 370px;
 }
 
 .dog-card:hover {
@@ -56,19 +57,32 @@
 
 .dog-code-breed .dog-color {
     font-weight: 400;
-    color: #6b6b6b;
+    color: var(--text-secondary);
+}
+
+.dog-name {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0 0 5px 0;
+    line-height: 1.2;
 }
 
 .dog-gender-age {
     font-size: 13px;
-    color: #777;
+    color: var(--text-secondary);
     margin: 0;
     font-weight: 600;
 }
 
+.dog-gender-icon {
+    color: var(--primary-dark-blue);
+    margin-right: 5px;
+}
+
 .dog-price {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
-    color: #1a1a1a;
-    margin: 0;
+    color: var(--primary-dark-blue);
+    margin: 8px 0;
 }

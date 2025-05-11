@@ -1,13 +1,13 @@
 .product-card {
-    background: #fff;
+    background: var(--neutral-00);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     overflow: hidden;
-    text-decoration: none;
-    color: inherit;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
 }
 
 .product-card:hover {
@@ -23,26 +23,44 @@
     height: 100%;
 }
 
+.product-card-top {
+    position: relative;
+}
+
+.product-discount-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: var(--btn-danger);
+    color: var(--neutral-00);
+    border-radius: 50px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
 .product-card-image-container {
     position: relative;
     padding-top: 100%;
     overflow: hidden;
-    background-color: #f9f9f9;
+    background-color: var(--neutral-10);
 }
 
 .product-card-image {
     margin: 8px;
     overflow: hidden;
     border-radius: 12px;
+    border: 1px solid var(--border-light);
 }
 
 .product-card-image img {
     width: 100%;
     height: 220px;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
     border-radius: 12px;
     transition: transform 0.3s ease;
+    background-color: var(--neutral-10);
 }
 
 .product-card:hover .product-card-image img {
@@ -53,7 +71,16 @@
     padding: 13px;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     gap: 3px;
+}
+
+.product-card-title {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-dark-blue);
+    line-height: 1.2;
 }
 
 .product-code-name {
@@ -69,6 +96,13 @@
     margin-right: 6px;
 }
 
+.product-stock-indicator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
 .product-stock-status {
     margin: 0;
     font-size: 14px;
@@ -79,22 +113,21 @@
 }
 
 .product-stock-pill {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background-color: #4CAF50;
+    background-color: var(--btn-success);
     margin-right: 6px;
 }
 
 .product-stock-pill.product-out-of-stock {
-    background-color: #F44336;
+    background-color: var(--btn-danger);
 }
 
 .product-price {
     font-size: 24px;
     font-weight: 700;
-    color: #003459;
+    color: var(--primary-dark-blue);
     margin-bottom: 5px;
     display: flex;
     align-items: center;
@@ -115,14 +148,14 @@
 }
 
 .product-category {
-    background-color: #f0f0f0;
+    background-color: var(--neutral-10);
     padding: 3px 8px;
     border-radius: 10px;
-    color: #555;
+    color: var(--text-secondary);
     font-size: 12px;
 }
 
 .product-size {
-    color: #777;
+    color: var(--text-secondary);
     font-size: 12px;
 }

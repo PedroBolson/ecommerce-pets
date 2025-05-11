@@ -101,7 +101,7 @@
 }
 
 .dogspage-breed-select:hover {
-    border-color: #c0c0c0;
+    border-color: var(--border-medium);
 }
 
 .dogspage-breed-select:focus {
@@ -116,7 +116,7 @@
 }
 
 .reset-filters-btn:hover {
-    background-color: #E5E5E5;
+    background-color: var(--neutral-20);
 }
 
 .dogs-content {
@@ -126,13 +126,13 @@
 .dogs-header h1 {
     font-size: 24px;
     margin: 0;
-    color: #103559;
+    color: var(--primary-dark-blue);
     font-weight: 700;
 }
 
 .dogs-count {
     font-size: 14px;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .dogs-loading,
@@ -140,21 +140,21 @@
 .dogs-empty {
     padding: 40px;
     text-align: center;
-    background-color: #FFF;
+    background-color: var(--neutral-00);
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .dogs-loading {
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .dogs-error {
-    color: #D32F2F;
+    color: var(--btn-danger);
 }
 
 .dogs-empty {
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .dogs-pagination {
@@ -169,26 +169,26 @@
     min-width: 40px;
     height: 40px;
     border-radius: 8px;
-    border: 1px solid #DDD;
-    background-color: #FFF;
+    border: 1px solid var(--border-light);
+    background-color: var(--neutral-00);
     font-size: 16px;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #103559;
+    color: var(--primary-dark-blue);
 }
 
 .dogs-pagination button:hover:not(:disabled) {
-    background-color: #F5F5F5;
-    border-color: #BBB;
+    background-color: var(--neutral-10);
+    border-color: var(--border-medium);
 }
 
 .dogs-pagination button.active {
-    background-color: #103559;
-    border-color: #103559;
-    color: #FFF;
+    background-color: var(--primary-dark-blue);
+    border-color: var(--primary-dark-blue);
+    color: var(--neutral-00);
     font-weight: bold;
 }
 
@@ -204,7 +204,7 @@
 
 .pagination-ellipsis {
     padding: 8px;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .dogspage-color-options,
@@ -220,26 +220,26 @@
     display: flex;
     align-items: center;
     padding: 6px 12px;
-    border: 1px solid #DDD;
+    border: 1px solid var(--border-light);
     border-radius: 8px;
     font-size: 14px;
     cursor: pointer;
-    background-color: #FFF;
+    background-color: var(--neutral-00);
     transition: background-color 0.2s, border-color 0.2s;
     user-select: none;
 }
 
 .dogspage-color-label--selected,
 .dogspage-size-label--selected {
-    background-color: #103559;
-    border-color: #103559;
-    color: #FFF;
+    background-color: var(--primary-dark-blue);
+    border-color: var(--primary-dark-blue);
+    color: var(--neutral-00);
 }
 
 .dogspage-color-dot {
     width: 12px;
     height: 12px;
-    border: 1px solid #DDD;
+    border: 1px solid var(--border-light);
     border-radius: 50%;
     margin-right: 8px;
     flex-shrink: 0;
@@ -252,7 +252,7 @@
     padding: 6px 12px;
     font-size: 14px;
     font-weight: 600;
-    color: #103559;
+    color: var(--primary-dark-blue);
     text-decoration: underline;
     cursor: pointer;
     transition: color 0.2s;
@@ -260,7 +260,7 @@
 
 .dogspage-show-more-btn:hover,
 .dogspage-show-more-size-btn:hover {
-    color: #0b3048;
+    color: var(--neutral-80);
 }
 
 @media (max-width: 900px) {

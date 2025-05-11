@@ -5,15 +5,33 @@
     padding: 40px 20px;
     max-width: 1200px;
     margin: 0 auto;
-    background-color: transparent;
+    background-color: var(--neutral-00);
 }
 
 .pet-sellers-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
     width: 100%;
+}
+
+.pet-sellers-heading {
+    text-align: left;
+}
+
+.pet-sellers-heading h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary-dark-blue);
+}
+
+.pet-sellers-heading p {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 4px 0 0 0;
+    color: var(--text-primary);
 }
 
 .pet-sellers-header-left {
@@ -24,7 +42,7 @@
 
 .pet-sellers-header-left .pet-seller-p {
     font-weight: 600;
-    color: #000;
+    color: var(--text-primary);
     font-size: 16px;
     margin: 0 0 4px 0;
 }
@@ -33,19 +51,18 @@
     font-size: 28px;
     margin: 0;
     font-weight: 700;
-    color: #103559;
+    color: var(--primary-dark-blue);
 }
 
 .pet-sellers-header .pet-seller-link {
-    text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 12px 28px;
-    border: 1.5px solid #003459;
+    border: 1.5px solid var(--primary-dark-blue);
     border-radius: 57px;
     background-color: transparent;
-    color: #003459;
+    color: var(--primary-dark-blue);
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;

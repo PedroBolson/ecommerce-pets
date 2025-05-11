@@ -1,38 +1,38 @@
 .dog-details-container {
-    background-color: #ffffff;
+    background-color: var(--neutral-00);
     border-radius: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
     padding: 20px;
-    border: 1px solid #EBEEEF;
+    border: 1px solid var(--border-light);
 }
 
 .dog-breadcrumb {
     display: flex;
     align-items: center;
     font-size: 14px;
-    color: #667479;
+    color: var(--text-secondary);
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
 
 .dog-breadcrumb a {
-    color: #667479;
+    color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .dog-breadcrumb a:hover {
-    color: #003459;
+    color: var(--primary-dark-blue);
 }
 
 .breadcrumb-separator {
     margin: 0 8px;
-    color: #ccc;
+    color: var(--border-light);
 }
 
 .breadcrumb-current {
-    color: #003459;
+    color: var(--primary-dark-blue);
     font-weight: 500;
 }
 

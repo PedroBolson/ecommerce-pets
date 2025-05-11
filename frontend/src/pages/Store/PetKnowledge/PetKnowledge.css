@@ -9,36 +9,36 @@
     align-items: center;
     flex-wrap: wrap;
     font-size: 14px;
-    color: #667479;
+    color: var(--text-secondary);
     margin-bottom: 1.5rem;
 }
 
 .article-breadcrumb a {
-    color: #667479;
+    color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .article-breadcrumb a:hover {
-    color: #103559;
+    color: var(--primary-dark-blue);
 }
 
 .breadcrumb-separator {
     margin: 0 8px;
-    color: #ccc;
+    color: var(--border-light);
 }
 
 .breadcrumb-current {
-    color: #103559;
+    color: var(--primary-dark-blue);
     font-weight: 500;
 }
 
 .article-content-wrapper {
-    background-color: #ffffff;
+    background-color: var(--neutral-00);
     border-radius: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     padding: 2.5rem;
-    border: 1px solid #EBEEEF;
+    border: 1px solid var(--border-light);
     margin-bottom: 2rem;
 }
 
@@ -50,7 +50,7 @@
     margin: 0 0 1rem;
     font-size: 2.5rem;
     font-weight: 800;
-    color: #103559;
+    color: var(--primary-dark-blue);
     line-height: 1.2;
 }
 
@@ -66,15 +66,15 @@
 }
 
 .category-badge {
-    background-color: #e3f2fd;
-    color: #1976d2;
+    background-color: var(--neutral-10);
+    color: var(--primary-blue-sea);
     padding: 3px 10px;
     border-radius: 12px;
 }
 
 .breed-badge {
-    background-color: #fce4ec;
-    color: #c2185b;
+    background-color: var(--secondary-pink-red);
+    color: var(--neutral-00);
     padding: 3px 10px;
     border-radius: 12px;
 }
@@ -85,7 +85,7 @@
 }
 
 .date {
-    color: #757575;
+    color: var(--text-secondary);
 }
 
 .article-featured-image {
@@ -107,7 +107,7 @@
     bottom: 0;
     right: 0;
     background-color: rgba(0, 0, 0, 0.6);
-    color: white;
+    color: var(--neutral-00);
     padding: 5px 10px;
     font-size: 0.8rem;
 }
@@ -115,11 +115,11 @@
 .article-summary {
     font-size: 1.2rem;
     line-height: 1.6;
-    color: #555;
+    color: var(--text-secondary);
     margin-bottom: 2rem;
     font-weight: 500;
     padding-left: 1rem;
-    border-left: 3px solid #4CAF50;
+    border-left: 3px solid var(--secondary-green-light);
 }
 
 .article-body {

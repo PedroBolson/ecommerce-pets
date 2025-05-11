@@ -1,3 +1,3 @@
 body {
-    background-color: #FDFDFD;
+    background-color: var(--neutral-00);
 }

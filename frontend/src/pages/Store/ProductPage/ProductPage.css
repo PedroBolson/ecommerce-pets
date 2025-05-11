@@ -1,7 +1,7 @@
 .product-page {
     width: 100%;
     margin: 0 auto;
-    background-color: #FAFAFA;
+    background-color: var(--neutral-00);
 }
 
 .product-page-header {
@@ -22,12 +22,13 @@
     padding: 20px;
     border-radius: 10px;
     height: fit-content;
+    background-color: var(--neutral-00);
 }
 
 .product-filters h2 {
     font-size: 20px;
     margin: 0 0 20px;
-    color: #103559;
+    color: var(--primary-dark-blue);
     font-weight: 700;
 }
 
@@ -38,7 +39,7 @@
 .product-filter-group h3 {
     font-size: 16px;
     margin: 0 0 12px;
-    color: #333;
+    color: var(--text-primary);
     font-weight: 600;
 }
 
@@ -54,6 +55,7 @@
     gap: 8px;
     font-size: 14px;
     cursor: pointer;
+    color: var(--text-primary);
 }
 
 .product-price-inputs {
@@ -65,15 +67,15 @@
     flex: 1;
     min-width: 0;
     padding: 8px 12px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
 }
 
 .product-reset-filters-btn {
     width: 100%;
-    background-color: #F1F1F1;
-    color: #333;
-    border: 1px solid #DDD;
+    background-color: var(--neutral-10);
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
     border-radius: 8px;
     padding: 10px;
     font-size: 14px;
@@ -82,14 +84,18 @@
     transition: background-color 0.2s;
 }
 
+.product-reset-filters-btn:hover {
+    background-color: var(--neutral-20);
+}
+
 .product-category-select {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-light);
     border-radius: 6px;
-    background-color: white;
+    background-color: var(--neutral-00);
     font-size: 14px;
-    color: #333;
+    color: var(--text-primary);
     cursor: pointer;
     appearance: none;
     /* Remove default arrow */
@@ -101,22 +107,18 @@
 }
 
 .product-category-select:hover {
-    border-color: #c0c0c0;
+    border-color: var(--border-medium);
 }
 
 .product-category-select:focus {
     outline: none;
-    border-color: #6b9aee;
-    box-shadow: 0 0 0 2px rgba(107, 154, 238, 0.25);
+    border-color: var(--primary-blue-sea);
+    box-shadow: 0 0 0 2px rgba(0, 167, 231, 0.25);
 }
 
 .product-category-select option {
     padding: 8px;
     font-size: 14px;
-}
-
-.product-reset-filters-btn:hover {
-    background-color: #E5E5E5;
 }
 
 .product-content {
@@ -133,19 +135,20 @@
 .product-header h1 {
     margin-bottom: 5px;
     font-size: 2em;
+    color: var(--primary-dark-blue);
 }
 
 .product-info-bar {
     display: flex;
     flex-direction: column;
     font-size: 0.9em;
-    color: #555;
+    color: var(--text-secondary);
     gap: 5px;
 }
 
 .product-count {
     font-size: 14px;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .product-loading,
@@ -153,21 +156,21 @@
 .product-empty {
     padding: 40px;
     text-align: center;
-    background-color: #FFF;
+    background-color: var(--neutral-00);
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .product-loading {
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .product-error {
-    color: #D32F2F;
+    color: var(--error-red);
 }
 
 .product-empty {
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .product-pagination {
@@ -182,26 +185,26 @@
     min-width: 40px;
     height: 40px;
     border-radius: 8px;
-    border: 1px solid #DDD;
-    background-color: #FFF;
+    border: 1px solid var(--border-light);
+    background-color: var(--neutral-00);
     font-size: 16px;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #103559;
+    color: var(--primary-dark-blue);
 }
 
 .product-pagination button:hover:not(:disabled) {
-    background-color: #F5F5F5;
-    border-color: #BBB;
+    background-color: var(--neutral-20);
+    border-color: var(--border-medium);
 }
 
 .product-pagination button.active {
-    background-color: #103559;
-    border-color: #103559;
-    color: #FFF;
+    background-color: var(--primary-dark-blue);
+    border-color: var(--primary-dark-blue);
+    color: var(--neutral-00);
     font-weight: bold;
 }
 
@@ -217,14 +220,14 @@
 
 .product-pagination-ellipsis {
     padding: 8px;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .product-current-price-range {
     padding: 10px 15px;
     border-radius: 8px;
     font-size: 14px;
-    color: #103559;
+    color: var(--primary-dark-blue);
     display: inline-block;
 }
 

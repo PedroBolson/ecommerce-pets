@@ -1,0 +1,46 @@
+/* Color Scheme for Pet E-commerce */
+
+:root {
+    /* Primary Colors */
+    --primary-dark-blue: #003459;
+    --primary-blue-sea: #00A7E7;
+
+    /* Secondary Colors */
+    --secondary-mon-yellow: #F7DBA7;
+    --secondary-orange-shine: #FF9F1C;
+    --secondary-green-light: #2DC7B9;
+    --secondary-pink-red: #FF556A;
+
+    /* Neutral Colors */
+    --neutral-100: #00171F;
+    --neutral-80: #252833;
+    --neutral-60: #667479;
+    --neutral-40: #99A2A5;
+    --neutral-20: #CCD1D2;
+    --neutral-10: #EEEEEF;
+    --neutral-00: #FDFDFD;
+
+    /* Text Colors */
+    --text-primary: var(--neutral-100);
+    --text-secondary: var(--neutral-60);
+    --text-disabled: var(--neutral-40);
+
+    /* Background Colors */
+    --bg-primary: var(--primary-dark-blue);
+    --bg-secondary: var(--secondary-mon-yellow);
+    --bg-accent: var(--primary-blue-sea);
+    --bg-light: var(--neutral-00);
+
+    /* Button Colors */
+    --btn-primary: var(--primary-dark-blue);
+    --btn-secondary: var(--secondary-mon-yellow);
+    --btn-accent: var(--secondary-orange-shine);
+    --btn-success: var(--secondary-green-light);
+    --btn-danger: var(--secondary-pink-red);
+    --btn-disabled: var(--neutral-20);
+
+    /* Border Colors */
+    --border-light: var(--neutral-20);
+    --border-medium: var(--neutral-40);
+    --border-dark: var(--neutral-60);
+}

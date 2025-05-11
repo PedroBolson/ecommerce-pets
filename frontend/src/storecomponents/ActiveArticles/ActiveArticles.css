@@ -44,7 +44,7 @@
     border: 1.5px solid #003459;
     border-radius: 57px;
     background-color: transparent;
-    color: #003459;
+    color: var(--primary-dark-blue);
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
@@ -69,9 +69,9 @@
 .articles-loading {
     text-align: center;
     padding: 40px;
-    background-color: #f8f8f8;
+    background-color: var(--neutral-10);
     border-radius: 8px;
-    color: #666;
+    color: var(--text-secondary);
     font-size: 16px;
 }
 

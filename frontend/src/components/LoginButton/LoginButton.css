@@ -5,8 +5,8 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
-    background-color: #103559;
-    color: white;
+    background-color: var(--primary-dark-blue);
+    color: var(--neutral-00);
     font-weight: bold;
 }
 
@@ -15,14 +15,14 @@
 }
 
 .login-button:disabled {
-    background-color: #93b8e8;
+    background-color: var(--neutral-40);
     cursor: not-allowed;
 }
 
 .login-link-button {
     background: none;
     border: none;
-    color: #2c7be5;
+    color: var(--primary-blue-sea);
     font-size: 0.875rem;
     text-decoration: underline;
     cursor: pointer;

@@ -22,12 +22,12 @@
     font-size: 28px;
     margin: 0;
     font-weight: 700;
-    color: #103559;
+    color: var(--primary-dark-blue);
 }
 
 .random-products-description {
     font-weight: 600;
-    color: #000;
+    color: var(--text-primary);
     font-size: 16px;
     margin: 0 0 4px 0;
 }
@@ -38,10 +38,10 @@
     align-items: center;
     gap: 8px;
     padding: 12px 28px;
-    border: 1.5px solid #003459;
+    border: 1.5px solid var(--primary-dark-blue);
     border-radius: 57px;
     background-color: transparent;
-    color: #003459;
+    color: var(--primary-dark-blue);
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
@@ -63,16 +63,16 @@
     text-align: center;
     padding: 40px;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: var(--neutral-10);
 }
 
 .random-products-loading {
-    color: #667479;
+    color: var(--text-secondary);
     font-style: italic;
 }
 
 .random-products-error {
-    color: #cc0000;
+    color: var(--secondary-pink-red);
 }
 
 @media (max-width: 768px) {

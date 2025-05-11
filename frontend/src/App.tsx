@@ -10,6 +10,7 @@ import ProductPage from './pages/Store/ProductPage/ProductPage';
 import ProductDetailsPage from './pages/Store/ProductDetailsPage/ProductDetailsPage';
 // import ArticlesPage from './pages/Store/ArticlesPage';
 import PetKnowledge from './pages/Store/PetKnowledge/PetKnowledge';
+import './App.css';
 const App: React.FC = () => {
   const isAuthenticated = (): boolean => {
     return localStorage.getItem('token') !== null;

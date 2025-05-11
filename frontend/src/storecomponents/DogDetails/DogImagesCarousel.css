@@ -74,7 +74,7 @@
 }
 
 .image-gallery-thumbnail.active {
-    border-color: #003459;
+    border-color: var(--primary-dark-blue);
     border-radius: 16px;
     box-shadow: 0 0 0 2px rgba(16, 53, 89, 0.3);
 }
@@ -84,11 +84,21 @@
         width: 56px;
         height: 56px;
     }
+
+    .image-gallery-thumbnail img {
+        width: 56px;
+        height: 56px;
+    }
 }
 
 @media (max-width: 480px) {
     .image-gallery-thumbnail {
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .image-gallery-thumbnail img {
+        width: 48px;
+        height: 48px;
     }
 }
