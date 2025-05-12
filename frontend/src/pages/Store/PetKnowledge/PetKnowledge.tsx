@@ -144,11 +144,11 @@ const PetKnowledgeArticle: React.FC = () => {
 
                     <div className="article-tags">
                         <span className="tag-label">Related Topics:</span>
-                        <Link to={`/pet-knowledge/category/${article.category.toLowerCase()}`} className="article-tag">
+                        <Link to={`/articles?category=${article.category}`} className="article-tag" onClick={() => window.scrollTo(0, 0)}>
                             {article.category}
                         </Link>
                         {article.breed && (
-                            <Link to={`/breed/${article.breed.id}`} className="article-tag">
+                            <Link to="" className="article-tag">
                                 {article.breed.name}
                             </Link>
                         )}
