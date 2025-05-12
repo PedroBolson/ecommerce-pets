@@ -5,6 +5,8 @@ import './Footer.css';
 
 export default function Footer() {
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    const [subscribeStatus, setSubscribeStatus] = useState('');
 
     const openContactModal = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -15,6 +17,25 @@ export default function Footer() {
         setIsContactModalOpen(false);
     };
 
+    const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value);
+    };
+
+    const handleSubscribe = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        setSubscribeStatus('subscribing');
+
+        setTimeout(() => {
+            setSubscribeStatus('success');
+
+            setTimeout(() => {
+                setEmail('');
+                setSubscribeStatus('');
+            }, 2000);
+        }, 1000);
+    };
+
     return (
         <footer className="footer">
             <div className="footer-subscribe-wrapper">
@@ -22,15 +43,24 @@ export default function Footer() {
                     <h2 className="footer-subscribe-title">
                         Register Now So You Don't Miss <br /> Our Programs
                     </h2>
-                    <form className="footer-subscribe-form">
+                    <form className="footer-subscribe-form" onSubmit={handleSubscribe}>
                         <input
                             type="email"
                             className="footer-subscribe-input"
                             placeholder="Enter your Email"
+                            value={email}
+                            onChange={handleEmailChange}
                             required
+                            disabled={subscribeStatus !== ''}
                         />
-                        <button type="submit" className="footer-subscribe-btn">
-                            Subscribe Now
+                        <button
+                            type="submit"
+                            className={`footer-subscribe-btn ${subscribeStatus ? 'footer-subscribe-btn-' + subscribeStatus : ''}`}
+                            disabled={subscribeStatus !== ''}
+                        >
+                            {subscribeStatus === 'subscribing' ? 'Subscribing...' :
+                                subscribeStatus === 'success' ? 'Subscribed!' :
+                                    'Subscribe Now'}
                         </button>
                     </form>
                 </div>
