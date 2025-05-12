@@ -1,19 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import ContactModal from '../ContactModal/ContactModal';
+import SearchModal from '../SearchModal/SearchModal';
 import { useCurrency, currencies } from '../../context/CurrencyContext';
 
 const Header: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
     const [isContactModalOpen, setContactModalOpen] = useState(false);
+    const searchFormRef = useRef<HTMLDivElement>(null);
 
     const { currency, setCurrency } = useCurrency();
 
+    // Close modals when route changes
+    useEffect(() => {
+        return () => {
+            setIsSearchModalOpen(false);
+            setContactModalOpen(false);
+        };
+    }, []);
+
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
+        if (searchTerm.trim().length > 0) {
+            setIsSearchModalOpen(true);
+        }
     };
+
+    const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+
+        // Automatically open the search modal when typing
+        if (value.trim().length >= 2) {
+            setIsSearchModalOpen(true);
+        } else if (value.trim().length === 0) {
+            setIsSearchModalOpen(false);
+        }
+    };
+
+    const closeSearchModal = () => {
+        setIsSearchModalOpen(false);
+    };
+
+    const handleSearchFocus = () => {
+        if (searchTerm.trim().length >= 2) {
+            setIsSearchModalOpen(true);
+        }
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+        if (
+            searchFormRef.current &&
+            !searchFormRef.current.contains(e.target as Node) &&
+            isSearchModalOpen
+        ) {
+            setIsSearchModalOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isSearchModalOpen]);
 
     const handleCurrencySelect = (newCurrency: typeof currency) => {
         setCurrency(newCurrency);
@@ -31,6 +84,21 @@ const Header: React.FC = () => {
 
     const closeContactModal = () => {
         setContactModalOpen(false);
+    };
+
+    const scrollToNewsletter = () => {
+        const newsletterInput = document.querySelector('.footer-subscribe-input');
+
+        if (newsletterInput) {
+            newsletterInput.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            setTimeout(() => {
+                (newsletterInput as HTMLElement).focus();
+            }, 1000);
+        }
     };
 
     return (
@@ -58,19 +126,33 @@ const Header: React.FC = () => {
                 </nav>
 
                 <div className="header-actions">
-                    <form className="search-form" onSubmit={handleSearch}>
-                        <input
-                            type="text"
-                            placeholder="Search something here!"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                    <div className="search-container" ref={searchFormRef}>
+                        <form className="search-form" onSubmit={handleSearch}>
+                            <input
+                                type="text"
+                                placeholder="Search something here!"
+                                value={searchTerm}
+                                onChange={handleSearchInputChange}
+                                onFocus={handleSearchFocus}
+                            />
+                            <button type="submit" aria-label="Search">
+                                <i className="search-icon">🔍</i>
+                            </button>
+                        </form>
+                        <SearchModal
+                            isOpen={isSearchModalOpen}
+                            onClose={closeSearchModal}
+                            searchTerm={searchTerm}
+                            anchorRef={searchFormRef}
                         />
-                        <button type="submit" aria-label="Search">
-                            <i className="search-icon">🔍</i>
-                        </button>
-                    </form>
+                    </div>
 
-                    <button className="join-button">Join the community</button>
+                    <button
+                        className="join-button"
+                        onClick={scrollToNewsletter}
+                    >
+                        Join the community
+                    </button>
 
                     <div className="currency-selector">
                         <button
@@ -101,6 +183,8 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Contact Modal */}
             <ContactModal
                 isOpen={isContactModalOpen}
                 onClose={closeContactModal}
