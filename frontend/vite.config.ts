@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   server: {
     proxy: {
       '/api': {
@@ -12,11 +12,4 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [react()],
-  define: {
-    'process.env': {
-      API_URL: mode === 'development'
-        ? '"http://localhost:3000"'
-        : 'process.env.API_URL',
-    }
-  }
 }))

@@ -37,6 +37,12 @@ import { ContactModule } from './contact/contact.module';
         database: config.get<string>('DB_NAME'),
         autoLoadEntities: true,
         synchronize: true,   // DEV only!
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
     }),
 
