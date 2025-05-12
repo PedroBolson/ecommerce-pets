@@ -1,7 +1,20 @@
-import { Link } from 'react-router-dom'
-import './Footer.css'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import ContactModal from '../ContactModal/ContactModal';
+import './Footer.css';
 
 export default function Footer() {
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+    const openContactModal = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsContactModalOpen(true);
+    };
+
+    const closeContactModal = () => {
+        setIsContactModalOpen(false);
+    };
+
     return (
         <footer className="footer">
             <div className="footer-subscribe-wrapper">
@@ -28,7 +41,7 @@ export default function Footer() {
                         <Link to="/" onClick={() => window.scrollTo(0, 0)}>Home</Link>
                         <Link to="/dogs" onClick={() => window.scrollTo(0, 0)}>Category</Link>
                         <Link to="">About</Link>
-                        <Link to="">Contact</Link>
+                        <a href="#contact" onClick={openContactModal}>Contact</a>
                     </nav>
                     <div className="footer-social">
                         <Link className="footer-face" to="" aria-label="Facebook">
@@ -55,7 +68,6 @@ export default function Footer() {
                 </div>
                 <hr className="footer-divider" />
 
-                {/* Add the new bottom footer section */}
                 <div className="footer-bottom">
                     <div className="footer-copyright">
                         <p>© {new Date().getFullYear()} Monito. All rights reserved.</p>
@@ -69,6 +81,10 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
+            <ContactModal
+                isOpen={isContactModalOpen}
+                onClose={closeContactModal}
+            />
         </footer>
-    )
+    );
 }

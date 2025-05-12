@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import './ProductDetails.css';
+import ContactModal from '../ContactModal/ContactModal';
 import { useCurrency } from '../../context/CurrencyContext';
 import { API_CONFIG } from '../../config/api.config';
 import ProductImagesCarousel from './ProductImagesCarousel';
@@ -33,6 +34,7 @@ const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImag
 }) => {
     const [images, setImages] = useState<ProductImage[]>(preloadedImages);
     const [loadingImgs, setLoadingImgs] = useState(preloadedImages.length === 0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { formatPrice } = useCurrency();
 
     useEffect(() => {
@@ -64,6 +66,14 @@ const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImag
         () => [...images].sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)),
         [images]
     );
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <>
@@ -149,7 +159,10 @@ const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImag
                                 {formatPrice(product.price)}
                             </div>
                             <div className="product-detail-product-actions">
-                                <button className="product-detail-product-btn-contact">
+                                <button
+                                    className="product-detail-product-btn-contact"
+                                    onClick={handleOpenModal}
+                                >
                                     Contact us
                                 </button>
                                 <button className="product-detail-product-btn-chat">
@@ -212,6 +225,12 @@ const ProductDetails: React.FC<{ product: Product; preloadedImages?: ProductImag
                     </div>
                 </div>
             </div>
+            <ContactModal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                isDog={false}
+                interestUuid={product.id}
+            />
         </>
     );
 };

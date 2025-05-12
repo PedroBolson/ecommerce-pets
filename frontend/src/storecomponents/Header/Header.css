@@ -96,6 +96,10 @@
     transform: rotate(180deg);
 }
 
+.link-to-modals {
+    cursor: pointer;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

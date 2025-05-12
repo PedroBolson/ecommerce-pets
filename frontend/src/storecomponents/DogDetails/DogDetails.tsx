@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import DogImagesCarousel from './DogImagesCarousel';
+import ContactModal from '../ContactModal/ContactModal';
 import './DogDetails.css';
 import { useCurrency } from '../../context/CurrencyContext';
 import { API_CONFIG } from '../../config/api.config';
@@ -33,6 +34,7 @@ interface BreedImage {
 const DogDetails: React.FC<{ dog: Dog }> = ({ dog }) => {
     const [images, setImages] = useState<BreedImage[]>([]);
     const [loadingImgs, setLoadingImgs] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { formatPrice } = useCurrency();
 
@@ -75,6 +77,14 @@ const DogDetails: React.FC<{ dog: Dog }> = ({ dog }) => {
             month: 'short',
             year: 'numeric',
         }).format(new Date(dateString));
+    };
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
     };
 
     return (
@@ -193,7 +203,13 @@ const DogDetails: React.FC<{ dog: Dog }> = ({ dog }) => {
                             <h1 className="dog-name">{dog.breed.name}</h1>
                             <div className="dog-price">{formatPrice(dog.price)}</div>
                             <div className="dog-actions">
-                                <button className="btn-contact">Contact us</button>
+                                <button className="btn-contact" onClick={handleOpenModal}>Contact us</button>
+                                <ContactModal
+                                    isOpen={isModalOpen}
+                                    onClose={handleCloseModal}
+                                    isDog={true}
+                                    interestUuid={dog.id}
+                                />
                                 <button className="btn-chat">
                                     <svg width="26" height="28" viewBox="0 0 26 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M21 14.8V7.19995V7.19666C21 6.07875 21 5.51945 20.7822 5.09204C20.5905 4.71572 20.2841 4.40973 19.9078 4.21799C19.48 4 18.9203 4 17.8002 4H6.2002C5.08009 4 4.51962 4 4.0918 4.21799C3.71547 4.40973 3.40973 4.71572 3.21799 5.09204C3 5.51986 3 6.07985 3 7.19995V18.671C3 19.7367 3 20.2696 3.21846 20.5432C3.40845 20.7813 3.69644 20.9197 4.00098 20.9194C4.35115 20.919 4.76744 20.5861 5.59961 19.9203L7.12357 18.7012C7.44844 18.4413 7.61084 18.3114 7.79172 18.219C7.95219 18.137 8.12279 18.0771 8.29932 18.0408C8.49829 18 8.70652 18 9.12256 18H17.8001C18.9202 18 19.48 18 19.9078 17.782C20.2841 17.5902 20.5905 17.2844 20.7822 16.908C21 16.4806 21 15.9212 21 14.8032V14.8Z" stroke="#002A48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

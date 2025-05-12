@@ -264,14 +264,6 @@
     font-weight: bold;
 }
 
-.mc-dog-badge {
-    background-color: var(--btn-warning);
-}
-
-.mc-product-badge {
-    background-color: var(--btn-success);
-}
-
 .mc-error-message {
     background-color: var(--error-light);
     color: var(--error-dark);

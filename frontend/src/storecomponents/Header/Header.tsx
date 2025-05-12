@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import ContactModal from '../ContactModal/ContactModal';
 import { useCurrency, currencies } from '../../context/CurrencyContext';
 
 const Header: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
+    const [isContactModalOpen, setContactModalOpen] = useState(false);
 
     const { currency, setCurrency } = useCurrency();
 
@@ -20,6 +22,15 @@ const Header: React.FC = () => {
 
     const toggleCurrencyDropdown = () => {
         setCurrencyDropdownOpen(!currencyDropdownOpen);
+    };
+
+    const openContactModal = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setContactModalOpen(true);
+    };
+
+    const closeContactModal = () => {
+        setContactModalOpen(false);
     };
 
     return (
@@ -42,7 +53,7 @@ const Header: React.FC = () => {
                             </div>
                         </li>
                         <li><Link to="/about">About</Link></li>
-                        <li><Link to="/contact">Contact</Link></li>
+                        <li><a className='link-to-modals' onClick={openContactModal}>Contact</a></li>
                     </ul>
                 </nav>
 
@@ -90,6 +101,10 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <ContactModal
+                isOpen={isContactModalOpen}
+                onClose={closeContactModal}
+            />
         </header>
     );
 };
