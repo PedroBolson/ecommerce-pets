@@ -7,6 +7,7 @@ import Header from '../../../storecomponents/Header/Header';
 import { useCurrency } from '../../../context/CurrencyContext';
 import Footer from '../../../storecomponents/Footer/Footer';
 import { API_CONFIG } from '../../../config/api.config';
+import BannerShop from '../../../storecomponents/BannerShop/BannerShop';
 
 interface ApiDog {
     id: string;
@@ -187,6 +188,46 @@ const DogsPage: React.FC = () => {
         return heading;
     };
 
+    const getBannerPaths = () => {
+        const paths = [{ name: "Home", url: "/" }];
+        paths.push({ name: "Dogs", url: "/dogs" });
+
+        if (currentSizes.length === 1) {
+            const size = currentSizes[0];
+            paths.push({ name: `${size} Dogs`, url: `/dogs?size=${size}` });
+        }
+
+        if (currentBreed) {
+            const breedName = breeds.find(b => b.id === currentBreed)?.name;
+            if (breedName) {
+                const url = `/dogs?${searchParams.toString()}`;
+                paths.push({ name: breedName, url });
+            }
+        }
+
+        if (currentGender) {
+            const p = new URLSearchParams(searchParams);
+            p.delete('color');
+            p.delete('breedId');
+            p.delete('size');
+            const url = `/dogs?${p.toString()}`;
+            paths.push({ name: currentGender, url });
+        }
+
+        if (currentColors.length) {
+            currentColors.forEach(color => {
+                const p = new URLSearchParams(searchParams);
+                p.set('color', color);
+                p.delete('breedId');
+                p.delete('size');
+                const url = `/dogs?${p.toString()}`;
+                paths.push({ name: color, url });
+            });
+        }
+
+        return paths;
+    };
+
     useEffect(() => {
         (async () => {
             const res = await fetch(`${API_CONFIG.baseUrl}/breed-image`);
@@ -248,6 +289,9 @@ const DogsPage: React.FC = () => {
             <div className="page-header">
                 <Header />
             </div>
+
+            <BannerShop paths={getBannerPaths()} />
+
             <div className="dogs-container">
                 <aside className="dogs-filters">
                     <h2>Filter</h2>

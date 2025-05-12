@@ -120,7 +120,7 @@ const Header: React.FC = () => {
                                 <Link to="/products">Products</Link>
                             </div>
                         </li>
-                        <li><Link to="/about">About</Link></li>
+                        <li><Link to="">About</Link></li>
                         <li><a className='link-to-modals' onClick={openContactModal}>Contact</a></li>
                     </ul>
                 </nav>
@@ -184,7 +184,6 @@ const Header: React.FC = () => {
                 </div>
             </div>
 
-            {/* Contact Modal */}
             <ContactModal
                 isOpen={isContactModalOpen}
                 onClose={closeContactModal}

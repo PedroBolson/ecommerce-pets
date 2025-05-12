@@ -4,6 +4,7 @@ import './ArticlesPage.css';
 import Header from '../../../storecomponents/Header/Header';
 import Footer from '../../../storecomponents/Footer/Footer';
 import ArticleCardGrid from '../../../storecomponents/ArticleCardGrid/ArticleCardGrid';
+import BannerShop from '../../../storecomponents/BannerShop/BannerShop';
 import { API_CONFIG } from '../../../config/api.config';
 
 interface Article {
@@ -42,6 +43,22 @@ const ArticlesPage: React.FC = () => {
     // Get current filter values from URL
     const currentPage = parseInt(searchParams.get('page') || '1', 10);
     const currentCategory = searchParams.get('category') || '';
+
+    const getBannerPaths = () => {
+        const paths = [
+            { name: 'Home', url: '/' },
+            { name: 'Articles', url: '/articles' }
+        ];
+
+        if (currentCategory) {
+            paths.push({
+                name: currentCategory,
+                url: `/articles?category=${encodeURIComponent(currentCategory)}`
+            });
+        }
+
+        return paths;
+    };
 
     // Update category filter
     const handleCategoryChange = (category: string) => {
@@ -115,6 +132,7 @@ const ArticlesPage: React.FC = () => {
     return (
         <div className="articles-page">
             <Header />
+            <BannerShop paths={getBannerPaths()} />
 
             <div className="articles-container">
                 <div className="articles-sidebar">

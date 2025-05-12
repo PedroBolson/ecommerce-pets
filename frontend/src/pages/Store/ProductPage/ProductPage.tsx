@@ -7,6 +7,7 @@ import Header from '../../../storecomponents/Header/Header';
 import { useCurrency } from '../../../context/CurrencyContext';
 import Footer from '../../../storecomponents/Footer/Footer';
 import { API_CONFIG } from '../../../config/api.config';
+import BannerShop from '../../../storecomponents/BannerShop/BannerShop';
 
 interface ApiProduct {
     id: string;
@@ -63,6 +64,22 @@ const ProductPage: React.FC = () => {
     const currentMin = searchParams.get('minPrice') || '';
     const currentMax = searchParams.get('maxPrice') || '';
     const currentInStock = searchParams.get('inStock') || '';
+
+    const getBannerPaths = () => {
+        const paths = [{ name: 'Home', url: '/' }, { name: 'Products', url: '/products' }];
+
+        if (currentCategory) {
+            const category = categories.find(c => c.id === currentCategory);
+            if (category) {
+                paths.push({
+                    name: category.name,
+                    url: `/products?categoryId=${category.id}`
+                });
+            }
+        }
+
+        return paths;
+    };
 
     const updateFilters = (name: string, value: string) => {
         const p = new URLSearchParams(searchParams);
@@ -171,6 +188,7 @@ const ProductPage: React.FC = () => {
             <div className="product-page-header">
                 <Header />
             </div>
+            <BannerShop paths={getBannerPaths()} />
             <div className="product-container">
                 <aside className="product-filters">
                     <h2>Filter</h2>
