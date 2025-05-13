@@ -57,7 +57,7 @@ For detailed setup instructions, please refer to the individual README files:
     ```bash
     # Import the database dump into your PostgreSQL instance
     # You can find the SQL dump file in the DATA/dumps directory
-    psql -U your_username -d your_database_name -f DATA/dumps/database_dump.sql
+    psql -U your_username -d your_database_name -f DATA/dumps/monito_full_dump.sql
     ```
 
 3. Set up the backend:
