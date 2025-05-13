@@ -98,16 +98,16 @@ The project follows a modern web architecture:
 The `DATA/imgs` directory contains visual previews of key application interfaces:
 
 #### Main Website
-![Preview of website](Data/imgs/preview.png)
+![Preview of website](./Data/imgs/preview.png)
 The public-facing storefront that customers use to browse pets and knowledge articles.
 
 #### Admin Portal
 To access the administration features:
 1. **Admin Login:** Navigate to `/login` to access the secure authentication portal
-   ![Admin Login](Data/imgs/admin-login.png)
+   ![Admin Login](./Data/imgs/admin-login.png)
 
 2. **Content Dashboard:** After successful authentication, you'll be redirected to `/dashboard`
-   ![Content Management](Data/imgs/admin-dashboard.png)
+   ![Content Management](./Data/imgs/admin-dashboard.png)
    
    From here, administrators can:
    - Manage pet listings and inventory
