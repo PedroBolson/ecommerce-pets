@@ -2,7 +2,7 @@
 
 Implementation of CompassUOL Challenge 3: a comprehensive e-commerce platform for purebred pets, built with React (frontend) and NestJS (backend).
 
-![Preview of website](DATA/imgs/preview.png)
+![Preview of website](./Data/imgs/preview.png)
 
 ## 📋 Project Overview
 
