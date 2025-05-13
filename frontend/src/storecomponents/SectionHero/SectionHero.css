@@ -178,13 +178,11 @@
     color: var(--primary-dark-blue);
 }
 
-.hero-btn-intro::after {
-    content: "";
+.hero-view-intro {
+    margin-left: 8px;
     display: inline-block;
     width: 16px;
     height: 16px;
-    margin-left: 8px;
-    background-image: url("/src/assets/Play-Circle.png");
     background-size: contain;
     background-repeat: no-repeat;
 }

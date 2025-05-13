@@ -36,7 +36,7 @@ import { ContactModule } from './contact/contact.module';
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
         autoLoadEntities: true,
-        synchronize: true,   // DEV only!
+        synchronize: false,
         ssl: true,
         extra: {
           ssl: {

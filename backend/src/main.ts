@@ -6,11 +6,9 @@ export async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // in dev we point to Vite; in prod, to the real AWS URL
-  const frontendUrl = process.env.FRONTEND_URL
-    ? process.env.FRONTEND_URL
-    : 'http://localhost:5173';
+  const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:5173';
   app.enableCors({
-    origin: frontendUrl,
+    origin: [frontendUrl],
     credentials: true,
   });
 

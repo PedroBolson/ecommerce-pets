@@ -2,6 +2,7 @@
 import React from 'react';
 import bannerImage from '../../assets/MainPageSecondBanner.png';
 import './MainPageSecondBanner.css';
+import PlayCircle from '../../assets/Play-Circle.png';
 
 interface MainPageSecondBannerProps {
     title?: string;
@@ -33,7 +34,7 @@ const MainPageSecondBanner: React.FC<MainPageSecondBannerProps> = ({
                 <div className="second-banner__actions">
                     <button className="second-banner-btn btn--outline" onClick={onViewIntro}>
                         View Intro
-                        <img className="btn__icon" src='/src/assets/Play-Circle.png' />
+                        <img className="btn__icon" src={PlayCircle} />
                     </button>
                     <button className="second-banner-btn btn--solid" onClick={() => {
                         if (onExplore) onExplore();

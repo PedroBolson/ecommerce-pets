@@ -1,6 +1,7 @@
 import "./SectionHero.css";
 import { Link } from "react-router-dom";
-
+import heroImg from "../../assets/Hero-image.png"
+import PlayCircle from "../../assets/Play-Circle.png";
 export default function SectionHero() {
     return (
         <section className="hero-section">
@@ -23,7 +24,10 @@ export default function SectionHero() {
                         that can meet your needs!
                     </p>
                     <div className="hero-buttons">
-                        <button className="hero-btn-intro">View Intro</button>
+                        <button className="hero-btn-intro">
+                            View Intro
+                            <img src={PlayCircle} alt="Arrow" className="hero-view-intro" />
+                        </button>
                         <Link to="/dogs" className="hero-btn-explore">
                             Explore Now
                         </Link>
@@ -31,7 +35,7 @@ export default function SectionHero() {
                 </div>
                 <div className="hero-image-container">
                     <img
-                        src="/src/assets/Hero-image.png"
+                        src={heroImg}
                         alt="Person holding a corgi dog"
                         className="hero-image"
                     />

@@ -1,6 +1,7 @@
 import React from 'react';
 import bannerImage from '../../assets/MainPageFirstBanner.png';
 import './MainPageFirstBanner.css';
+import PlayCircle from '../../assets/Play-Circle.png';
 
 interface MainPageFirstBannerProps {
     title?: string;
@@ -31,7 +32,7 @@ const MainPageFirstBanner: React.FC<MainPageFirstBannerProps> = ({
                 <div className="banner__actions">
                     <button className="banner-btn btn--outline" onClick={onViewIntro}>
                         View Intro
-                        <img className="btn__icon" src='/src/assets/Play-Circle.png' />
+                        <img className="btn__icon" src={PlayCircle} />
 
                     </button>
                     <button className="banner-btn btn--solid" onClick={() => {
