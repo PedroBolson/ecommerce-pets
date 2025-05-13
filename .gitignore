@@ -8,7 +8,7 @@
 /frontend/dist
 /backend/dist
 /dist-ssr
-
+.vite
 # ─── Logs ────────────────────────────────────────────────────────────────────
 logs
 *.log
