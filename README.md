@@ -21,7 +21,6 @@ This full-stack application provides a modern, user-friendly marketplace for pur
 - React Router for navigation
 - Context API for state management
 - CSS Modules for styling
-- Responsive design principles
 
 ### Backend
 - NestJS 11 framework
@@ -37,7 +36,6 @@ This full-stack application provides a modern, user-friendly marketplace for pur
 - **Advanced Search & Filters:** Find pets based on multiple criteria
 - **Pet Knowledge Base:** Educational articles about pet care and breeds
 - **Admin Dashboard:** Complete content management system
-- **Responsive Design:** Optimized for all screen sizes
 
 ## 🚀 Getting Started
 
