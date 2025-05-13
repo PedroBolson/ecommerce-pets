@@ -1,0 +1,490 @@
+.manage-pet-knowledge {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mpk-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mpk-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mpk-create-button {
+    font-weight: bold;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.mpk-create-button:hover {
+    background-color: #45a049;
+}
+
+.mpk-category-filter {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-family: 'Gilroy', sans-serif;
+    font-size: 0.9rem;
+}
+
+.mpk-error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.mpk-form-container {
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mpk-form-container h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.mpk-form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.mpk-form-group {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.mpk-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.mpk-required {
+    color: #f44336;
+}
+
+.mpk-form-group input,
+.mpk-form-group select,
+.mpk-form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Gilroy', sans-serif;
+}
+
+.mpk-form-group textarea {
+    resize: vertical;
+}
+
+.mpk-image-preview {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.mpk-image-preview img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.mpk-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.mpk-save-button,
+.mpk-cancel-button {
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.mpk-save-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.mpk-save-button:hover {
+    background-color: #45a049;
+}
+
+.mpk-cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.mpk-cancel-button:hover {
+    background-color: #d32f2f;
+}
+
+.mpk-articles-list {
+    margin-top: 20px;
+}
+
+.mpk-article-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.mpk-article-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mpk-article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mpk-article-image {
+    height: 180px;
+    overflow: hidden;
+}
+
+.mpk-article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mpk-no-image {
+    height: 100%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+.mpk-article-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.mpk-article-content h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 1.3;
+}
+
+.mpk-article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+}
+
+.mpk-article-meta .category {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.mpk-article-meta .breed {
+    background-color: #fce4ec;
+    color: #c2185b;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.mpk-article-meta .date {
+    color: #757575;
+}
+
+.mpk-summary {
+    color: #666;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.mpk-article-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 8px;
+}
+
+.mpk-edit-button,
+.mpk-delete-button,
+.mpk-feature-button {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: background-color 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mpk-edit-button {
+    background-color: #2196F3;
+    color: white;
+}
+
+.mpk-edit-button:hover {
+    background-color: #1976D2;
+}
+
+.mpk-feature-button {
+    background-color: #757575;
+    color: white;
+}
+
+.mpk-feature-button:hover {
+    background-color: #616161;
+}
+
+.mpk-feature-button.featured {
+    color: black;
+    background-color: #FFC107;
+}
+
+.mpk-feature-button.featured:hover {
+    color: black;
+    background-color: #FFA000;
+}
+
+.mpk-delete-button {
+    background-color: #F44336;
+    color: white;
+}
+
+.mpk-delete-button:hover {
+    background-color: #D32F2F;
+}
+
+.mpk-feature-button:disabled {
+    background-color: #BDBDBD;
+    color: #757575;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.mpk-loading,
+.mpk-no-items {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+    font-style: italic;
+}
+
+.mpk-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.mpk-pagination button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.mpk-pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.mpk-pagination span {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.mpk-active-count {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    margin-right: 15px;
+}
+
+.mpk-active-count span {
+    font-weight: 600;
+    color: #103559;
+}
+
+.mpk-active-count span.count-full {
+    color: #f44336;
+}
+
+.mpk-active-count small {
+    font-size: 0.75rem;
+    color: #757575;
+    margin-top: 3px;
+}
+
+.mpk-custom-category-input {
+    display: flex;
+    margin-top: 8px;
+    gap: 8px;
+}
+
+.mpk-custom-category-input input {
+    flex: 1;
+}
+
+.mpk-custom-category-input button {
+    padding: 8px 12px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.mpk-custom-category-input button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.mpk-checkbox-group {
+    margin: 15px 0;
+}
+
+.mpk-checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mpk-checkbox-container input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+.mpk-helper-text {
+    font-size: 0.8rem;
+    color: #757575;
+    font-weight: normal;
+    margin-left: 8px;
+}
+
+.mpk-limit-warning {
+    color: #f44336;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    padding: 5px 0;
+}
+
+.mpk-active-article {
+    border: 2px solid #4CAF50;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mpk-inactive-article {
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+}
+
+.mpk-active-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.mpk-status-indicator {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    width: 37px;
+}
+
+.mpk-status-active {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.mpk-status-inactive {
+    background-color: #f5f5f5;
+    color: #757575;
+    width: 50px;
+}
+
+.mpk-filter-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.mpk-filter-label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .mpk-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .mpk-form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .mpk-article-cards {
+        grid-template-columns: 1fr;
+    }
+}

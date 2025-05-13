@@ -1,0 +1,17 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form-group input {
+    color: var(--primary-dark-blue);
+    font-weight: bold;
+}
+
+.form-group label {
+    font-size: 1rem;
+    margin-left: .5rem;
+    color: var(--primary-dark-blue);
+}

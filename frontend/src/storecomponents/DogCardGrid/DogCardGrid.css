@@ -1,0 +1,32 @@
+.dog-card-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.dog-card-grid {
+    grid-template-columns: repeat(1, 1fr);
+}
+
+@media (min-width: 768px) {
+    .dog-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .dog-card-grid.columns-1 {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .dog-card-grid.columns-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dog-card-grid.columns-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .dog-card-grid.columns-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

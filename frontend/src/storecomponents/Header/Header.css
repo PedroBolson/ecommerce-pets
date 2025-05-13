@@ -1,0 +1,255 @@
+.header {
+    padding: 20px 48px;
+    background-color: transparent;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 42px;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-nav li {
+    margin: 0 20px;
+}
+
+.main-nav a {
+    color: #003459;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+    color: #00497d;
+}
+
+.main-nav .dropdown {
+    position: relative;
+}
+
+.main-nav .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    transform: translateY(10px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.main-nav .dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.main-nav .dropdown-menu a {
+    color: var(--neutral-100);
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.main-nav .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+    color: var(--primary-dark-blue);
+}
+
+.main-nav .dropdown>a:after {
+    content: "▾";
+    margin-left: 5px;
+    display: inline-block;
+    font-size: 10px;
+    transition: transform 0.2s ease;
+}
+
+.main-nav .dropdown:hover>a:after {
+    transform: rotate(180deg);
+}
+
+.link-to-modals {
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-nav .dropdown:hover .dropdown-menu {
+    animation: fadeIn 0.3s forwards;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-form input {
+    padding: 10px 18px;
+    padding-right: 44px;
+    border: 1px solid #CCD1D2;
+    border-radius: 30px;
+    font-size: 16px;
+    min-width: 220px;
+}
+
+.search-form button {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #667479;
+    font-size: 18px;
+}
+
+.join-button {
+    background-color: #003459;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.join-button:hover {
+    background-color: #00253d;
+}
+
+.currency-selector {
+    position: relative;
+}
+
+.currency-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 8px 10px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.currency-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.currency-flag {
+    font-size: 18px;
+}
+
+.currency-code {
+    font-weight: 600;
+}
+
+.currency-arrow {
+    font-size: 10px;
+    transition: transform 0.2s ease;
+}
+
+.currency-button[aria-expanded="true"] .currency-arrow {
+    transform: rotate(180deg);
+}
+
+.currency-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 5px;
+    background-color: white;
+    width: 180px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 8px 0;
+    z-index: 1000;
+    animation: fadeIn 0.3s forwards;
+}
+
+.currency-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.currency-option:hover {
+    background-color: #f5f5f5;
+}
+
+.currency-option .currency-code {
+    min-width: 40px;
+}
+
+.currency-option .currency-name {
+    color: #666;
+    font-size: 14px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,44 @@
+.similar-dogs-section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.similar-dogs-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 8px;
+}
+
+.similar-dogs-header h2 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.see-more-link {
+    color: var(--primary-dark-blue);
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 26px;
+}
+
+.see-more-link:hover {
+    text-decoration: underline;
+}
+
+.similar-dogs-loading,
+.similar-dogs-error,
+.similar-dogs-empty {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.similar-dogs-error {
+    color: var(--btn-danger);
+}

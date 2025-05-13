@@ -1,0 +1,233 @@
+.db-dashboard-wrapper {
+    background: linear-gradient(102.87deg, var(--secondary-mon-yellow) 6.43%, var(--secondary-mon-yellow) 78.33%, #FFE7BA 104.24%);
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.db-dashboard-title {
+    color: var(--primary-dark-blue);
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.db-dashboard-logo {
+    margin-right: 8px;
+}
+
+.db-dashboard-container {
+    padding: 20px;
+    max-width: 1220px;
+    margin: 0 auto;
+}
+
+.db-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-light);
+    position: relative;
+}
+
+.db-server-status-container {
+    margin-right: auto;
+    flex: 1;
+}
+
+.db-server-status {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.db-status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.db-server-status.online .db-status-indicator {
+    background-color: var(--btn-success);
+}
+
+.db-server-status.offline .db-status-indicator {
+    background-color: var(--btn-danger);
+}
+
+.db-server-status.loading .db-status-indicator {
+    background-color: var(--btn-accent);
+    animation: db-pulse 1.5s infinite;
+}
+
+@keyframes db-pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.db-dashboard-logout {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 0;
+}
+
+.db-dashboard-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: center;
+}
+
+.db-menu-button {
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 10px 15px;
+    background-color: var(--neutral-10);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.db-menu-button:hover {
+    background-color: var(--neutral-20);
+}
+
+.db-menu-button.active {
+    background-color: var(--primary-dark-blue);
+    color: var(--neutral-00);
+    border-color: var(--primary-dark-blue);
+}
+
+.db-menu-button.admin-only {
+    background-color: var(--secondary-pink-red);
+}
+
+.db-menu-button.admin-only.active {
+    background-color: var(--btn-danger);
+}
+
+.db-dashboard-content {
+    background-color: var(--neutral-00);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 300px;
+}
+
+.db-dashboard-welcome {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.db-dashboard-welcome h2 {
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    font-size: 28px;
+}
+
+.db-dashboard-welcome p {
+    color: var(--text-secondary);
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.db-user-info-card {
+    display: flex;
+    align-items: center;
+    background-color: var(--neutral-10);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.db-user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-blue-sea);
+    color: var(--neutral-00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.db-user-details {
+    flex: 1;
+}
+
+.db-user-details h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.db-user-role {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.db-user-role.admin {
+    background-color: var(--btn-accent);
+    color: var(--neutral-00);
+}
+
+.db-user-role.user {
+    background-color: var(--btn-success);
+    color: var(--neutral-00);
+}
+
+.db-admin-badge {
+    display: inline-block;
+    background-color: var(--btn-danger);
+    color: var(--neutral-00);
+    border-radius: 12px;
+    padding: 2px 8px;
+    font-size: 14px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.db-access-denied {
+    text-align: center;
+    padding: 40px;
+    background-color: var(--neutral-10);
+    border-radius: 8px;
+    color: var(--btn-danger);
+}
+
+.db-user-email {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+    text-align: right;
+}
