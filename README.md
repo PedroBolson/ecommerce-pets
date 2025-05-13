@@ -2,7 +2,7 @@
 
 Implementation of CompassUOL Challenge 3: a comprehensive e-commerce platform for purebred pets, built with React (frontend) and NestJS (backend).
 
-![Preview of website](image.png)
+![Preview of website](DATA/imgs/preview.png)
 
 ## 📋 Project Overview
 
@@ -53,7 +53,14 @@ For detailed setup instructions, please refer to the individual README files:
    cd ecommerce-pets
    ```
 
-2. Set up the backend:
+2. Set up the database:
+    ```bash
+    # Import the database dump into your PostgreSQL instance
+    # You can find the SQL dump file in the DATA/dumps directory
+    psql -U your_username -d your_database_name -f DATA/dumps/database_dump.sql
+    ```
+
+3. Set up the backend:
     ```bash
     cd backend  
     npm install  
@@ -61,12 +68,12 @@ For detailed setup instructions, please refer to the individual README files:
     npm run start:dev
     ```  
 
-3. Set up the frontend:
+4. Set up the frontend:
     ```bash
     #In another terminal
     cd frontend
     npm install
-    npm run dev (On dev enviroment already set for localhost API, for external API use .env file for front too)
+    npm run dev # On dev environment already set for localhost API, for external API use .env file for front too
     ```
 
 ## 🌐 Deployment
@@ -83,6 +90,35 @@ The project follows a modern web architecture:
 - **Backend:** Modular API with clear separation of concerns (controllers, services, entities)
 - **Database:** Relational database with well-defined entity relationships
 - **Authentication:** JWT-based auth with role-based access control
+
+## 🧪 Project Resources
+
+### Screenshots & Administration Access
+
+The `DATA/imgs` directory contains visual previews of key application interfaces:
+
+#### Main Website
+![Preview of website](DATA/imgs/preview.png)
+The public-facing storefront that customers use to browse pets and knowledge articles.
+
+#### Admin Portal
+To access the administration features:
+1. **Admin Login:** Navigate to `/login` to access the secure authentication portal
+   ![Admin Login](DATA/imgs/admin-login.png)
+
+2. **Content Dashboard:** After successful authentication, you'll be redirected to `/dashboard`
+   ![Content Management](DATA/imgs/admin-dashboard.png)
+   
+   From here, administrators can:
+   - Manage pet listings and inventory
+   - Create and edit knowledge articles
+   - View sales statistics and user activity
+   - Configure site settings
+
+⚠️ **Note:** All administration routes are protected and require proper authentication credentials
+
+### Database
+The `DATA/dumps` directory contains PostgreSQL database dumps that you can use to populate your local database with sample data, including pet breeds, articles, and admin users.
 
 ## 🧠 Technical Challenges & Solutions
 
